@@ -20,25 +20,8 @@ export function IdBadge() {
         </span>
       </div>
 
-      <motion.div
-        className="id-badge__swing"
-        animate={{ rotate: [-4, 4, -4] }}
-        transition={{
-          duration: 5.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={{ transformOrigin: "top center" }}
-      >
-        <motion.div
-          className="id-badge__card"
-          animate={{ y: [0, -3, 0] }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
+      <div className="id-badge__swing">
+        <div className="id-badge__card">
           <div className="id-badge__photo-wrap">
             <img
               src={BADGE_IMAGE}
@@ -52,8 +35,8 @@ export function IdBadge() {
             <p className="id-badge__name">{profile.name}</p>
             <p className="id-badge__role">{profile.role}</p>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </motion.div>
   );
 }
