@@ -1,69 +1,45 @@
 export const projects = [
   // 플리맵 프로젝트
   {
-    "slug": "plimap",
-    "type": "web",
-    "thumbnail": "/assets/Plimap/overview.svg",
-    "logo": "/assets/Plimap/Logo.png",
-    "image": [
-        "/assets/Plimap/overview.svg"
+    slug: "plimap",
+    type: "web",
+    thumbnail: "/assets/Plimap/Plimap_Thumbnail.png",
+    logo: "/assets/Plimap/Logo.png",
+    image: ["/assets/Plimap/Plimap_Thumbnail.png"],
+    title: "플리맵",
+    description: "장소에 음악을 남기고 주변의 음악을 발견하는 위치 기반 서비스",
+    Projectdescription: "PLIMAP은 지도 위 장소에 어울리는 음악을 핀으로 남기고, 주변 장소에서 다른 사람이 남긴 음악을 발견하는 웹 서비스입니다. 장소와 곡을 선택해 음악 핀을 등록하고, 지도 탐색과 음악 재생, 프로필 피드를 통해 장소에 담긴 취향을 공유합니다.",
+    tags: ["React", "TypeScript", "Vite", "Tailwind CSS", "TanStack Query", "Zustand", "Axios", "React Router", "Google Maps", "REST API", "GA4"],
+    link: "https://plimap.kr/",
+    liveDemo: "https://plimap.kr/",
+    github: "https://github.com/UMC10th-PLIMAP/plimap-web",
+    features: [
+      {
+        title: "장소 기반 음악 탐색",
+        description: "지도에서 주변 장소의 음악 핀을 탐색하고, 장소와 곡의 상세 정보를 확인합니다.",
+      },
+      {
+        title: "음악 핀 등록",
+        description: "장소 선택, 노래 검색, 상세 입력을 거쳐 장소에 어울리는 음악을 등록합니다.",
+      },
+      {
+        title: "음악 재생",
+        description: "iTunes 미리듣기와 YouTube 기반 구간 재생으로 장소에 등록된 음악을 감상합니다.",
+      },
+      {
+        title: "프로필과 피드",
+        description: "내가 등록한 핀과 다른 사용자의 피드를 확인하고, 프로필에서 지도와 곡 상세로 이동합니다.",
+      },
     ],
-    "title": "플리맵",
-    "description": "장소에 음악을 남기고 주변의 음악을 발견하는 위치 기반 서비스",
-    "Projectdescription": "PLIMAP은 지도 위 장소에 어울리는 음악을 핀으로 남기고, 주변 장소에서 다른 사람이 남긴 음악을 발견하는 웹 서비스입니다. 장소와 곡을 선택해 음악 핀을 등록하고, 지도 탐색과 음악 재생, 프로필 피드를 통해 장소에 담긴 취향을 공유합니다.",
-    "tags": [
-        "React",
-        "TypeScript",
-        "Vite",
-        "Tailwind CSS",
-        "TanStack Query",
-        "Zustand",
-        "Axios",
-        "React Router",
-        "Google Maps",
-        "REST API",
-        "GA4"
-    ],
-    "link": "https://plimap.kr/app/home",
-    "liveDemo": "https://plimap.kr/app/home",
-    "github": "https://github.com/UMC10th-PLIMAP/plimap-web",
-    "features": [
-        {
-            "title": "장소 기반 음악 탐색",
-            "description": "지도에서 주변 장소의 음악 핀을 탐색하고, 장소와 곡의 상세 정보를 확인합니다."
-        },
-        {
-            "title": "음악 핀 등록",
-            "description": "장소 선택, 노래 검색, 상세 입력을 거쳐 장소에 어울리는 음악을 등록합니다."
-        },
-        {
-            "title": "음악 재생",
-            "description": "iTunes 미리듣기와 YouTube 기반 구간 재생으로 장소에 등록된 음악을 감상합니다."
-        },
-        {
-            "title": "프로필과 피드",
-            "description": "내가 등록한 핀과 다른 사용자의 피드를 확인하고, 프로필에서 지도와 곡 상세로 이동합니다."
-        }
-    ],
-    "responsibilities": [
-        "장소 선택·노래 검색·상세 입력으로 이어지는 음악 핀 등록 화면 및 API 연동",
-        "iTunes 미리듣기와 YouTube 재생 흐름 구현, 모바일 재생 오류 대응",
-        "플레이어 준비·곡 전환·재생 상태 동기화 및 재생 실패 보고 API 연동",
-        "내·타인 프로필 피드 조회와 지도 진입 흐름, 로딩·빈 상태 UI 구현",
-        "GA4 페이지뷰와 로그인·홈·지도·마이페이지 사용자 이벤트 연동"
-    ],
-    "achievements": [
-        "플레이어 사전 준비와 클릭 시점 재생 호출로 모바일 재생 흐름 개선",
-        "곡 선택 변경 시 이전 재생 준비 요청을 확인해 뒤늦은 실행 방지",
-        "곡·영상 식별자와 오류 코드 전송으로 재생 실패 정보 수집 경로 마련"
-    ],
-    "details": {
-        "Problem": "모바일 환경에서 음악 재생을 요청했을 때 플레이어 준비와 실제 재생 시점이 어긋나는 오류가 발생했습니다. 재생 준비 중 다른 곡을 선택하는 상황도 고려해야 했습니다.",
-        "Cause": "외부 플레이어 초기화와 재생 요청이 비동기로 진행되므로, 준비 완료 시점에는 사용자가 선택한 곡이 달라질 수 있습니다. 모바일에서는 사용자 클릭 시점과 재생 호출 시점도 함께 고려해야 했습니다.",
-        "Solution": "플레이어를 미리 준비하고, 준비된 경우 클릭 시점에 바로 재생하도록 흐름을 조정했습니다. 비동기 준비 완료 후 현재 선택된 곡을 확인하고, 실제 재생 이벤트에 맞춰 UI 상태를 갱신했습니다. 재생 실패 시 곡·영상 식별자와 오류 코드를 서버로 전달하도록 API를 연동했습니다.",
-        "Result": "사용자 선택과 플레이어 상태를 함께 확인하는 재생 흐름을 구현했습니다. 모바일 재생 오류에 대응하고, 이후 오류 분석에 사용할 재생 실패 정보를 수집할 수 있도록 했습니다."
-    }
-},
+    responsibilities: ["장소 선택·노래 검색·상세 입력으로 이어지는 음악 핀 등록 화면 및 API 연동", "iTunes 미리듣기와 YouTube 재생 흐름 구현, 모바일 재생 오류 대응", "플레이어 준비·곡 전환·재생 상태 동기화 및 재생 실패 보고 API 연동", "내·타인 프로필 피드 조회와 지도 진입 흐름, 로딩·빈 상태 UI 구현", "GA4 페이지뷰와 로그인·홈·지도·마이페이지 사용자 이벤트 연동"],
+    achievements: ["플레이어 사전 준비와 클릭 시점 재생 호출로 모바일 재생 흐름 개선", "곡 선택 변경 시 이전 재생 준비 요청을 확인해 뒤늦은 실행 방지", "곡·영상 식별자와 오류 코드 전송으로 재생 실패 정보 수집 경로 마련"],
+    details: {
+      Problem: "모바일 환경에서 음악 재생을 요청했을 때 플레이어 준비와 실제 재생 시점이 어긋나는 오류가 발생했습니다. 재생 준비 중 다른 곡을 선택하는 상황도 고려해야 했습니다.",
+      Cause: "외부 플레이어 초기화와 재생 요청이 비동기로 진행되므로, 준비 완료 시점에는 사용자가 선택한 곡이 달라질 수 있습니다. 모바일에서는 사용자 클릭 시점과 재생 호출 시점도 함께 고려해야 했습니다.",
+      Solution: "플레이어를 미리 준비하고, 준비된 경우 클릭 시점에 바로 재생하도록 흐름을 조정했습니다. 비동기 준비 완료 후 현재 선택된 곡을 확인하고, 실제 재생 이벤트에 맞춰 UI 상태를 갱신했습니다. 재생 실패 시 곡·영상 식별자와 오류 코드를 서버로 전달하도록 API를 연동했습니다.",
+      Result: "사용자 선택과 플레이어 상태를 함께 확인하는 재생 흐름을 구현했습니다. 모바일 재생 오류에 대응하고, 이후 오류 분석에 사용할 재생 실패 정보를 수집할 수 있도록 했습니다.",
+    },
+  },
 
   // 디벨리 프로젝트
   {
