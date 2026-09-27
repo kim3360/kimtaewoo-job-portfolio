@@ -16,7 +16,7 @@ export const PORTFOLIO_CATEGORIES = [
     id: "web",
     label: "WEB",
     description: "Explore my journey in Web",
-    projects: ["Dvely", "내폼리폼", "밍글링", "써봄"],
+    projects: ["Dvely", "내폼리폼", "써봄"],
   },
   {
     id: "mobile",
