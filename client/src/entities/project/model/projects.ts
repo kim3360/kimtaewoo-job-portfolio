@@ -45,9 +45,9 @@ export const projects = [
   {
     slug: "dvely",
     type: "web",
-    thumbnail: "../assets/Dvely/Dvely_Thumbnail.png",
-    logo: "../assets/Dvely/Logo.png",
-    image: ["../assets/Dvely/1.png", "../assets/Dvely/2.png", "../assets/Dvely/3.png"],
+    thumbnail: "/assets/Dvely/Dvely_Thumbnail.png",
+    logo: "/assets/Dvely/Logo.png",
+    image: ["/assets/Dvely/1.png", "/assets/Dvely/2.png", "/assets/Dvely/3.png"],
 
     period: "2026.03 - ing",
     title: "Dvely",
@@ -103,9 +103,9 @@ export const projects = [
   {
     slug: "myform-reform",
     type: "web",
-    thumbnail: "../assets/MyformReform/Myform_Reform_Thumbnail.jpg",
-    logo: "../assets/MyformReform/Logo.png",
-    image: ["../assets/MyformReform/Myform_Reform1.png", "../assets/MyformReform/Myform_Reform2.png", "../assets/MyformReform/Myform_Reform3.png", "../assets/MyformReform/Myform_Reform4.png", "../assets/MyformReform/Myform_Reform5.png", "../assets/MyformReform/Myform_Reform6.png"],
+    thumbnail: "/assets/MyformReform/Myform_Reform_Thumbnail.jpg",
+    logo: "/assets/MyformReform/Logo.png",
+    image: ["/assets/MyformReform/Myform_Reform1.png", "/assets/MyformReform/Myform_Reform2.png", "/assets/MyformReform/Myform_Reform3.png", "/assets/MyformReform/Myform_Reform4.png", "/assets/MyformReform/Myform_Reform5.png", "/assets/MyformReform/Myform_Reform6.png"],
 
     title: "내폼리폼",
     description: "스포츠 유니폼 리폼 구매자와 리폼러 연결 통합 플랫폼",
@@ -155,10 +155,10 @@ export const projects = [
   // 스위프 웹 11기 써봄 프로젝트
   {
     slug: "seobom",
-    type: "mobile",
-    thumbnail: "../assets/Subom/subom_Thumbnail.png",
-    logo: "../assets/Subom/Title_Logo.png",
-    image: ["../assets/Subom/Subom_Login.png", "../assets/Subom/2.png", "../assets/Subom/3.png", "../assets/Subom/4.png", "../assets/Subom/5.png", "../assets/Subom/6.png", "../assets/Subom/7.png"],
+    type: "web",
+    thumbnail: "/assets/Subom/subom_Thumbnail.png",
+    logo: "/assets/Subom/Title_Logo.png",
+    image: ["/assets/Subom/Subom_Login.png", "/assets/Subom/2.png", "/assets/Subom/3.png", "/assets/Subom/4.png", "/assets/Subom/5.png", "/assets/Subom/6.png", "/assets/Subom/7.png"],
 
     title: "써봄",
     description: "대학생 대상 AI 피드백 기반 글쓰기 루틴",
@@ -219,7 +219,7 @@ export const projects = [
     github: "https://github.com/SWYP-SUBOM",
     period: "2025.10 - 2025.11",
     members: "PM 1명, 디자이너 1명, 프론트엔드 3명, 백엔드 3명",
-    pdf: "../assets/Subom/SWYP_Subom.pdf",
+    pdf: "/assets/Subom/SWYP_Subom.pdf",
     details: {
       Problem: "로그인 상태를 유지한 채 서비스를 사용하다 보면 SSE 알림 연결이 끊기고, 재로그인하기 전까지 새 알림이 오지 않는 경우가 있었습니다. 토큰 갱신 직후에도 알림이 복구되지 않는 케이스가 반복됐습니다.",
       Cause: "SSE 연결이 페이지·컴포넌트 단위로 관리되어 토큰 refresh 이후 재연결 로직이 없었습니다. 비로그인·타임아웃·연결 상태 표시 처리도 화면마다 분산되어 인증 상태와 알림 연동이 어긋났습니다.",
@@ -232,9 +232,9 @@ export const projects = [
   {
     slug: "wait-it",
     type: "mobile",
-    thumbnail: "../assets/Wait/Group.png",
-    logo: "../assets/Wait/Logo.png",
-    image: ["../assets/Wait/1.png", "../assets/Wait/2.png", "../assets/Wait/3.png", "../assets/Wait/4.png"],
+    thumbnail: "/assets/Wait/Group.png",
+    logo: "/assets/Wait/Logo.png",
+    image: ["/assets/Wait/1.png", "/assets/Wait/2.png", "/assets/Wait/3.png", "/assets/Wait/4.png"],
 
     title: "WAIT:IT",
     description: "오프라인 공간에서 줄서기를 간편하게 만들어주는 웨이팅 시스템",

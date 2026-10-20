@@ -1,67 +1,45 @@
-import { motion } from "framer-motion"
-import { coverLetterIntro, coverLetterItems } from "@/entities/profile"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/shared/ui/accordion"
-
+import { coverLetterItems } from "@/entities/profile";
+import { Plus } from "lucide-react";
 export function CoverLetterSection() {
   return (
     <section
       id="cover-letter"
-      className="cover-letter-section section-padding section-glow relative overflow-hidden"
+      className="letter-section page-width section-space"
     >
-      <div className="cover-letter-section__glow" aria-hidden />
-      <div className="fields-section__noise cover-letter-section__noise" aria-hidden />
-
-      <div className="container relative z-10">
-        <div className="cover-letter-section__inner">
-          <motion.header
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="cover-letter-section__header"
-          >
-            <p className="cover-letter-section__eyebrow">{coverLetterIntro.eyebrow}</p>
-            <h2 className="cover-letter-section__lead hero-headline">{coverLetterIntro.lead}</h2>
-            <p className="cover-letter-section__summary">{coverLetterIntro.summary}</p>
-            <div className="cover-letter-section__header-line" aria-hidden />
-          </motion.header>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.06 }}
-            className="cover-letter-section__panel"
-          >
-            <Accordion type="single" collapsible className="cover-letter-section__accordion">
-              {coverLetterItems.map((item, index) => (
-                <AccordionItem
-                  key={item.title}
-                  value={`letter-${index}`}
-                  className="cover-letter-section__item"
-                >
-                  <AccordionTrigger className="cover-letter-section__trigger group hover:no-underline">
-                    <span className="flex min-w-0 flex-1 items-center gap-5 md:gap-8">
-                      <span className="cover-letter-section__index">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className="cover-letter-section__title">{item.title}</span>
-                    </span>
-                  </AccordionTrigger>
-                  <AccordionContent className="cover-letter-section__content">
-                    <p className="cover-letter-section__body">{item.body}</p>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </motion.div>
+      <div className="section-heading">
+        <span className="small-label">04 / My perspective</span>
+        <span className="small-label">The person behind the code</span>
+      </div>
+      <div className="letter-layout">
+        <div>
+          <h2 className="serif-section-title">
+            Beyond
+            <br />
+            <em>the code.</em>
+          </h2>
+          <p className="section-description">
+            무엇을 만들었는지, 그리고 어떻게 일하는지.
+            <br />
+            개발자로서의 생각을 담았습니다.
+          </p>
+        </div>
+        <div className="letter-list">
+          {coverLetterItems.map((item, index) => (
+            <details className="letter-item" key={item.title}>
+              <summary>
+                <span className="small-label">0{index + 1}</span>
+                <h3>{item.title}</h3>
+                <Plus size={20} strokeWidth={1} />
+              </summary>
+              <div className="letter-body">
+                {item.body.split("\n\n").map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </details>
+          ))}
         </div>
       </div>
     </section>
-  )
+  );
 }
