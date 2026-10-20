@@ -32,13 +32,13 @@
   --font-display: "DM Sans", "Noto Sans KR", sans-serif;
 }
 :root {
-  --background: #fdfdfb;
-  --foreground: #20211f;
+  --background: #fdfdfd;
+  --foreground: #242424;
   --card: #fff;
-  --primary: #262723;
-  --muted: #f0f0ec;
-  --muted-foreground: #6e7069;
-  --border: #d6d7d0;
+  --primary: #262626;
+  --muted: #f3f3f3;
+  --muted-foreground: #737373;
+  --border: #dedede;
   --radius: 0px;
   --font-editorial: "Italiana", "Bodoni MT", "Didot", "Times New Roman", serif;
 }
@@ -82,12 +82,12 @@
   button:focus-visible,
   a:focus-visible,
   summary:focus-visible {
-    outline: 2px solid #5c6655;
+    outline: 2px solid var(--foreground);
     outline-offset: 6px;
   }
   ::selection {
-    background: #dce2d5;
-    color: #20211f;
+    background: #e6e6e6;
+    color: #242424;
   }
   img {
     max-width: 100%;
@@ -153,12 +153,12 @@
   height: 100dvh;
   overflow-y: auto;
   overscroll-behavior: contain;
-  border-right: 1px solid #d7d9cf;
-  background: #eeefe6;
-  color: #25382e;
+  border-right: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
   z-index: 40;
   scrollbar-width: thin;
-  scrollbar-color: #c2c9ba transparent;
+  scrollbar-color: #c7c7c7 transparent;
 }
 .profile-sidebar-body {
   display: flex;
@@ -176,7 +176,7 @@
   border-radius: 50%;
   padding: 5px;
   margin: 0 auto 25px;
-  border: 1px solid #cdd4c7;
+  border: 1px solid var(--border);
 }
 .sidebar-portrait img {
   display: block;
@@ -189,7 +189,7 @@
 }
 .sidebar-eyebrow {
   display: block;
-  color: #6a766a;
+  color: var(--muted-foreground);
   font-size: 9px;
   letter-spacing: 0.13em;
   line-height: 1.7;
@@ -203,19 +203,19 @@
 }
 .sidebar-role {
   font-size: 13px;
-  color: #687367;
+  color: var(--muted-foreground);
   margin-top: 5px;
 }
 .sidebar-contact {
   padding-top: 20px;
-  border-top: 1px solid #d3d8cc;
+  border-top: 1px solid var(--border);
   margin-top: 24px;
 }
 .sidebar-email {
   display: inline-block;
   margin-top: 5px;
   font-size: 12px;
-  color: #536252;
+  color: #626262;
   overflow-wrap: anywhere;
 }
 .sidebar-socials {
@@ -228,19 +228,19 @@
   display: flex;
   gap: 7px;
   align-items: center;
-  border: 1px solid #d3d9ca;
+  border: 1px solid var(--border);
   border-radius: 30px;
   padding: 8px 13px;
   font-size: 11px;
-  color: #536252;
-  background: #f6f6f0;
+  color: #626262;
+  background: #fafafa;
   transition:
     border-color 0.2s,
     background 0.2s;
 }
 .sidebar-socials a:hover {
-  border-color: #8c9e85;
-  background: #e5e9dd;
+  border-color: #b0b0b0;
+  background: var(--muted);
 }
 .sidebar-navigation {
   display: flex;
@@ -253,11 +253,11 @@
   align-items: center;
   gap: 19px;
   padding: 12px 0;
-  color: #6b776a;
+  color: var(--muted-foreground);
   font-size: 14px;
 }
 .sidebar-navigation a:hover {
-  color: #254733;
+  color: var(--foreground);
 }
 .sidebar-nav-number {
   font-size: 10px;
@@ -272,7 +272,7 @@
 }
 .sidebar-navigation a[aria-current] {
   font-weight: 600;
-  color: #254733;
+  color: var(--foreground);
 }
 .sidebar-navigation a[aria-current] .sidebar-nav-line {
   width: 25px;
@@ -280,7 +280,7 @@
 .sidebar-colophon {
   margin-top: auto;
   padding-top: 35px;
-  color: #89917f;
+  color: #8a8a8a;
   font-size: 8px;
   letter-spacing: 0.03em;
 }
@@ -398,7 +398,7 @@
   display: flex;
   width: 46px;
   height: 46px;
-  border: 1px solid #babdb3;
+  border: 1px solid #bdbdbd;
   border-radius: 50%;
   align-items: center;
   justify-content: center;
@@ -449,7 +449,7 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  color: #7c7b76;
+  color: #7c7c7c;
   font-size: 8px;
   letter-spacing: 0.12em;
 }
@@ -463,7 +463,7 @@
 }
 .about-kicker .portfolio-marks {
   gap: 5px;
-  color: #698164;
+  color: #969696;
 }
 .about-kicker .portfolio-marks svg {
   width: 21px;
@@ -473,7 +473,7 @@
   font-family: var(--font-editorial);
   font-size: 23px;
   font-style: italic;
-  color: #72816b;
+  color: #858585;
 }
 .about-intro h1 {
   margin-top: 25px;
@@ -504,12 +504,12 @@
   right: -3%;
   bottom: 0.16em;
   height: 0.22em;
-  background: #d8e3cf;
+  background: #e4e4e4;
   z-index: -1;
   transform: rotate(-2deg);
 }
 .about-period {
-  color: #477052;
+  color: var(--foreground);
 }
 .about-intro > p {
   max-width: 540px;
@@ -529,12 +529,12 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  border: 1px solid #dce2d4;
-  background: #f4f6f0;
+  border: 1px solid var(--border);
+  background: #f8f8f8;
   padding: 7px 11px;
   border-radius: 5px;
   font-size: 10px;
-  color: #5c6a55;
+  color: #666666;
 }
 .about-tech svg {
   width: 14px;
@@ -553,7 +553,7 @@
   gap: 26px;
   padding: 14px 18px;
   border-radius: 5px;
-  background: #284634;
+  background: var(--foreground);
   color: #fff;
   font-size: 11px;
   transition:
@@ -561,7 +561,7 @@
     transform 0.2s;
 }
 .about-primary-action:hover {
-  background: #3e6348;
+  background: #454545;
   transform: translateY(-2px);
 }
 .about-actions .text-link {
@@ -573,7 +573,7 @@
   max-width: 580px;
   gap: 18px;
   margin-top: 32px;
-  border-top: 1px solid #dce2d4;
+  border-top: 1px solid var(--border);
   padding-top: 17px;
 }
 .about-highlights dt {
@@ -656,7 +656,7 @@
   margin-top: 34px;
 }
 .works-section {
-  background: #f3f3ef;
+  background: #f6f6f6;
 }
 .works-heading {
   display: flex;
@@ -693,7 +693,7 @@
   align-items: flex-start;
   gap: 5px;
   font-size: 11px;
-  color: #75776f;
+  color: #777777;
   padding: 8px 0;
   border-bottom: 1px solid transparent;
   background: transparent;
@@ -715,7 +715,7 @@
   position: relative;
   aspect-ratio: 16/10;
   overflow: hidden;
-  background: #e5e6df;
+  background: #e6e6e6;
 }
 .work-image img {
   width: 100%;
@@ -787,9 +787,9 @@
 }
 .work-tags span {
   padding: 4px 8px;
-  border: 1px solid #d3d5cb;
+  border: 1px solid #d5d5d5;
   font-size: 8px;
-  color: #676a60;
+  color: #686868;
 }
 .work-card--plimap {
   grid-column: 1/-1;
@@ -797,7 +797,7 @@
 .work-card--plimap .work-card-link {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
-  background: #e8eae3;
+  background: #ebebeb;
 }
 .work-card--plimap .work-image {
   aspect-ratio: 16/10;
@@ -826,7 +826,7 @@
   justify-content: space-between;
   margin-top: 54px;
   padding-top: 20px;
-  border-top: 1px solid #d3d5cb;
+  border-top: 1px solid #d5d5d5;
   color: var(--muted-foreground);
   font-size: 9px;
 }
@@ -912,7 +912,7 @@
   margin-top: 17px;
 }
 .contact-section {
-  background: #eeefe9;
+  background: #f3f3f3;
   padding-bottom: 48px;
 }
 .contact-layout {
@@ -936,7 +936,7 @@
   gap: 15px;
   font-size: 11px;
   padding: 13px 0;
-  border-bottom: 1px solid #d0d2c7;
+  border-bottom: 1px solid #d2d2d2;
 }
 .contact-socials .small-label {
   color: var(--muted-foreground);
@@ -969,7 +969,7 @@
   width: 100%;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid #bfc3b6;
+  border-bottom: 1px solid #c3c3c3;
   border-radius: 0;
   padding: 14px 0;
   margin-bottom: 32px;
@@ -984,7 +984,7 @@
 }
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
-  color: #7b7e73;
+  color: #7e7e7e;
 }
 .send-button {
   display: flex;
@@ -998,7 +998,7 @@
   transition: background 0.2s;
 }
 .send-button:hover {
-  background: #464b3d;
+  background: #454545;
 }
 .contact-closing {
   display: flex;
@@ -1006,7 +1006,7 @@
   align-items: flex-end;
   margin-top: 85px;
   padding-top: 27px;
-  border-top: 1px solid #d0d2c7;
+  border-top: 1px solid #d2d2d2;
 }
 .contact-closing > span:first-child {
   font-family: var(--font-editorial);
@@ -1087,7 +1087,7 @@
   margin-block: 25px 40px;
 }
 .case-gallery {
-  background: #eeefe9;
+  background: #f3f3f3;
   padding: 30px;
 }
 .case-gallery img {
@@ -1576,7 +1576,7 @@
     height: auto;
     overflow: visible;
     border-right: 0;
-    border-bottom: 1px solid #d7d9cf;
+    border-bottom: 1px solid var(--border);
   }
   .sidebar-mobile-bar {
     display: flex;
@@ -1596,7 +1596,7 @@
     object-fit: cover;
     object-position: center 25%;
     border-radius: 50%;
-    border: 1px solid #ccd3c4;
+    border: 1px solid #d3d3d3;
   }
   .sidebar-mobile-identity > span {
     display: flex;
@@ -1608,7 +1608,7 @@
     font-weight: 600;
   }
   .sidebar-mobile-identity span span {
-    color: #6a7765;
+    color: var(--muted-foreground);
     font-size: 9px;
   }
   .sidebar-mobile-bar > button {
