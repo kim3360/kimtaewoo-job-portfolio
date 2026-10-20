@@ -22,22 +22,26 @@ export const awards = [
   {
     period: "2026.02",
     title: "UMC 9기 데모데이",
-    subtitle: "스포츠 유니폼 리폼 구매자와 리폼러 연결 통합 플랫폼 (대상)",
+    subtitle: "스포츠 유니폼 리폼 구매자와 리폼러 연결 통합 플랫폼",
+    honor: "대상",
   },
   {
     period: "2025.11",
     title: "SWYP WEB 11th",
-    subtitle: "AI 기반 글쓰기 루틴 웹 서비스 (대상)",
+    subtitle: "AI 기반 글쓰기 루틴 웹 서비스",
+    honor: "대상",
   },
   {
     period: "2025.03",
     title: "단국대학교 해커톤",
-    subtitle: "스크린샷 정리 자동화 AI 서비스 (대상)",
+    subtitle: "스크린샷 정리 자동화 AI 서비스",
+    honor: "대상",
   },
   {
     period: "2024.11",
     title: "SW개발 교내경진대회",
-    subtitle: "국내 여행 추천 AI 서비스 (최우수상)",
+    subtitle: "국내 여행 추천 AI 서비스",
+    honor: "최우수상",
   },
 ] as const
 

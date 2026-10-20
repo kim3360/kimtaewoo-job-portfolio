@@ -12,6 +12,37 @@ import { education } from "@/entities/education";
 import { landingSkillGroups } from "@/entities/skill";
 import { projects } from "@/entities/project";
 import { PortfolioMarks } from "@/shared/ui/PortfolioMarks";
+import { PortfolioOrbit } from "@/shared/ui/PortfolioOrbit";
+
+function ResumeTimeline({
+  title,
+  label,
+  items,
+}: {
+  title: string;
+  label: string;
+  items: readonly { period: string; title: string; subtitle: string }[];
+}) {
+  return (
+    <section className="resume-timeline-group" aria-label={label}>
+      <h3>
+        {title} <span>{label}</span>
+      </h3>
+      <ol className="resume-timeline">
+        {items.map((item) => (
+          <li className="resume-timeline-item" key={item.title}>
+            <span className="resume-timeline-period">{item.period}</span>
+            <div className="resume-timeline-content">
+              <h4>{item.title}</h4>
+              <p>{item.subtitle}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 function AboutSection() {
   return (
     <section id="about" className="about-section page-width section-space">
@@ -79,6 +110,7 @@ function AboutSection() {
               </div>
             </dl>
           </div>
+          <PortfolioOrbit />
         </div>
         <div className="about-signoff">
           <p>작은 디테일이 만드는, 더 나은 경험.</p>
@@ -88,53 +120,48 @@ function AboutSection() {
         </div>
       </div>
       <div id="career" className="resume-grid">
-        <div className="resume-column">
-          <h3>
-            Education <span>학력</span>
-          </h3>
-          {education.map((item) => (
-            <div className="resume-item" key={item.school}>
-              <span className="resume-period">{item.period}</span>
-              <h4>{item.school}</h4>
-              <p>{item.degree}</p>
-            </div>
-          ))}
-          <h3 className="resume-subheading">
-            Experience <span>실무 경험</span>
-          </h3>
-          {internships.map((item) => (
-            <div className="resume-item" key={item.title}>
-              <span className="resume-period">{item.period}</span>
-              <h4>{item.title}</h4>
-              <p>{item.subtitle}</p>
-            </div>
-          ))}
-        </div>
-        <div className="resume-column">
-          <h3>
-            Activities <span>활동</span>
-          </h3>
-          {activities.map((item) => (
-            <div className="resume-item" key={item.title}>
-              <span className="resume-period">{item.period}</span>
-              <h4>{item.title}</h4>
-              <p>{item.subtitle}</p>
-            </div>
-          ))}
-        </div>
-        <div className="resume-column">
-          <h3>
-            Awards <span>수상</span>
-          </h3>
-          {awards.map((item) => (
-            <div className="resume-item" key={item.title}>
-              <span className="resume-period">{item.period}</span>
-              <h4>{item.title}</h4>
-              <p>{item.subtitle}</p>
-            </div>
-          ))}
+        <div className="resume-history">
+          <ResumeTimeline
+            title="Education"
+            label="학력"
+            items={education.map((item) => ({
+              period: item.period,
+              title: item.school,
+              subtitle: item.degree,
+            }))}
+          />
+          <ResumeTimeline
+            title="Experience"
+            label="실무 경험"
+            items={internships}
+          />
+          <ResumeTimeline title="Activities" label="활동" items={activities} />
         </div>
       </div>
+    </section>
+  );
+}
+function AwardsSection() {
+  return (
+    <section
+      id="awards"
+      className="awards-section page-width section-space"
+      aria-labelledby="awards-title"
+    >
+      <p className="awards-eyebrow">Awards</p>
+      <h2 id="awards-title">함께 쌓은 경험.</h2>
+      <ul className="awards-list">
+        {awards.map((item) => (
+          <li className="award-row" key={item.title}>
+            <span className="award-period">{item.period}</span>
+            <div className="award-content">
+              <h3>{item.title}</h3>
+              <p>{item.subtitle}</p>
+            </div>
+            <span className="award-honor">{item.honor}</span>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -197,6 +224,7 @@ export function HomePage() {
             <AboutSection />
             <PortfolioSection />
             <SkillsSection />
+            <AwardsSection />
             <CoverLetterSection />
             <ContactSection />
           </main>
