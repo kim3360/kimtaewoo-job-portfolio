@@ -308,7 +308,23 @@
   animation: home-content-reveal 0.7s ease-out both;
 }
 .home-content .about-section {
-  padding-top: 52px;
+  --about-top-space: 52px;
+  padding-top: var(--about-top-space);
+}
+.about-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--about-top-space));
+}
+.about-screen > .about-layout {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding-block: 24px 36px;
+}
+.about-screen > .about-signoff {
+  flex-shrink: 0;
+  padding-block: 20px 24px;
 }
 @keyframes landing-intro-fade {
   0% {
@@ -445,17 +461,6 @@
   height: 25px;
   stroke-width: 1;
 }
-.about-overline {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  color: #7c7c7c;
-  font-size: 8px;
-  letter-spacing: 0.12em;
-}
-.about-overline > :last-child {
-  text-align: right;
-}
 .about-kicker {
   display: flex;
   gap: 13px;
@@ -471,13 +476,13 @@
 }
 .about-kicker > span:last-child {
   font-family: var(--font-editorial);
-  font-size: 23px;
+  font-size: 27px;
   font-style: italic;
   color: #858585;
 }
 .about-intro h1 {
   margin-top: 25px;
-  font-size: clamp(38px, 4.7vw, 64px);
+  font-size: clamp(38px, 3.6vw, 56px);
   font-weight: 400;
   line-height: 1.45;
   letter-spacing: -0.055em;
@@ -515,7 +520,7 @@
   max-width: 540px;
   margin-top: 21px;
   color: var(--muted-foreground);
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.95;
   word-break: keep-all;
 }
@@ -533,7 +538,7 @@
   background: #f8f8f8;
   padding: 7px 11px;
   border-radius: 5px;
-  font-size: 10px;
+  font-size: 12px;
   color: #666666;
 }
 .about-tech svg {
@@ -555,7 +560,7 @@
   border-radius: 5px;
   background: var(--foreground);
   color: #fff;
-  font-size: 11px;
+  font-size: 13px;
   transition:
     background 0.2s,
     transform 0.2s;
@@ -565,7 +570,7 @@
   transform: translateY(-2px);
 }
 .about-actions .text-link {
-  font-size: 11px;
+  font-size: 13px;
 }
 .about-highlights {
   display: grid;
@@ -577,7 +582,7 @@
   padding-top: 17px;
 }
 .about-highlights dt {
-  font-size: 8px;
+  font-size: 11px;
   color: var(--muted-foreground);
   margin-bottom: 6px;
   letter-spacing: 0.02em;
@@ -587,16 +592,16 @@
   align-items: baseline;
   gap: 8px;
   font-family: var(--font-editorial);
-  font-size: 31px;
+  font-size: 36px;
   line-height: 1.1;
 }
 .about-highlights dd > span {
   font-family: var(--font-sans);
-  font-size: 8px;
+  font-size: 11px;
   color: var(--muted-foreground);
 }
 .about-highlights .about-platforms {
-  font-size: 23px;
+  font-size: 28px;
   padding-top: 5px;
 }
 .about-signoff {
@@ -607,11 +612,11 @@
   padding-block: 0 24px;
 }
 .about-signoff p {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted-foreground);
 }
 .about-signoff .text-link {
-  font-size: 10px;
+  font-size: 12px;
 }
 .resume-grid {
   border-top: 1px solid var(--border);
@@ -1266,7 +1271,7 @@
     text-align: right;
   }
   .home-content .about-section {
-    padding-top: 28px;
+    --about-top-space: 28px;
   }
   .about-layout {
     padding-block: 35px 30px;
@@ -1278,29 +1283,22 @@
     width: 22px;
     height: 22px;
   }
-  .about-overline {
-    font-size: 6px;
-    gap: 12px;
-  }
-  .about-overline > :last-child {
-    max-width: 130px;
-  }
   .about-kicker > span:last-child {
-    font-size: 22px;
+    font-size: 25px;
   }
   .about-intro h1 {
-    font-size: clamp(28px, 8vw, 38px);
+    font-size: clamp(30px, 8.4vw, 40px);
   }
   .about-intro > p {
     max-width: 440px;
-    font-size: 12px;
+    font-size: 14px;
   }
   .about-tech {
     gap: 6px;
     margin-top: 20px;
   }
   .about-tech > span {
-    font-size: 9px;
+    font-size: 11px;
     padding: 6px 9px;
   }
   .about-actions {
@@ -1308,28 +1306,28 @@
     margin-top: 23px;
   }
   .about-actions .text-link {
-    font-size: 10px;
+    font-size: 12px;
   }
   .about-highlights {
     margin-top: 27px;
     gap: 12px;
   }
   .about-highlights dd {
-    font-size: 29px;
+    font-size: 32px;
     gap: 5px;
   }
   .about-highlights dd > span {
-    font-size: 7px;
+    font-size: 9px;
   }
   .about-highlights .about-platforms {
-    font-size: 21px;
+    font-size: 23px;
   }
   .about-signoff p {
-    font-size: 8px;
+    font-size: 10px;
     max-width: 155px;
   }
   .about-signoff .text-link {
-    font-size: 8px;
+    font-size: 10px;
   }
   .resume-grid {
     grid-template-columns: 1fr 1fr;
@@ -1558,6 +1556,9 @@
   }
 }
 @media (max-width: 1023px) {
+  .about-screen {
+    min-height: calc(100dvh - 73px - var(--about-top-space));
+  }
   .sidebar-content {
     margin-left: 0;
   }
