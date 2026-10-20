@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { Link } from "wouter";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { SiReact, SiTypescript } from "react-icons/si";
 import { Header } from "@/widgets/header";
 import { Footer } from "@/widgets/footer";
 import { HomeLanding } from "@/widgets/home-landing";
@@ -10,62 +10,86 @@ import { ContactSection } from "@/widgets/contact-section";
 import { profile, activities, awards, internships } from "@/entities/profile";
 import { education } from "@/entities/education";
 import { landingSkillGroups } from "@/entities/skill";
-import { projects, getProjectPath } from "@/entities/project";
+import { projects } from "@/entities/project";
 import { PortfolioMarks } from "@/shared/ui/PortfolioMarks";
 function AboutSection() {
   return (
     <section id="about" className="about-section page-width section-space">
-      <div className="section-heading">
-        <span className="small-label">01 / About me</span>
-        <span className="small-label">A little about who I am</span>
+      <div className="about-overline">
+        <span>01 / THE PERSON BEHIND THE CODE</span>
+        <span>WEB · MOBILE · USER EXPERIENCE</span>
       </div>
       <div className="about-layout">
         <div className="about-intro">
-          <PortfolioMarks className="marks-small" />
+          <div className="about-kicker">
+            <PortfolioMarks className="marks-small" />
+            <span>Code with care.</span>
+          </div>
           <h1>
-            안녕하세요,
-            <br />
+            <span className="about-greeting">안녕하세요,</span>
             <strong>
               프론트엔드 개발자
               <br />
-              김태우
+              <span className="about-name">김태우</span>입니다
+              <span className="about-period">.</span>
             </strong>
-            입니다.
           </h1>
           <p>{profile.bioShort}</p>
-          <a href={`mailto:${profile.contact.email}`} className="text-link">
-            {profile.contact.email} <ArrowUpRight size={15} />
-          </a>
-        </div>
-        <div className="about-index">
-          <div className="index-heading small-label">
-            <span>Selected project index</span>
-            <span>({String(projects.length).padStart(2, "0")})</span>
+          <div className="about-tech" aria-label="주요 기술">
+            {[
+              { name: "React", Icon: SiReact },
+              { name: "TypeScript", Icon: SiTypescript },
+              { name: "React Native", Icon: SiReact },
+            ].map(({ name, Icon }) => {
+              return (
+                <span key={name}>
+                  <span aria-hidden="true">
+                    <Icon />
+                  </span>
+                  {name}
+                </span>
+              );
+            })}
           </div>
-          {projects.map((project, index) => (
-            <Link
-              key={project.slug}
-              href={getProjectPath(project.slug)}
-              className="index-row"
-            >
-              <span className="index-number">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <span>{project.title}</span>
-              <span className="index-category">
-                {project.type === "web"
-                  ? "Web Development"
-                  : "Mobile Development"}
-              </span>
-              <ArrowUpRight size={17} strokeWidth={1.2} />
-            </Link>
-          ))}
-          <p className="index-note">
-            아이디어를 화면으로, 화면을 일상의 경험으로.
-          </p>
+          <div className="about-actions">
+            <a href="#portfolio" className="about-primary-action">
+              프로젝트 살펴보기 <ArrowUpRight size={17} />
+            </a>
+            <a href={`mailto:${profile.contact.email}`} className="text-link">
+              함께 이야기해요 <ArrowUpRight size={15} />
+            </a>
+          </div>
+          <dl className="about-highlights">
+            <div>
+              <dt>Selected projects</dt>
+              <dd>
+                {String(projects.length).padStart(2, "0")}
+                <span>개의 프로젝트</span>
+              </dd>
+            </div>
+            <div>
+              <dt>Awards</dt>
+              <dd>
+                {String(awards.length).padStart(2, "0")}
+                <span>번의 수상</span>
+              </dd>
+            </div>
+            <div>
+              <dt>Development</dt>
+              <dd className="about-platforms">
+                Web <span>&</span> App
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
-      <div className="resume-grid">
+      <div className="about-signoff">
+        <p>작은 디테일이 만드는, 더 나은 경험.</p>
+        <a href="#career" className="text-link">
+          조금 더 알아보기 <ArrowDown size={14} />
+        </a>
+      </div>
+      <div id="career" className="resume-grid">
         <div className="resume-column">
           <h3>
             Education <span>학력</span>
@@ -162,7 +186,7 @@ export function HomePage() {
       {isIntroVisible && <HomeLanding onComplete={completeIntro} />}
       <div
         id="home"
-        className={`home-content ${isIntroVisible ? "home-content--waiting" : "home-content--ready"}`}
+        className={`home-content sidebar-layout ${isIntroVisible ? "home-content--waiting" : "home-content--ready"}`}
         inert={isIntroVisible}
         aria-hidden={isIntroVisible ? true : undefined}
       >
@@ -170,14 +194,16 @@ export function HomePage() {
           본문 바로가기
         </a>
         <Header />
-        <main id="main-content">
-          <AboutSection />
-          <PortfolioSection />
-          <SkillsSection />
-          <CoverLetterSection />
-          <ContactSection />
-        </main>
-        <Footer />
+        <div className="sidebar-content">
+          <main id="main-content">
+            <AboutSection />
+            <PortfolioSection />
+            <SkillsSection />
+            <CoverLetterSection />
+            <ContactSection />
+          </main>
+          <Footer />
+        </div>
       </div>
     </>
   );

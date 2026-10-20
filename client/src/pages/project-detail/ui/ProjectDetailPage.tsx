@@ -10,15 +10,17 @@ export function ProjectDetailPage() {
   const project = findProjectBySlug(params?.slug ?? "");
   if (!project) return <NotFoundPage />;
   return (
-    <>
+    <div className="sidebar-layout">
       <a className="skip-link" href="#main-content">
         본문 바로가기
       </a>
       <Header />
-      <main id="main-content">
-        <ProjectDetailView key={project.slug} project={project} />
-      </main>
-      <Footer />
-    </>
+      <div className="sidebar-content">
+        <main id="main-content">
+          <ProjectDetailView key={project.slug} project={project} />
+        </main>
+        <Footer />
+      </div>
+    </div>
   );
 }
