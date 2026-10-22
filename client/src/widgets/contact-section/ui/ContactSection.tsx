@@ -84,7 +84,7 @@ export const ContactComponent = () => {
     <section id="contactme" className="contact-section section-space">
       <div className="page-width">
         <div className="section-heading">
-          <span className="small-label">05 / Get in touch</span>
+          <span className="small-label">Contact</span>
           <span className="small-label">
             Good things start with a conversation
           </span>
@@ -93,9 +93,9 @@ export const ContactComponent = () => {
           <div className="contact-intro">
             <PortfolioMarks className="marks-small" />
             <h2 className="serif-section-title">
-              Let’s make
+              함께 만들 경험을
               <br />
-              <em>something good.</em>
+              <em>이야기해 주세요.</em>
             </h2>
             <p className="section-description">
               좋은 경험을 만드는 일, 함께 이야기해요.

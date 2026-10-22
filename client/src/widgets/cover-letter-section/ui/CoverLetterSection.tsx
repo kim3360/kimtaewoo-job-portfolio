@@ -7,15 +7,15 @@ export function CoverLetterSection() {
       className="letter-section page-width section-space"
     >
       <div className="section-heading">
-        <span className="small-label">04 / My perspective</span>
+        <span className="small-label">My perspective</span>
         <span className="small-label">The person behind the code</span>
       </div>
       <div className="letter-layout">
         <div>
           <h2 className="serif-section-title">
-            Beyond
+            코드 너머의 생각,
             <br />
-            <em>the code.</em>
+            <em>함께 일하는 방식.</em>
           </h2>
           <p className="section-description">
             무엇을 만들었는지, 그리고 어떻게 일하는지.

@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
-import { SiReact, SiTypescript } from "react-icons/si";
 import { Header } from "@/widgets/header";
 import { Footer } from "@/widgets/footer";
 import { HomeLanding } from "@/widgets/home-landing";
@@ -11,8 +10,7 @@ import { profile, activities, awards, internships } from "@/entities/profile";
 import { education } from "@/entities/education";
 import { landingSkillGroups } from "@/entities/skill";
 import { projects } from "@/entities/project";
-import { PortfolioMarks } from "@/shared/ui/PortfolioMarks";
-import { PortfolioOrbit } from "@/shared/ui/PortfolioOrbit";
+import "./reference-portfolio.css";
 
 function ResumeTimeline({
   title,
@@ -49,68 +47,56 @@ function AboutSection() {
       <div className="about-screen">
         <div className="about-layout">
           <div className="about-intro">
-            <div className="about-kicker">
-              <PortfolioMarks className="marks-small" />
-              <span>Code with care.</span>
-            </div>
+            <p className="reference-eyebrow">TAEWOO / DEVELOPER PORTFOLIO</p>
             <h1>
-              <span className="about-greeting">안녕하세요,</span>
+              <span className="about-greeting">
+                화면과 데이터의 흐름을 연결하는
+              </span>
               <strong>
                 프론트엔드 개발자
                 <br />
-                <span className="about-name">김태우</span>입니다
-                <span className="about-period">.</span>
+                김태우입니다.
               </strong>
             </h1>
-            <p>{profile.bioShort}</p>
-            <div className="about-tech" aria-label="주요 기술">
-              {[
-                { name: "React", Icon: SiReact },
-                { name: "TypeScript", Icon: SiTypescript },
-                { name: "React Native", Icon: SiReact },
-              ].map(({ name, Icon }) => {
-                return (
-                  <span key={name}>
-                    <span aria-hidden="true">
-                      <Icon />
-                    </span>
-                    {name}
-                  </span>
-                );
-              })}
-            </div>
+            <p className="reference-hero-description">{profile.bioShort}</p>
+            <p className="reference-hero-meta">
+              React · TypeScript · React Native{" "}
+              <span>UI · API 연동 · 상태 관리</span>
+            </p>
             <div className="about-actions">
               <a href="#portfolio" className="about-primary-action">
-                프로젝트 살펴보기 <ArrowUpRight size={17} />
+                프로젝트 살펴보기 <ArrowDown size={17} />
               </a>
-              <a href={`mailto:${profile.contact.email}`} className="text-link">
-                함께 이야기해요 <ArrowUpRight size={15} />
+              <a
+                href={`mailto:${profile.contact.email}`}
+                className="reference-outline-action"
+              >
+                채용·협업 문의 <ArrowUpRight size={17} />
               </a>
             </div>
             <dl className="about-highlights">
               <div>
-                <dt>Selected projects</dt>
+                <dt>Web & Mobile</dt>
                 <dd>
-                  {String(projects.length).padStart(2, "0")}
-                  <span>개의 프로젝트</span>
+                  사용자와 만나는 화면<span>React · React Native</span>
                 </dd>
               </div>
               <div>
-                <dt>Awards</dt>
+                <dt>
+                  Selected Projects / {String(projects.length).padStart(2, "0")}
+                </dt>
                 <dd>
-                  {String(awards.length).padStart(2, "0")}
-                  <span>번의 수상</span>
+                  팀으로 만든 서비스<span>UI부터 데이터 흐름까지</span>
                 </dd>
               </div>
               <div>
-                <dt>Development</dt>
-                <dd className="about-platforms">
-                  Web <span>&</span> App
+                <dt>Experience</dt>
+                <dd>
+                  엠클라우독 인턴십<span>모바일개발팀 · React Native</span>
                 </dd>
               </div>
             </dl>
           </div>
-          <PortfolioOrbit />
         </div>
         <div className="about-signoff">
           <p>작은 디테일이 만드는, 더 나은 경험.</p>
@@ -120,6 +106,14 @@ function AboutSection() {
         </div>
       </div>
       <div id="career" className="resume-grid">
+        <header className="reference-section-header">
+          <p className="reference-eyebrow">Experience & Education</p>
+          <h2>
+            배우고, 만들고,
+            <br />
+            함께 성장한 기록.
+          </h2>
+        </header>
         <div className="resume-history">
           <ResumeTimeline
             title="Education"
@@ -148,7 +142,7 @@ function AwardsSection() {
       className="awards-section page-width section-space"
       aria-labelledby="awards-title"
     >
-      <p className="awards-eyebrow">Awards</p>
+      <p className="reference-eyebrow">Awards</p>
       <h2 id="awards-title">함께 쌓은 경험.</h2>
       <ul className="awards-list">
         {awards.map((item) => (
@@ -168,33 +162,61 @@ function AwardsSection() {
 function SkillsSection() {
   return (
     <section id="skills" className="skills-section page-width section-space">
-      <div className="section-heading">
-        <span className="small-label">03 / Capabilities</span>
-        <span className="small-label">Tools for better experiences</span>
+      <header className="reference-section-header">
+        <p className="reference-eyebrow">Engineering & Collaboration</p>
+        <h2>
+          사용자를 위한 화면,
+          <br />
+          함께 다듬는 완성도.
+        </h2>
+      </header>
+      <div className="reference-capabilities">
+        {[
+          {
+            label: "01 / INTERFACE",
+            title: "웹과 모바일의 사용자 경험",
+            description:
+              "디자인 의도를 컴포넌트로 옮기고, 웹과 모바일에서 자연스럽게 이어지는 화면을 만듭니다.",
+            tags: ["React", "TypeScript", "React Native", "Tailwind CSS"],
+          },
+          {
+            label: "02 / STATE & DATA",
+            title: "안정적으로 이어지는 데이터",
+            description:
+              "서버와 클라이언트 상태를 나누고, API 연동부터 로딩·오류 처리까지 사용자의 흐름 안에서 연결합니다.",
+            tags: ["TanStack Query", "Zustand", "REST API", "Zod"],
+          },
+          {
+            label: "03 / TEAM & QUALITY",
+            title: "협업으로 높이는 완성도",
+            description:
+              "기획·디자인·백엔드와 화면과 API의 접점을 맞추고, 코드 리뷰와 피드백으로 제품을 개선합니다.",
+            tags: ["GitHub", "Figma", "Storybook", "Code Review"],
+          },
+        ].map((item) => (
+          <article key={item.label}>
+            <p className="reference-card-label">{item.label}</p>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            <ul>
+              {item.tags.map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
       </div>
-      <div className="skills-layout">
-        <div>
-          <h2 className="serif-section-title">
-            Thoughtfully
-            <br />
-            <em>developed.</em>
-          </h2>
-          <p className="section-description">
-            보이는 화면부터 보이지 않는 데이터의 흐름까지,
-            <br />
-            제품의 완성도를 함께 고민합니다.
-          </p>
-        </div>
-        <div className="skills-list">
-          {landingSkillGroups.map((group, index) => (
-            <div className="skill-row" key={group.label}>
-              <span className="small-label">0{index + 1}</span>
+      <details className="reference-stack-details">
+        <summary>기술 스택 전체 보기</summary>
+        <div className="reference-stack-grid">
+          {landingSkillGroups.map((group) => (
+            <div key={group.label}>
               <h3>{group.label}</h3>
               <p>{group.skills.join(" · ")}</p>
             </div>
           ))}
         </div>
-      </div>
+      </details>
     </section>
   );
 }
@@ -211,7 +233,7 @@ export function HomePage() {
       {isIntroVisible && <HomeLanding onComplete={completeIntro} />}
       <div
         id="home"
-        className={`home-content sidebar-layout ${isIntroVisible ? "home-content--waiting" : "home-content--ready"}`}
+        className={`home-content sidebar-layout reference-portfolio ${isIntroVisible ? "home-content--waiting" : "home-content--ready"}`}
         inert={isIntroVisible}
         aria-hidden={isIntroVisible ? true : undefined}
       >
