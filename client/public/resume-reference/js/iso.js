@@ -320,5 +320,46 @@
     return { g: group, height: 116, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
   }
 
-  window.ISO = { s: s, P: P, pts: pts, pathOf: pathOf, box: box, hero: hero, site: site, building: building, music: music, workspace: workspace };
+  /* Myform Reform: a sports jersey with a stitched patch, needle and thread. */
+  function uniform(siteObj) {
+    var origin = P(3, 18, 158);
+    var shirtPath = "M43 12 L33 20 L4 47 L25 70 L40 58 V138 H103 V58 L118 70 L139 47 L110 20 L99 12 Q71 27 43 12 Z";
+    var jersey = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + origin[0] + " " + origin[1] + ")" }, [
+      s("path", { class: "uniform-depth", d: shirtPath, transform: "translate(5 -4)" }),
+      s("path", { class: "uniform-fabric", d: shirtPath }),
+      s("path", { class: "uniform-panel", d: "M43 12 L33 20 L4 47 L13 57 L43 30 L52 23 Z M99 12 L110 20 L139 47 L130 57 L99 30 L90 23 Z M40 58 L48 62 V138 H40 Z M103 58 L95 62 V138 H103 Z" }),
+      s("path", { class: "uniform-collar", d: "M43 12 Q71 27 99 12 L93 24 Q71 37 49 24 Z" }),
+      s("path", { class: "uniform-seam", d: "M12 48 L25 61 M118 61 L131 48 M48 130 H95" }),
+      s("text", { class: "uniform-number", x: 71, y: 80, "text-anchor": "middle" }, ["10"]),
+      s("rect", { class: "uniform-patch", x: 57, y: 93, width: 30, height: 22, rx: 3 }),
+      s("path", { class: "uniform-patch-stitch", d: "M61 97 H83 V111 H61 Z" }),
+      s("path", { class: "uniform-patch-mark", d: "M66 104 L70 108 L79 100" })
+    ]);
+    var spoolAt = P(132, 82, 18);
+    var spool = s("g", { transform: "translate(" + spoolAt.join(" ") + ")" }, [
+      s("ellipse", { class: "uniform-spool-end", cy: 7, rx: 19, ry: 8 }),
+      s("path", { class: "uniform-thread-body", d: "M-14 -24 H14 V5 Q0 15 -14 5 Z" }),
+      s("path", { class: "uniform-thread-lines", d: "M-14 -16 Q0 -7 14 -16 M-14 -10 Q0 -1 14 -10 M-14 -4 Q0 5 14 -4" }),
+      s("ellipse", { class: "uniform-spool-end", cy: -24, rx: 19, ry: 8 }),
+      s("ellipse", { class: "uniform-spool-hole", cy: -24, rx: 4, ry: 2 })
+    ]);
+    var needle = s("g", { class: "uniform-needle" }, [
+      s("path", { class: "uniform-loose-thread", d: "M64 99 C102 127 122 93 122 66 C122 31 173 48 161 11 C151 -18 122 10 143 20" }),
+      s("path", { class: "uniform-needle-body", d: "M119 58 L150 -4 Q153 -10 156 -6 Q159 -3 154 4 Z" }),
+      s("path", { class: "uniform-needle-eye", d: "M150 1 L153 -4" })
+    ]);
+    var solid = s("g", { class: "iso-solid" }, [jersey, needle, spool]);
+    var wire = s("path", { class: "iso-wire", pathLength: 1, d: shirtPath, transform: jersey.getAttribute("transform") });
+    var object = s("g", { class: "iso-floor iso-uniform" }, [wire, solid]);
+    var anchor = P(132, 82, 18), labelX = 186, labelY = 119;
+    var line = s("path", { class: "iso-leader", d: pathOf([anchor, [labelX - 12, labelY], [labelX, labelY]]), pathLength: 1 });
+    var dot = s("circle", { class: "iso-dot", cx: anchor[0], cy: anchor[1], r: 2.6 });
+    var label = text(labelX + 6, labelY + 4, "UNIFORM REFORM", "iso-call");
+    var callout = s("g", { class: "iso-callout" }, [line, dot, label]);
+    var group = s("g", { class: "iso-building iso-building--uniform" }, [object, callout]);
+    siteObj.layer.appendChild(group);
+    return { g: group, height: 158, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
+  }
+
+  window.ISO = { s: s, P: P, pts: pts, pathOf: pathOf, box: box, hero: hero, site: site, building: building, music: music, workspace: workspace, uniform: uniform };
 })();
