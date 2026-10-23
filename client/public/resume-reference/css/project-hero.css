@@ -171,6 +171,9 @@
 .about {
   padding-top: 70px;
 }
+.about-text p + p {
+  margin-top: 20px;
+}
 @media (min-width: 1440px) {
   .hero-iso > .iso-svg {
     height: 315px;

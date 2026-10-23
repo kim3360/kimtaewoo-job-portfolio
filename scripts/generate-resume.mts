@@ -411,7 +411,7 @@ const data = {
     },
     education: { school: education[0].school, level: education[0].degree },
   },
-  summary: { title: "간략 소개", paragraphs: [profile.bioShort], highlights },
+  summary: { title: "Resume", paragraphs: profile.resumeSummary, highlights },
   coreCompetencies: {
     title: "핵심 역량",
     items: highlights.map((item) => item.paragraphs[0]),
