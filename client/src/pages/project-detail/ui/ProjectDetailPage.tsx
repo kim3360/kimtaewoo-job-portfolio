@@ -10,7 +10,7 @@ export function ProjectDetailPage() {
   const project = findProjectBySlug(params?.slug ?? "");
   if (!project) return <NotFoundPage />;
   return (
-    <div className="sidebar-layout">
+    <div className="sidebar-layout project-detail-page">
       <a className="skip-link" href="#main-content">
         본문 바로가기
       </a>
