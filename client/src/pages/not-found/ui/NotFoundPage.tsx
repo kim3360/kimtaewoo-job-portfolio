@@ -1,33 +1,41 @@
-import { Button } from "@/shared/ui/button"
-import { Card, CardContent } from "@/shared/ui/card"
-import { AlertCircle, Home } from "lucide-react"
-import { useLocation } from "wouter"
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import "./not-found.css";
 
 export function NotFoundPage() {
-  const [, setLocation] = useLocation()
-
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-background">
-      <Card className="w-full max-w-lg mx-4 border border-border bg-pearl-surface/50 backdrop-blur-sm">
-        <CardContent className="pt-8 pb-8 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="relative">
-              <div className="absolute inset-0 bg-pearl-accent/20 rounded-full animate-pulse" />
-              <AlertCircle className="relative h-16 w-16 text-pearl-accent" />
-            </div>
+    <div className="not-found-page">
+      <a className="skip-link" href="#main-content">
+        본문 바로가기
+      </a>
+      <header className="not-found-header">
+        <a href="/#about" aria-label="김태우 포트폴리오 홈">
+          taewoo
+        </a>
+      </header>
+      <main id="main-content" className="not-found-main">
+        <div className="not-found-message">
+          <p className="not-found-code">404 / PAGE NOT FOUND</p>
+          <h1>페이지를 찾을 수 없어요.</h1>
+          <p className="not-found-description">
+            주소가 변경되었거나 삭제된 페이지입니다.
+            <br />
+            주소를 확인하거나 홈으로 이동해 주세요.
+          </p>
+          <div className="not-found-actions">
+            <a href="/#about" className="not-found-home">
+              <ArrowLeft size={15} aria-hidden="true" />
+              홈으로 돌아가기
+            </a>
+            <a href="/#portfolio">
+              프로젝트 보기
+              <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
           </div>
-
-          <h1 className="text-4xl font-bold mb-2">404</h1>
-          <h2 className="text-xl font-semibold text-muted-foreground mb-4">Page Not Found</h2>
-
-          <p className="text-muted-foreground mb-8 leading-relaxed">요청하신 페이지를 찾을 수 없습니다.</p>
-
-          <Button onClick={() => setLocation("/")} className="contact-btn-glow">
-            <Home className="w-4 h-4 mr-2" />
-            Go Home
-          </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </main>
+      <footer className="not-found-footer">
+        © {new Date().getFullYear()} Taewoo Kim
+      </footer>
     </div>
-  )
+  );
 }

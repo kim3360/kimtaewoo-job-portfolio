@@ -19,7 +19,7 @@ export default function Navigation() {
 
   useEffect(() => {
     if (location !== "/") {
-      setActiveSection("portfolio");
+      setActiveSection(location.startsWith("/projects/") ? "portfolio" : "");
       return;
     }
     let frame = 0;
