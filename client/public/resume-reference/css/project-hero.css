@@ -1,4 +1,19 @@
 /* Project experience: equal-height selectable pillars, no tenure or proficiency scale. */
+.vz-flow-title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 2px 2px 20px;
+  letter-spacing: -0.025em;
+}
+.vz-flow-caption {
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--ink-2);
+  margin: 16px 2px 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
 .hero-grid {
   align-items: start;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);

@@ -86,7 +86,7 @@
     var hasGroup = groups.length > 0;
     var rowH = []; for (var r = 0; r < rows; r++) rowH[r] = 40;
     nodes.forEach(function (n) { var p = cr(n); rowH[p.r] = Math.max(rowH[p.r], meas[n.id].h); });
-    var GAPY = 46, TOP = hasGroup ? 28 : 8;
+    var GAPY = spec.gapY || 46, TOP = hasGroup ? 28 : 8;
     var rowTop = [], acc = TOP;
     for (r = 0; r < rows; r++) { rowTop[r] = acc; acc += rowH[r] + GAPY; }
     var H = acc - GAPY + 14 + (hasGroup ? 8 : 0);
@@ -97,7 +97,7 @@
       pos[n.id] = { x: (p.c + 0.5) * cellW, y: rowTop[p.r] + rowH[p.r] / 2, w: m.w, h: m.h };
     });
 
-    var svg = svgEl("svg", { class: "vz-svg", viewBox: "0 0 " + width.toFixed(0) + " " + H.toFixed(0), width: width.toFixed(0), height: H.toFixed(0), role: "img" });
+    var svg = svgEl("svg", { class: "vz-svg", viewBox: "0 0 " + width.toFixed(0) + " " + H.toFixed(0), width: width.toFixed(0), height: H.toFixed(0), role: "img", "aria-label": spec.ariaLabel || spec.title || null });
     var gG = svgEl("g", { class: "vz-groups" }), gE = svgEl("g", { class: "vz-edges" }), gN = svgEl("g", { class: "vz-nodes" });
     svg.appendChild(gG); svg.appendChild(gE); svg.appendChild(gN);
 
@@ -117,8 +117,16 @@
     edges.forEach(function (e) {
       var A = pos[e.a], B = pos[e.b]; if (!A || !B) return;
       var dx = B.x - A.x, dy = B.y - A.y, d, end, dir, mid;
-      var horiz = Math.abs(dx) > 1 && (Math.abs(dy) < 1 || Math.abs(dx) >= Math.abs(dy) * 0.9);
-      if (horiz) {
+      var horiz = e.route !== "vertical" && Math.abs(dx) > 1 && (Math.abs(dy) < 1 || Math.abs(dx) >= Math.abs(dy) * 0.9);
+      if (e.route === "return-above") {
+        // Route a renewal loop outside the node column, then join the original
+        // connection from the gap above it. No line crosses an intervening node.
+        var outerX = width - 5;
+        var channelY = B.y - B.h / 2 - GAPY / 2;
+        end = [B.x, B.y - B.h / 2]; dir = [0, 1];
+        d = pathOf([[A.x + A.w / 2, A.y], [outerX, A.y], [outerX, channelY], [B.x, channelY], end]);
+        mid = [(outerX + B.x) / 2, channelY];
+      } else if (horiz) {
         var sx = A.x + Math.sign(dx) * A.w / 2, ex = B.x - Math.sign(dx) * B.w / 2;
         if (Math.abs(dy) < 1) { d = pathOf([[sx, A.y], [ex, B.y]]); mid = [(sx + ex) / 2, A.y]; }
         else { var mx = (sx + ex) / 2; d = pathOf([[sx, A.y], [mx, A.y], [mx, B.y], [ex, B.y]]); mid = [mx, (A.y + B.y) / 2]; }
@@ -235,7 +243,19 @@
       if (Math.abs(w - lastW) < 2 && canvas.firstChild) return;
       lastW = w;
       canvas.innerHTML = ""; order = 0;
-      if (spec.type === "flow") renderFlow(canvas, spec, w);
+      if (spec.type === "flow") {
+        if (spec.title) {
+          var title = document.createElement("p");
+          title.className = "vz-flow-title"; title.textContent = spec.title;
+          canvas.appendChild(title);
+        }
+        renderFlow(canvas, spec, w);
+        if (spec.caption) {
+          var caption = document.createElement("p");
+          caption.className = "vz-flow-caption"; caption.textContent = spec.caption;
+          canvas.appendChild(caption);
+        }
+      }
       else if (spec.type === "layers") renderLayers(canvas, spec, w);
       else if (spec.type === "compare") {
         canvas.classList.add("vz-compare");
