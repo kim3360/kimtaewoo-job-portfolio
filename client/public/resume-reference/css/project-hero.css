@@ -1,0 +1,252 @@
+/* Project experience: equal-height selectable pillars, no tenure or proficiency scale. */
+.hero-grid {
+  align-items: start;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 40px;
+}
+.hero-left {
+  gap: 25px;
+}
+.hero-headline {
+  max-width: 21em;
+}
+.hero-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 15px;
+}
+.hero-tech li {
+  font-size: 11px;
+  padding: 3px 10px;
+  border: 1px solid #1113;
+  border-radius: 99px;
+  background: #fff6;
+}
+.hero-iso {
+  min-width: 0;
+  padding-top: 0;
+}
+.hero-iso > .iso-svg {
+  height: 285px;
+  max-height: none;
+  overflow: hidden;
+}
+.hero-projects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 3px 0 22px;
+}
+.hero-project-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 11px;
+  min-height: 34px;
+  border: 1px solid #dedede;
+  border-radius: 99px;
+  background: #fff;
+  color: #555;
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    border-color 0.18s;
+}
+.hero-project-button .mono {
+  color: #8a8a8a;
+  font-size: 9px;
+}
+.hero-project-button:hover {
+  border-color: #777;
+  background: #f5f5f2;
+}
+.hero-project-button[aria-pressed="true"] {
+  background: var(--lime);
+  color: #111;
+  border-color: #111;
+  font-weight: 650;
+}
+.hero-project-button[aria-pressed="true"] .mono {
+  color: #4b5c17;
+}
+.hero-preview {
+  border-top: 1.5px solid #111;
+  padding-top: 13px;
+}
+.hero-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 8px;
+}
+.hero-preview-label {
+  color: #888;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+.hero-preview-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  text-decoration: none;
+  color: #666;
+}
+.hero-preview-link:hover {
+  color: #111;
+  text-decoration: underline;
+}
+.hero-preview h2 {
+  font-size: 20px;
+  letter-spacing: -0.035em;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+.hero-preview-flow {
+  display: grid;
+  gap: 8px;
+}
+.hero-preview-flow > div {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+.hero-preview-flow dt {
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.8;
+  padding-top: 1px;
+}
+.hero-preview-flow dd {
+  font-size: 14px;
+  color: #737373;
+  line-height: 1.75;
+  word-break: keep-all;
+}
+.hero-preview-flow > div:nth-child(3) dt {
+  background: var(--lime);
+  border-radius: 3px;
+  padding: 1px 3px;
+  margin-left: -3px;
+}
+.hero-iso .iso-cap {
+  margin-top: 14px;
+  font-size: 9px;
+  text-align: left;
+  color: #999;
+}
+.hero-iso .iso-year {
+  font-family: var(--sans);
+  font-size: 11px;
+}
+.hero-iso .iso-calls {
+  cursor: pointer;
+}
+.about {
+  padding-top: 70px;
+}
+@media (min-width: 1440px) {
+  .hero-iso > .iso-svg {
+    height: 315px;
+  }
+}
+@media (max-width: 1100px) and (min-width: 961px) {
+  .hero-grid {
+    gap: 28px;
+  }
+  .hero-project-button {
+    padding-inline: 8px;
+    font-size: 11px;
+  }
+  .hero-iso > .iso-svg {
+    height: 260px;
+  }
+}
+@media (max-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .hero-left {
+    display: flex;
+  }
+  .term,
+  .hero-name,
+  .hero-headline,
+  .limecard {
+    order: initial;
+  }
+  .hero-headline {
+    margin-top: -12px;
+    max-width: 29em;
+  }
+  .hero-iso {
+    order: initial;
+  }
+  .hero-iso > .iso-svg {
+    height: 320px;
+  }
+  .hero-projects {
+    justify-content: flex-start;
+  }
+  .hero-preview-flow dd {
+    font-size: 14px;
+  }
+  .hero-preview-flow {
+    gap: 12px;
+  }
+}
+@media (max-width: 640px) {
+  .hero-grid {
+    gap: 26px;
+  }
+  .hero-iso > .iso-svg {
+    height: 245px;
+  }
+  .hero-projects {
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .hero-project-button {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+  .hero-project-button .mono {
+    font-size: 9px;
+  }
+  .hero-preview h2 {
+    font-size: 20px;
+    margin-bottom: 17px;
+  }
+  .hero-preview-flow > div {
+    gap: 10px;
+  }
+  .hero-preview-flow dt {
+    font-size: 12px;
+  }
+  .hero-preview-flow dd {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .hero-preview-link {
+    font-size: 12px;
+  }
+  .hero-tech li {
+    font-size: 11px;
+  }
+  .hero-iso .iso-cap {
+    font-size: 9px;
+    margin-top: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-project-button {
+    transition: none;
+  }
+}

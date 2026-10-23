@@ -1,6 +1,6 @@
-/* 심은성 포트폴리오 — main.js
+/* 김태우 프로젝트 포트폴리오 — main.js
    1) window.RESUME(js/data.js) → 모든 섹션 렌더링
-   2) HERO     : 터미널 타이핑 → 재직 기둥 와이어→솔리드 스캔 → 현재 기둥 하이라이트·콜아웃 → 라임 카드 (자동 재생 1회)
+   2) HERO     : 터미널 타이핑 → 프로젝트 기둥 와이어→솔리드 스캔 → 현재 기둥 하이라이트·콜아웃 → 라임 카드 (자동 재생 1회)
    3) CAREER   : 고정 무대 + 스크롤 '트리거' 단계 이동(스크럽 아님). 장면 전환은 시간 기반 타임라인 (rail-advance / era-shift / counter roll / scan build)
                  클릭·버튼·키보드·장 버튼도 같은 전환을 재생하고 페이지 스크롤을 해당 단계 위치로 맞춤
    4) PORTFOLIO(경력기술서): 프로젝트별 도식, 대표 프로젝트는 스크롤 단계(과제→수행 내용→성과)에 따라 도식 상태 변경
@@ -84,9 +84,9 @@
   /* ---------- static bindings ---------- */
   $$("[data-bind]").forEach(function (el) { el.textContent = get(el.getAttribute("data-bind")) || ""; });
   var cur = EXP[N - 1];
-  var curTitle = (cur.department ? cur.department + " " : "") + cur.cardTitle;
+  var curTitle = "Frontend Developer";
   slot("badge").innerHTML = "";
-  append(slot("badge"), [h("span", { class: "badge-dot", "aria-hidden": "true", text: "●" }), " ", h("span", { text: curTitle }), h("span", { class: "badge-at", text: " · " + cur.companyShort })]);
+  append(slot("badge"), [h("span", { class: "badge-dot", "aria-hidden": "true", text: "●" }), " ", h("span", { text: curTitle }), h("span", { class: "badge-at", text: " · Web & Mobile" })]);
 
   /* ---------- about ---------- */
   append(slot("summary"), paragraphs(R.summary.paragraphs));
@@ -94,7 +94,7 @@
   function fact(label, value) { return h("div", null, [h("dt", { class: "mono", text: label }), h("dd", null, value)]); }
   append(slot("facts"), [
     fact("이메일", h("a", { href: "mailto:" + email, text: email })),
-    fact("총 경력", [career.total, h("br"), career.currentCompany + " " + career.status]),
+    fact("개발 경험", [career.total, h("br"), career.currentCompany + " " + career.status]),
     fact("학력", [edu.school, h("br"), edu.level])
   ]);
   append(slot("highlights"), R.summary.highlights.map(function (hl) {
@@ -113,7 +113,7 @@
     return h("li", { class: "stat-row" + (s.projects === maxP ? " is-max" : "") }, [
       h("span", { class: "stat-name", text: s.name }),
       h("span", { class: "stat-bar", "aria-hidden": "true" }, h("span", { class: "stat-fill", style: "--r:" + ratio.toFixed(4) })),
-      h("span", { class: "stat-val mono" }, [h("b", { text: String(s.projects) }), " / " + NC + "건 · " + s.companies + "개사"]),
+      h("span", { class: "stat-val mono" }, [h("b", { text: String(s.projects) }), " / " + NC + "개 프로젝트"]),
       h("span", { class: "stat-span mono", text: s.span ? s.span[0] + "–" + (s.span[1] >= 2026 ? "현재" : s.span[1]) : "" })
     ]);
   })));
@@ -142,17 +142,17 @@
   /* ==================================================================
      HERO
      ================================================================== */
-  var CMD = "eunseong.career({ since: " + yearOf(EXP[0].period.start) + " })";
-  var OUT1 = "› loading " + N + " companies";
-  var OUT2 = "✓ " + career.total.replace(/^총\s*/, "") + " · " + N + " companies · " + NPROJ + " projects";
-  $("[data-term-sr]").textContent = OUT2.replace("✓ ", "총 경력 ");
+  var CMD = "taewoo.build({ web, mobile })";
+  var OUT1 = "› loading " + NPROJ + " projects";
+  var OUT2 = "✓ " + NPROJ + " projects · " + R.hero.awards + " awards";
+  $("[data-term-sr]").textContent = OUT2.replace("✓ ", "개발 경험 ");
   var termCmd = $("[data-term-cmd]"), termOut = $("[data-term-out]"), termBadge = $("[data-term-badge]");
   var caret1 = $("[data-term-caret1]"), caret2 = $("[data-term-caret2]");
 
-  slot("limecard-since").textContent = yearOf(EXP[0].period.start) + " — NOW";
-  slot("limecard-sub").textContent = "백엔드부터 웹 UI까지 설계하고 구현";
+  slot("limecard-since").textContent = "WEB — MOBILE";
+  slot("limecard-sub").textContent = "UI 구현 · API 연동 · 상태 관리";
   var lcRows = R.hero.bars.map(function (b, i) {
-    var r = b.months / R.hero.bars[0].months;
+    var r = b.count / R.hero.bars[0].count;
     return h("div", { class: "lc-row" }, [
       h("span", { class: "lc-label mono", text: b.label }),
       h("span", { class: "lc-bar", "aria-hidden": "true" }, h("span", { class: "lc-fill", style: "--r:" + r.toFixed(4) })),
@@ -164,16 +164,16 @@
 
   var heroSvg = slot("hero-svg");
   function roleText(e) { return e.department && e.cardTitle.indexOf(e.department) < 0 ? e.department + " · " + e.cardTitle : e.cardTitle; }
-  var calloutSets = EXP.map(function (e) { return [e.companyShort, e.period.label, roleText(e), "프로젝트 " + e.projects.length + "건"]; });
-  var HERO = ISO.hero(heroSvg, EXP, { callouts: calloutSets, callFont: window.innerWidth < 641 ? 14 : 11 }); // 모바일은 SVG 축소율(≈0.77)을 보정
-  heroSvg.insertBefore(ISO.s("title", null, ["회사별 재직 기간 기둥 6개, 2009년 넷매니아부터 현재 스튜디오레논까지. 기둥을 누르면 해당 회사의 기간·직위·프로젝트 수를 표시합니다."]), heroSvg.firstChild);
+  var calloutSets = EXP.map(function (e) { return [e.companyShort, e.duration]; });
+  var HERO = ISO.hero(heroSvg, EXP, { callouts: calloutSets, callFont: window.innerWidth < 641 ? 14 : 11, uniformHeight: 110, labels: EXP.map(function (e) { return e.companyShort; }) }); // 모바일은 SVG 축소율(≈0.77)을 보정
+  heroSvg.insertBefore(ISO.s("title", null, ["프로젝트 선택 그래픽. 기둥을 누르면 해당 프로젝트의 문제, 원인, 해결, 결과를 표시합니다."]), heroSvg.firstChild);
 
   /* hero pillars: every pillar is a button → it becomes the active (lime) pillar with its callouts */
-  var heroActive = N - 1, heroLive = $("[data-hero-live]"), careerJump = null;
-  function heroLabel(e) { return e.companyShort + ", " + e.period.start.replace("-", ".") + "부터 " + (e.period.current ? "재직중" : e.period.end.replace("-", ".") + "까지") + ", " + roleText(e) + ", 프로젝트 " + e.projects.length + "건"; }
+  var heroActive = 0, heroLive = $("[data-hero-live]"), careerJump = null;
+  function heroLabel(e) { return e.companyShort + " 문제 해결 사례 선택"; }
   HERO.callouts.forEach(function (c, i) {
     if (i !== heroActive) { c.g.style.visibility = "hidden"; c.g.style.opacity = "0"; }
-    c.g.appendChild(ISO.s("title", null, ["경력 섹션에서 " + EXP[i].companyShort + " 보기"]));
+    c.g.appendChild(ISO.s("title", null, ["개발 경험에서 " + EXP[i].companyShort + " 보기"]));
     c.g.addEventListener("click", function () { if (careerJump) careerJump(i); });
   });
   HERO.pillars.forEach(function (p, i) {
@@ -184,6 +184,24 @@
     p.g.addEventListener("click", function () { heroSelect(i); });
     p.g.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); heroSelect(i); } });
   });
+  HERO.current = HERO.pillars[0];
+  HERO.calls = HERO.callouts[0].items;
+  var heroButtons = EXP.map(function (e, i) {
+    var button = h("button", { type: "button", class: "hero-project-button", "aria-pressed": i === heroActive ? "true" : "false" }, [h("span", { class: "mono", text: pad2(i + 1) }), e.companyShort]);
+    button.addEventListener("click", function () { heroSelect(i); });
+    return button;
+  });
+  append($("[data-hero-projects]"), heroButtons);
+  function updateHeroPreview(i) {
+    var e = EXP[i], preview = e.preview;
+    $("[data-preview-title]").textContent = preview.title;
+    ["problem", "cause", "solution", "result"].forEach(function (key) { $("[data-preview-" + key + "]").textContent = preview[key]; });
+    var link = $("[data-preview-link]");
+    link.href = "#case-" + e.id + "-1";
+    link.setAttribute("aria-label", e.companyShort + " 문제 해결 전체 기록 보기");
+    heroButtons.forEach(function (button, index) { button.setAttribute("aria-pressed", index === i ? "true" : "false"); });
+  }
+  updateHeroPreview(heroActive);
   function heroSelect(i) {
     if (window.__hero && window.__hero.progress() < 1) window.__hero.progress(1); // 인트로 중이면 즉시 완료
     if (i === heroActive) return;
@@ -191,6 +209,7 @@
     HERO.pillars[heroActive].g.classList.remove("is-hl"); HERO.pillars[heroActive].g.setAttribute("aria-pressed", "false");
     HERO.pillars[i].g.classList.add("is-hl"); HERO.pillars[i].g.setAttribute("aria-pressed", "true");
     heroActive = i;
+    updateHeroPreview(i);
     if (heroLive) heroLive.textContent = heroLabel(EXP[i]);
     var parts = function (c) { return [c.g].concat.apply([c.g], c.items.map(function (it) { return [it.line, it.dot, it.text]; })); };
     if (!MOTION) {
@@ -208,7 +227,7 @@
       gsap.fromTo(it.text, { autoAlpha: 0, x: -8 * nc.side }, { autoAlpha: 1, x: 0, duration: 0.38, ease: "power3.out", delay: 0.24 + d });
     });
   }
-  slot("hero-cap").textContent = "기둥 높이 = 회사별 재직 개월 수 (재직중은 2026.10 기준) · 왼쪽부터 " + EXP.map(function (e) { return e.companyShort.replace("㈜", ""); }).join(" → ");
+  slot("hero-cap").textContent = "기둥과 프로젝트 이름을 선택하면 문제 해결 과정을 볼 수 있습니다.";
 
   function heroFinal() {
     termCmd.textContent = CMD; termOut.textContent = OUT2; termBadge.textContent = "● DONE";
@@ -303,7 +322,7 @@
         h("p", { class: "d-role", text: "역할: " + p.role }),
         bullets(p.achievements)
       ].concat(sub.map(function (s) { return h("div", { class: "d-sub" }, [h("span", { class: "d-sub-label", text: s[0] }), s[1]]); }))
-        .concat([h("a", { class: "d-case-link", href: "#" + caseId, "data-case-link": caseId, text: "경력기술서에서 보기" })]));
+        .concat([h("a", { class: "d-case-link", href: "#" + caseId, "data-case-link": caseId, text: "프로젝트 기록에서 보기" })]));
     })));
     return nodes;
   }
@@ -311,11 +330,11 @@
   /* ==================================================================
      CAREER — shared builders
      ================================================================== */
-  slot("film-count").textContent = "/ " + N + " companies";
+  slot("film-count").textContent = "/ " + N + " projects";
   function floorsOf(e) {
     return e.projects.map(function (p) { return { label: pad2(p.no), hl: !!featuredIds[e.id + "-" + p.no] }; });
   }
-  function monthsText(e) { return e.period.current ? "재직중 · 2026.10 기준 " + e.months + "개월" : e.duration + " · " + e.months + "개월"; }
+  function monthsText(e) { return e.duration + " · 주요 기능 " + e.featureCount + "개"; }
 
   /* static list (reduced motion / print / no-JS-libs) */
   var listEl = slot("career-list");
@@ -359,7 +378,7 @@
   var railLinks = [];
   append(pfRail, h("ol", null, EXP.map(function (e, i) {
     var a = h("a", { href: "#pf-" + e.id, class: "pf-rail-link" }, [
-      h("span", { class: "mono pf-rail-year", text: yearOf(e.period.start) }),
+      h("span", { class: "mono pf-rail-year", text: pad2(i + 1) }),
       h("span", { class: "pf-rail-name", text: e.companyShort.replace("㈜", "") }),
       h("span", { class: "mono pf-rail-n", text: String(casesOf[e.id].length) })
     ]);
@@ -439,7 +458,7 @@
   if (!MOTION) {
     heroFinal();
     var filmHead = $(".film-head");
-    $("[data-film-hint]").textContent = "회사별 기록을 시간 순서로 정리했습니다. 상세 보기로 전체 기록을 펼칠 수 있습니다.";
+    $("[data-film-hint]").textContent = "프로젝트별 구현 경험을 정리했습니다. 상세 보기로 전체 기록을 펼칠 수 있습니다.";
     listEl.parentNode.insertBefore(filmHead, listEl);
     $("[data-film]").hidden = true;
     $$(".stat-fill, .lc-fill").forEach(function (el) { el.style.transform = "scaleX(" + el.style.getPropertyValue("--r") + ")"; });
@@ -468,25 +487,17 @@
   SITE.planeAt(0); // 평면은 z=0 기준 좌표로 한 번만 만들고, 높이는 transform(y = -z)으로 이동
   var buildings = EXP.map(function (e) { return ISO.building(SITE, floorsOf(e)); });
 
-  // rail geometry (months → px)
-  function mIdx(ym) { var p = ym.split("-"); return (+p[0]) * 12 + (+p[1]) - 1; }
-  var RAIL0 = mIdx("2009-01"), RAIL1 = mIdx("2026-12");
-  var monthPx = 9;
+  // Project sequence: positions are ordinal, not employment dates or duration.
   var segs = [], dots = [], fills = [];
   function buildRail() {
     track.innerHTML = "";
-    monthPx = window.innerWidth < 641 ? 5 : 9;
-    track.style.width = ((RAIL1 - RAIL0 + 1) * monthPx) + "px";
-    for (var y = 2009; y <= 2026; y++) {
-      var x = (y * 12 - RAIL0) * monthPx;
-      track.appendChild(h("span", { class: "rail-tick" + (y % 5 === 0 ? " is-major" : ""), style: "left:" + x + "px" }, h("span", { class: "rail-year mono", text: String(y) })));
-    }
+    var stride = window.innerWidth < 641 ? 190 : 260;
+    track.style.width = (N * stride + 300) + "px";
     segs = []; dots = []; fills = [];
     EXP.forEach(function (e, i) {
-      var s0 = mIdx(e.period.start), s1 = e.period.current ? mIdx("2026-10") : mIdx(e.period.end);
-      var left = (s0 - RAIL0) * monthPx, w = (s1 - s0 + 1) * monthPx;
+      var left = i * stride, w = stride - 18;
       var fill = h("span", { class: "rail-fill" });
-      var seg = h("span", { class: "rail-seg", style: "left:" + left + "px;width:" + w + "px" }, [fill, h("span", { class: "rail-seg-name", text: e.companyShort.replace("㈜", "") })]);
+      var seg = h("span", { class: "rail-seg", style: "left:" + left + "px;width:" + w + "px" }, [fill, h("span", { class: "rail-seg-name", text: e.companyShort })]);
       var dot = h("span", { class: "rail-dot", style: "left:" + left + "px" });
       track.appendChild(seg); track.appendChild(dot);
       segs.push({ el: seg, left: left, w: w }); dots.push(dot); fills.push(fill);
@@ -511,18 +522,18 @@
 
   // info scenes
   var scenes = EXP.map(function (e, i) {
-    var cap = "$ open career/" + pad2(i + 1) + " --since " + ymText(e);
+    var cap = "$ open projects/" + e.id;
     var capEl = h("span", { class: "scene-cap-text", text: cap });
     var nameIn = h("span", { class: "scene-name-in", text: e.companyShort });
     var detailBtn = h("button", { type: "button", class: "btn btn--ink", "aria-haspopup": "dialog", "data-open": i }, ["상세 보기", h("span", { class: "visually-hidden", text: " — " + e.companyShort + " 전체 기록" })]);
     var caseLink = h("a", { class: "btn btn--line", href: "#case-" + casesOf[e.id][0].id }, ["프로젝트 " + casesOf[e.id].length + "건 보기"]);
-    var monthsEl = h("b", { class: "scene-count", text: String(e.months) });
+    var monthsEl = h("b", { class: "scene-count", text: String(e.featureCount) });
     var el = h("article", { class: "scene", "data-i": i, "aria-roledescription": "장면", "aria-labelledby": "scene-h-" + e.id }, [
       h("p", { class: "scene-cap mono", "aria-hidden": "true" }, capEl),
       h("p", { class: "scene-meta mono", text: pad2(i + 1) + " / " + pad2(N) + " · " + e.period.label }),
       h("h3", { class: "scene-name", id: "scene-h-" + e.id }, nameIn),
       h("p", { class: "scene-title", text: e.cardTitle }),
-      h("p", { class: "scene-stats mono" }, [monthsEl, "개월", h("span", { class: "scene-stat-sep", text: " · " }), e.period.current ? "재직중 (2026.10 기준)" : e.duration, h("span", { class: "scene-stat-sep", text: " · " }), "프로젝트 " + e.projects.length + "건"]),
+      h("p", { class: "scene-stats mono" }, ["주요 기능 ", monthsEl, "개", h("span", { class: "scene-stat-sep", text: " · " }), e.duration]),
       h("p", { class: "scene-summary", text: e.summary }),
       h("ol", { class: "scene-projects" }, e.projects.map(function (p) {
         return h("li", { "data-floor": p.no - 1 }, h("a", { href: "#case-" + e.id + "-" + p.no }, [h("span", { class: "mono", text: pad2(p.no) }), " " + p.name]));
@@ -555,7 +566,7 @@
   // controls: ◀ 이전 · 장 버튼 · 다음 ▶ (n/6)
   var chapterBtns = [];
   var chapterBar = h("span", { class: "chap-fill" });
-  var prevBtn = h("button", { type: "button", class: "film-nav film-nav--prev", "aria-label": "이전 회사" }, [h("span", { class: "film-nav-arrow", "aria-hidden": "true", text: "◀" }), h("span", { class: "film-nav-label", text: "이전" })]);
+  var prevBtn = h("button", { type: "button", class: "film-nav film-nav--prev", "aria-label": "이전 프로젝트" }, [h("span", { class: "film-nav-arrow", "aria-hidden": "true", text: "◀" }), h("span", { class: "film-nav-label", text: "이전" })]);
   var nextLabel = h("span", { class: "film-nav-label", text: "다음" });
   var nextArrow = h("span", { class: "film-nav-arrow", "aria-hidden": "true", text: "▶" });
   var nextCount = h("span", { class: "film-nav-count mono", "aria-hidden": "true", text: "1/" + N });
@@ -564,7 +575,7 @@
     h("div", { class: "film-ctrl" }, [
       prevBtn,
       h("ol", { class: "chap-list" }, EXP.map(function (e, i) {
-        var b = h("button", { type: "button", class: "chap-btn", "data-i": i, "aria-label": (i + 1) + " / " + N + " " + e.companyShort + "로 이동" }, [h("span", { class: "mono chap-year", text: yearOf(e.period.start) }), h("span", { class: "chap-name", text: e.companyShort.replace("㈜", "") })]);
+        var b = h("button", { type: "button", class: "chap-btn", "data-i": i, "aria-label": (i + 1) + " / " + N + " " + e.companyShort + "로 이동" }, [h("span", { class: "mono chap-year", text: pad2(i + 1) }), h("span", { class: "chap-name", text: e.companyShort.replace("㈜", "") })]);
         chapterBtns.push(b);
         return h("li", null, b);
       })),
@@ -584,7 +595,7 @@
     gsap.set(sc.cap, { clipPath: on ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)" });
     gsap.set(sc.name, { yPercent: on ? 0 : 110 });
     gsap.set(sc.head.concat(sc.rest), { autoAlpha: on ? 1 : 0, y: on ? 0 : 12 });
-    sc.months.textContent = String(on ? EXP[k].months : 0);
+    sc.months.textContent = String(on ? EXP[k].featureCount : 0);
   }
   function buildingState(k, on) {
     var b = buildings[k];
@@ -621,11 +632,11 @@
     segs.forEach(function (sg, k) { sg.el.classList.toggle("is-cur", k === i); });
     var last = i === N - 1;
     prevBtn.setAttribute("aria-disabled", i <= 0 ? "true" : "false");
-    nextLabel.textContent = last ? "경력기술서로" : "다음";
+    nextLabel.textContent = last ? "프로젝트 기록으로" : "다음";
     nextArrow.textContent = last ? "↓" : "▶";
     nextCount.textContent = (i + 1) + "/" + N;
     nextCount.hidden = last;
-    nextBtn.setAttribute("aria-label", last ? "경력기술서 섹션으로 이동" : "다음 회사: " + EXP[i + 1].companyShort + " (현재 " + (i + 1) + " / " + N + ")");
+    nextBtn.setAttribute("aria-label", last ? "프로젝트 기록으로 이동" : "다음 프로젝트: " + EXP[i + 1].companyShort + " (현재 " + (i + 1) + " / " + N + ")");
     nextBtn.classList.toggle("is-last", last);
     var e = EXP[i];
     liveEl.textContent = (i + 1) + " / " + N + " " + e.companyShort + ", " + e.period.label;
@@ -641,7 +652,7 @@
     t.fromTo(sc.head, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.05, ease: "power2.out" }, tb + 0.18);
     t.fromTo(sc.rest, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.035, ease: "power2.out" }, tb + 0.32);
     var cnt = { v: 0 };
-    t.fromTo(cnt, { v: 0 }, { v: e.months, duration: 0.8, ease: "power2.out", onUpdate: function () { sc.months.textContent = String(Math.round(cnt.v)); } }, tb + 0.22);
+    t.fromTo(cnt, { v: 0 }, { v: e.featureCount, duration: 0.8, ease: "power2.out", onUpdate: function () { sc.months.textContent = String(Math.round(cnt.v)); } }, tb + 0.22);
   }
   function buildingIn(t, i, tb) {
     var b = buildings[i], top = b.height;
@@ -888,7 +899,7 @@
     content.innerHTML = "";
     append(content, detailContent(e, "detail-title", 2));
     tagMonoKr(content);
-    fileEl.textContent = "career/" + pad2(i + 1) + "_" + e.id + ".log";
+    fileEl.textContent = "projects/" + pad2(i + 1) + "_" + e.id + ".log";
     scroller.scrollTop = 0;
     var state = Flip.getState(origin);
     layer.hidden = false;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const referenceTitle = "심은성 이력서 · 경력기술서";
+const referenceTitle = "김태우 | 프론트엔드 개발자";
 
 function initialReferenceUrl() {
   const query = new URLSearchParams();

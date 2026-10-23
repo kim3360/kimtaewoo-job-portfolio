@@ -68,18 +68,18 @@
   function hero(svg, exp, opt) {
     svg.innerHTML = "";
     var bb = new BB();
-    var PW = 30, GAP = 22, maxM = Math.max.apply(null, exp.map(function (e) { return e.months; }));
+    var PW = 30, GAP = 22, maxM = Math.max.apply(null, exp.map(function (e) { return e.months || 1; }));
     var HMAX = 170, BASE = 16;
     var n = exp.length, len = n * PW + (n - 1) * GAP;
     var grid = isoGrid(-90, len + 90, -90, 130, 20, null);
     var slab = box(-18, -18, -10, len + 36, PW + 36, 10, bb, "iso-slab");
     var pillars = exp.map(function (e, i) {
-      var h = BASE + (e.months / maxM) * HMAX;
+      var h = opt.uniformHeight || (BASE + (e.months / maxM) * HMAX);
       var b = box(i * (PW + GAP), 0, 0, PW, PW, h, bb, "iso-pillar");
       b.h = h; b.x = i * (PW + GAP);
       // year label on slab front edge
       var lp = P(b.x + PW / 2, PW + 30, -10);
-      b.label = text(lp[0], lp[1] + 4, e.period.start.slice(0, 4), "iso-year", "middle");
+      b.label = text(lp[0], lp[1] + 4, opt.labels ? opt.labels[i] : e.period.start.slice(0, 4), "iso-year", "middle");
       bb.add([lp[0], lp[1] + 8]);
       return b;
     });

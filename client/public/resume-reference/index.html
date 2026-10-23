@@ -3,28 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>심은성 이력서 · 경력기술서</title>
-  <meta name="description" content="백엔드부터 웹 UI까지 설계하고 구현하는 Full Stack 개발자 심은성의 경력과 프로젝트 경력기술서">
+  <title>김태우 | 프론트엔드 개발자</title>
+  <meta name="description" content="화면과 데이터의 흐름을 연결하는 프론트엔드 개발자 김태우의 경력과 프로젝트 경력기술서">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/project-hero.css">
 </head>
 <body>
-  <a class="skip-link" href="#experience">경력으로 바로가기</a>
+  <a class="skip-link" href="#experience">개발 경험으로 바로가기</a>
 
   <div class="page" id="page">
     <!-- fixed top bar -->
     <header class="topbar" data-topbar>
       <div class="topbar-inner">
-        <a class="logo" href="#top" data-bind-logo>심은성<span class="logo-dot">.</span></a>
+        <a class="logo" href="#top" data-bind-logo>김태우<span class="logo-dot">.</span></a>
         <nav class="topnav" aria-label="섹션">
-          <a href="#experience">경력</a>
-          <a href="#portfolio">경력기술서</a>
+          <a href="#experience">개발 경험</a>
+          <a href="#portfolio">프로젝트</a>
           <a href="#skills">스킬</a>
-          <a href="#education">학력·자격</a>
+          <a href="#education">학력·활동</a>
           <a href="#letter">자기소개서</a>
         </nav>
         <p class="badge badge--lime" data-slot="badge"></p>
@@ -39,7 +40,7 @@
             <div class="term" data-term aria-hidden="true">
               <div class="term-bar">
                 <span class="term-dots"><i></i><i></i><i></i></span>
-                <span class="term-file">career.ts</span>
+                <span class="term-file">projects.ts</span>
                 <span class="badge badge--lime badge--sm" data-term-badge>● LIVE</span>
               </div>
               <div class="term-body">
@@ -54,8 +55,9 @@
 
             <div class="limecard" data-limecard>
               <div class="limecard-top mono"><span>PROFILE</span><span data-slot="limecard-since"></span></div>
-              <p class="limecard-title">Full Stack 개발자</p>
+              <p class="limecard-title">Frontend 개발자</p>
               <p class="limecard-sub" data-slot="limecard-sub"></p>
+              <ul class="hero-tech" aria-label="주요 기술"><li>React</li><li>TypeScript</li><li>React Native</li></ul>
               <div class="limecard-rows" data-slot="limecard-rows"></div>
               <p class="limecard-note mono" data-slot="limecard-note"></p>
             </div>
@@ -64,6 +66,20 @@
           <figure class="hero-iso" data-hero-iso>
             <svg class="iso-svg" data-slot="hero-svg" role="group" aria-labelledby="hero-iso-cap"></svg>
             <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-hero-live></p>
+            <nav class="hero-projects" aria-label="문제 해결 사례 선택" data-hero-projects></nav>
+            <section class="hero-preview" aria-labelledby="preview-title">
+              <header class="hero-preview-head">
+                <span class="hero-preview-label mono">PROBLEM SOLVING</span>
+                <a href="#portfolio" class="hero-preview-link" data-preview-link>전체 기록 <span aria-hidden="true">↗</span></a>
+              </header>
+              <h2 id="preview-title" data-preview-title></h2>
+              <dl class="hero-preview-flow" aria-live="polite" aria-atomic="true">
+                <div><dt>문제</dt><dd data-preview-problem></dd></div>
+                <div><dt>원인</dt><dd data-preview-cause></dd></div>
+                <div><dt>해결</dt><dd data-preview-solution></dd></div>
+                <div><dt>결과</dt><dd data-preview-result></dd></div>
+              </dl>
+            </section>
             <figcaption class="iso-cap mono" id="hero-iso-cap" data-slot="hero-cap"></figcaption>
           </figure>
         </div>
@@ -80,9 +96,9 @@
       <section class="career" id="experience" aria-labelledby="exp-title">
         <div class="film" data-film>
           <div class="film-head wrap">
-            <p class="eyebrow mono">CAREER.LOG <span data-slot="film-count"></span></p>
-            <h2 class="sec-title" id="exp-title">경력</h2>
-            <p class="film-hint" data-film-hint>스크롤하거나 장면을 클릭하면 다음 회사로 넘어갑니다.</p>
+            <p class="eyebrow mono">PROJECT.LOG <span data-slot="film-count"></span></p>
+            <h2 class="sec-title" id="exp-title">개발 경험</h2>
+            <p class="film-hint" data-film-hint>스크롤하거나 장면을 클릭하면 다음 프로젝트로 넘어갑니다.</p>
           </div>
           <div class="film-rail" aria-hidden="true">
             <div class="rail-track" data-rail-track></div>
@@ -95,7 +111,7 @@
               <span class="film-sweep" data-film-sweep></span>
             </div>
           </div>
-          <nav class="film-chapters wrap" aria-label="경력 회사 목록" data-slot="film-chapters"></nav>
+          <nav class="film-chapters wrap" aria-label="경력 프로젝트 목록" data-slot="film-chapters"></nav>
           <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-film-live></p>
         </div>
         <div class="career-list wrap" data-slot="career-list"></div>
@@ -110,7 +126,7 @@
             <p class="pf-intro" data-bind="portfolio.intro"></p>
           </div>
           <div class="pf-layout">
-            <nav class="pf-rail" aria-label="경력기술서 회사별 이동" data-slot="pf-rail"></nav>
+            <nav class="pf-rail" aria-label="프로젝트별 이동" data-slot="pf-rail"></nav>
             <div class="pf-cases" data-slot="pf-cases"></div>
           </div>
         </div>
@@ -184,7 +200,7 @@
     </div>
   </div>
 
-  <noscript><p class="noscript">이 페이지는 JavaScript로 내용을 표시합니다. 연락처: sesim5351@gmail.com</p></noscript>
+  <noscript><p class="noscript">이 페이지는 JavaScript로 내용을 표시합니다. 연락처: rlaxkd1226@naver.com</p></noscript>
 
   <script src="js/data.js"></script>
   <script src="js/vendor/gsap.min.js"></script>
