@@ -186,11 +186,27 @@
 .music-arm-inlay { stroke: #eee; stroke-width: 3.5; }
 .music-disc { animation: vinyl-turn 16s linear infinite; transform-origin: 0 0; }
 @keyframes vinyl-turn { to { transform: rotate(360deg); } }
+.workspace-shell { fill: var(--ink); stroke: var(--ink); stroke-width: 2; }
+.workspace-display { fill: #242424; }
+.workspace-divider { fill: none; stroke: #484848; stroke-width: 1; }
+.workspace-dot { fill: #888; }
+.workspace-code { fill: none; stroke: #929292; stroke-width: 3; stroke-linecap: round; }
+.workspace-code--accent { stroke: var(--lime); }
+.workspace-preview-head, .workspace-preview-button { fill: var(--lime); }
+.workspace-preview-lines { fill: none; stroke: #aaa; stroke-width: 2; stroke-linecap: round; }
+.workspace-key { fill: #dedede; stroke: #888; stroke-width: 0.6; }
+.workspace-trackpad { fill: var(--paper); stroke: #999; stroke-width: 0.8; }
+.workspace-agent-halo { fill: var(--paper); stroke: var(--ink); stroke-width: 1.3; }
+.workspace-agent-core { fill: var(--lime); stroke: var(--ink); stroke-width: 1.5; }
+.workspace-spark { fill: var(--ink); }
+.workspace-small-spark { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
+.workspace-agent-float { animation: workspace-float 4s ease-in-out infinite; }
+@keyframes workspace-float { 50% { transform: translateY(-5px); } }
 @media (prefers-reduced-motion: reduce) {
-  .music-disc { animation: none; }
+  .music-disc, .workspace-agent-float { animation: none; }
 }
 @media print {
-  .music-disc { animation: none; }
+  .music-disc, .workspace-agent-float { animation: none; }
 }
 @media (min-width: 1440px) {
   .hero-iso > .iso-svg {

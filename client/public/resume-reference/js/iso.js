@@ -273,5 +273,52 @@
     return { g: group, height: 42, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
   }
 
-  window.ISO = { s: s, P: P, pts: pts, pathOf: pathOf, box: box, hero: hero, site: site, building: building, music: music };
+  /* Dvely: a code workspace with a floating AI agent. */
+  function workspace(siteObj) {
+    var base = box(2, 8, 6, 132, 88, 5, null, "workspace-base");
+    var deckOrigin = P(2, 8, 11);
+    var deck = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + deckOrigin[0] + " " + deckOrigin[1] + ")" });
+    for (var row = 0; row < 4; row++) {
+      for (var col = 0; col < 10; col++) {
+        deck.appendChild(s("rect", { class: "workspace-key", x: 12 + col * 11, y: 13 + row * 10, width: 8, height: 6, rx: 1 }));
+      }
+    }
+    deck.appendChild(s("rect", { class: "workspace-trackpad", x: 45, y: 59, width: 42, height: 19, rx: 3 }));
+    var screenOrigin = P(2, 8, 116);
+    var screen = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + screenOrigin[0] + " " + screenOrigin[1] + ")" }, [
+      s("rect", { class: "workspace-shell", width: 132, height: 105, rx: 5 }),
+      s("rect", { class: "workspace-display", x: 6, y: 7, width: 120, height: 89, rx: 2 }),
+      s("path", { class: "workspace-divider", d: "M6 23 H126 M74 23 V96" }),
+      s("circle", { class: "workspace-dot", cx: 13, cy: 15, r: 2 }),
+      s("circle", { class: "workspace-dot", cx: 21, cy: 15, r: 2 }),
+      s("circle", { class: "workspace-dot", cx: 29, cy: 15, r: 2 }),
+      s("path", { class: "workspace-code workspace-code--accent", d: "M16 35 H36 M23 54 H58 M23 73 H47" }),
+      s("path", { class: "workspace-code", d: "M23 44 H58 M30 63 H63 M16 82 H35" }),
+      s("rect", { class: "workspace-preview-head", x: 82, y: 32, width: 36, height: 17, rx: 2 }),
+      s("path", { class: "workspace-preview-lines", d: "M83 58 H115 M83 65 H106 M83 72 H112" }),
+      s("rect", { class: "workspace-preview-button", x: 83, y: 81, width: 23, height: 6, rx: 3 })
+    ]);
+    var agentAt = P(190, 10, 112);
+    var agent = s("g", { class: "workspace-agent", transform: "translate(" + agentAt.join(" ") + ")" }, [
+      s("g", { class: "workspace-agent-float" }, [
+        s("circle", { class: "workspace-agent-halo", r: 27 }),
+        s("circle", { class: "workspace-agent-core", r: 21 }),
+        s("path", { class: "workspace-spark", d: "M0 -13 Q3 -3 13 0 Q3 3 0 13 Q-3 3 -13 0 Q-3 -3 0 -13 Z" }),
+        s("path", { class: "workspace-small-spark", d: "M18 -26 V-16 M13 -21 H23" })
+      ])
+    ]);
+    var solid = s("g", { class: "iso-solid" }, [base.solid, deck, screen, agent]);
+    var wire = s("path", { class: "iso-wire", pathLength: 1, d: pathOf([P(2, 8, 116), P(134, 8, 116), P(134, 8, 11), P(134, 96, 11), P(2, 96, 11), P(2, 8, 11)], true) });
+    var object = s("g", { class: "iso-floor iso-workspace" }, [wire, solid]);
+    var anchor = P(120, 86, 11), labelX = 186, labelY = 113;
+    var line = s("path", { class: "iso-leader", d: pathOf([anchor, [labelX - 12, labelY], [labelX, labelY]]), pathLength: 1 });
+    var dot = s("circle", { class: "iso-dot", cx: anchor[0], cy: anchor[1], r: 2.6 });
+    var label = text(labelX + 6, labelY + 4, "AI WORKSPACE", "iso-call");
+    var callout = s("g", { class: "iso-callout" }, [line, dot, label]);
+    var group = s("g", { class: "iso-building iso-building--workspace" }, [object, callout]);
+    siteObj.layer.appendChild(group);
+    return { g: group, height: 116, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
+  }
+
+  window.ISO = { s: s, P: P, pts: pts, pathOf: pathOf, box: box, hero: hero, site: site, building: building, music: music, workspace: workspace };
 })();

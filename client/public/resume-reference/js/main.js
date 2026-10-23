@@ -335,7 +335,9 @@
     return e.projects.map(function (p) { return { label: pad2(p.no), hl: !!featuredIds[e.id + "-" + p.no] }; });
   }
   function projectObject(site, e) {
-    return e.id === "plimap" ? ISO.music(site) : ISO.building(site, floorsOf(e));
+    if (e.id === "plimap") return ISO.music(site);
+    if (e.id === "dvely") return ISO.workspace(site);
+    return ISO.building(site, floorsOf(e));
   }
   function monthsText(e) { return e.duration + " · 주요 기능 " + e.featureCount + "개"; }
 
