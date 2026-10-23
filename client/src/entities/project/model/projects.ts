@@ -105,7 +105,7 @@ export const projects = [
     type: "web",
     thumbnail: "/assets/MyformReform/Myform_Reform_Thumbnail.jpg",
     logo: "/assets/MyformReform/Logo.png",
-    image: ["/assets/MyformReform/Myform_Reform1.png", "/assets/MyformReform/Myform_Reform2.png", "/assets/MyformReform/Myform_Reform3.png", "/assets/MyformReform/Myform_Reform4.png", "/assets/MyformReform/Myform_Reform5.png", "/assets/MyformReform/Myform_Reform6.png"],
+    image: ["/assets/MyformReform/Myform_Reform2.png", "/assets/MyformReform/Myform_Reform3.png", "/assets/MyformReform/Myform_Reform4.png", "/assets/MyformReform/Myform_Reform5.png", "/assets/MyformReform/Myform_Reform6.png"],
 
     title: "내폼리폼",
     description: "스포츠 유니폼 리폼 구매자와 리폼러 연결 통합 플랫폼",
