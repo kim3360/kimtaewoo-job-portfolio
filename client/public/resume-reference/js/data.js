@@ -7,7 +7,11 @@ window.RESUME = {
   "basics": {
     "name": "김태우",
     "headline": "화면과 데이터의 흐름을 연결하는 프론트엔드 개발자",
-    "email": "rlaxkd1226@naver.com"
+    "email": "rlaxkd1226@naver.com",
+    "github": {
+      "label": "@kim3360",
+      "url": "https://github.com/kim3360"
+    }
   },
   "overview": {
     "career": {

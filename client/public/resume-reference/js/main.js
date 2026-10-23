@@ -90,12 +90,12 @@
 
   /* ---------- about ---------- */
   append(slot("summary"), paragraphs(R.summary.paragraphs));
-  var email = R.basics.email, career = R.overview.career, edu = R.overview.education;
+  var email = R.basics.email, career = R.overview.career, github = R.basics.github;
   function fact(label, value) { return h("div", null, [h("dt", { class: "mono", text: label }), h("dd", null, value)]); }
   append(slot("facts"), [
     fact("이메일", h("a", { href: "mailto:" + email, text: email })),
     fact("개발 경험", [career.total, h("br"), career.currentCompany + " " + career.status]),
-    fact("학력", [edu.school, h("br"), edu.level])
+    fact("GitHub", h("a", { href: github.url, target: "_blank", rel: "noopener noreferrer", text: github.label }))
   ]);
   append(slot("highlights"), R.summary.highlights.map(function (hl) {
     return h("div", { class: "highlight" }, [h("h3", { class: "highlight-label", text: hl.label })].concat(paragraphs(hl.paragraphs)));

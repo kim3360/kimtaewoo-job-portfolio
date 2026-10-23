@@ -402,6 +402,10 @@ const data = {
     name: profile.name,
     headline: "화면과 데이터의 흐름을 연결하는 프론트엔드 개발자",
     email: profile.contact.email,
+    github: {
+      label: profile.contact.github,
+      url: `https://github.com/${profile.contact.github.replace(/^@/, "")}`,
+    },
   },
   overview: {
     career: {
