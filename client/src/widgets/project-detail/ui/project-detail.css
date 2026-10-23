@@ -24,11 +24,6 @@
   object-fit: contain;
   flex-shrink: 0;
 }
-.project-detail-page .case-eyebrow {
-  font-size: 12px;
-  color: #858585;
-  letter-spacing: 0.03em;
-}
 .project-detail-page .case-title {
   font-size: 36px;
   font-weight: 650;
@@ -92,17 +87,6 @@
   justify-content: center;
   min-height: 40px;
   padding-top: 10px;
-}
-.project-detail-page .case-gallery-count {
-  position: absolute;
-  left: 42px;
-  font-size: 10px;
-  color: #555;
-  font-variant-numeric: tabular-nums;
-}
-.project-detail-page .case-gallery-count > span {
-  color: #a0a0a0;
-  margin-left: 3px;
 }
 .project-detail-page .case-gallery-dots {
   display: flex;
@@ -216,15 +200,40 @@
   grid-template-columns: minmax(0, 1fr);
   gap: 32px;
 }
-.project-detail-page .case-troubleshooting h3 {
+.project-detail-page .case-section > .case-troubleshooting-title {
+  margin-bottom: 28px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+.project-detail-page .case-troubleshooting h3,
+.project-detail-page .case-troubleshooting h4 {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 12px;
 }
-.project-detail-page .case-troubleshooting p {
+.project-detail-page .case-troubleshooting p,
+.project-detail-page .case-troubleshooting li {
   font-size: 16px;
   line-height: 1.9;
   color: #626262;
+}
+.project-detail-page .case-troubleshooting p + p {
+  margin-top: 16px;
+}
+.project-detail-page .case-troubleshooting-steps {
+  margin-top: 14px;
+  padding-left: 20px;
+  list-style: disc;
+}
+.project-detail-page .case-troubleshooting-steps li + li {
+  margin-top: 10px;
+}
+.project-detail-page .case-troubleshooting code {
+  font-size: 0.88em;
+  color: #333;
+  overflow-wrap: anywhere;
 }
 .project-detail-page .case-info {
   position: sticky;
@@ -377,9 +386,6 @@
   }
   .project-detail-page .case-gallery-arrow--next {
     right: 6px;
-  }
-  .project-detail-page .case-gallery-count {
-    left: 0;
   }
   .project-detail-page .case-content-layout {
     margin-top: 24px;

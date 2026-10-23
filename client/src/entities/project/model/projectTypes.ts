@@ -4,6 +4,8 @@ export type ProjectFeature = {
 }
 
 export type ProjectDetails = {
+  title?: string
+  SolutionSteps?: string[]
   Problem: string
   Cause: string
   Solution: string

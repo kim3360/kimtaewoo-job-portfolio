@@ -10,15 +10,26 @@ import {
   Github,
   Users,
 } from "lucide-react";
-import { projects } from "@/entities/project";
 import type { ProjectBase } from "@/entities/project";
 import { getSkillIcon } from "@/entities/skill";
 import "./project-detail.css";
 
+function formatTechnicalText(text: string) {
+  return text
+    .split(/(`[^`]+`)/g)
+    .map((part, index) =>
+      part.startsWith("`") ? (
+        <code key={index}>{part.slice(1, -1)}</code>
+      ) : (
+        part
+      ),
+    );
+}
+
 export function ProjectDetailView({ project }: { project: ProjectBase }) {
   const [imageIndex, setImageIndex] = useState(0);
-  const projectIndex = projects.findIndex((item) => item.slug === project.slug);
   const period = project.period?.replace(" - ing", " — Present");
+  const TroubleshootingHeading = project.details?.title ? "h4" : "h3";
   const moveImage = (direction: number) =>
     setImageIndex(
       (current) =>
@@ -39,9 +50,6 @@ export function ProjectDetailView({ project }: { project: ProjectBase }) {
           />
         )}
         <div>
-          <p className="case-eyebrow">
-            Project {String(projectIndex + 1).padStart(2, "0")}
-          </p>
           <h1 className="case-title">{project.title}</h1>
           {period && <p className="case-period">{period}</p>}
         </div>
@@ -77,12 +85,8 @@ export function ProjectDetailView({ project }: { project: ProjectBase }) {
               </>
             )}
           </div>
-          <figcaption className="case-gallery-controls">
-            <span className="case-gallery-count" aria-live="polite">
-              {String(imageIndex + 1).padStart(2, "0")}{" "}
-              <span>/ {String(project.image.length).padStart(2, "0")}</span>
-            </span>
-            {project.image.length > 1 && (
+          {project.image.length > 1 && (
+            <figcaption className="case-gallery-controls">
               <div
                 className="case-gallery-dots"
                 aria-label="프로젝트 이미지 선택"
@@ -99,8 +103,8 @@ export function ProjectDetailView({ project }: { project: ProjectBase }) {
                   </button>
                 ))}
               </div>
-            )}
-          </figcaption>
+            </figcaption>
+          )}
         </figure>
       )}
       <div className="case-content-layout">
@@ -147,17 +151,37 @@ export function ProjectDetailView({ project }: { project: ProjectBase }) {
           )}
           {project.details && (
             <section className="case-section">
-              <h2>트러블 슈팅</h2>
+              {project.details.title && (
+                <h3 className="case-troubleshooting-title">
+                  {project.details.title}
+                </h3>
+              )}
               <div className="case-troubleshooting">
                 {[
                   { title: "문제", content: project.details.Problem },
-                  { title: "원인", content: project.details.Cause },
-                  { title: "해결", content: project.details.Solution },
+                  {
+                    title: project.details.title ? "원인 분석" : "원인",
+                    content: project.details.Cause,
+                  },
+                  {
+                    title: "해결",
+                    content: project.details.Solution,
+                    steps: project.details.SolutionSteps,
+                  },
                   { title: "결과", content: project.details.Result },
-                ].map(({ title, content }) => (
+                ].map(({ title, content, steps }) => (
                   <section key={title}>
-                    <h3>{title}</h3>
-                    <p>{content}</p>
+                    <TroubleshootingHeading>{title}</TroubleshootingHeading>
+                    {content.split("\n\n").map((paragraph) => (
+                      <p key={paragraph}>{formatTechnicalText(paragraph)}</p>
+                    ))}
+                    {steps?.length ? (
+                      <ul className="case-troubleshooting-steps">
+                        {steps.map((step) => (
+                          <li key={step}>{formatTechnicalText(step)}</li>
+                        ))}
+                      </ul>
+                    ) : null}
                   </section>
                 ))}
               </div>
