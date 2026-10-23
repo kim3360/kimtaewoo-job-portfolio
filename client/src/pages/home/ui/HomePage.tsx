@@ -1,26 +1,18 @@
-import { useCallback, useState } from "react";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
-import { Header } from "@/widgets/header";
-import { Footer } from "@/widgets/footer";
-import { HomeLanding } from "@/widgets/home-landing";
-import { PortfolioSection } from "@/widgets/portfolio-section";
-import { CoverLetterSection } from "@/widgets/cover-letter-section";
-import { ContactSection } from "@/widgets/contact-section";
-import { profile, activities, awards, internships } from "@/entities/profile";
-import { education } from "@/entities/education";
-import { landingSkillGroups } from "@/entities/skill";
-import { projects } from "@/entities/project";
-import "./reference-portfolio.css";
+import { useCallback, useState } from "react"
+import { ArrowDown, ArrowUpRight } from "lucide-react"
+import { Header } from "@/widgets/header"
+import { Footer } from "@/widgets/footer"
+import { HomeLanding } from "@/widgets/home-landing"
+import { PortfolioSection } from "@/widgets/portfolio-section"
+import { CoverLetterSection } from "@/widgets/cover-letter-section"
+import { ContactSection } from "@/widgets/contact-section"
+import { profile, activities, awards, internships } from "@/entities/profile"
+import { education } from "@/entities/education"
+import { landingSkillGroups } from "@/entities/skill"
+import { projects } from "@/entities/project"
+import "./reference-portfolio.css"
 
-function ResumeTimeline({
-  title,
-  label,
-  items,
-}: {
-  title: string;
-  label: string;
-  items: readonly { period: string; title: string; subtitle: string }[];
-}) {
+function ResumeTimeline({ title, label, items }: { title: string; label: string; items: readonly { period: string; title: string; subtitle: string }[] }) {
   return (
     <section className="resume-timeline-group" aria-label={label}>
       <h3>
@@ -38,7 +30,7 @@ function ResumeTimeline({
         ))}
       </ol>
     </section>
-  );
+  )
 }
 
 function AboutSection() {
@@ -49,9 +41,7 @@ function AboutSection() {
           <div className="about-intro">
             <p className="reference-eyebrow">TAEWOO / DEVELOPER PORTFOLIO</p>
             <h1>
-              <span className="about-greeting">
-                화면과 데이터의 흐름을 연결하는
-              </span>
+              <span className="about-greeting">화면과 데이터의 흐름을 연결하는</span>
               <strong>
                 프론트엔드 개발자
                 <br />
@@ -60,17 +50,13 @@ function AboutSection() {
             </h1>
             <p className="reference-hero-description">{profile.bioShort}</p>
             <p className="reference-hero-meta">
-              React · TypeScript · React Native{" "}
-              <span>UI · API 연동 · 상태 관리</span>
+              React · TypeScript · React Native <span>UI · API 연동 · 상태 관리</span>
             </p>
             <div className="about-actions">
               <a href="#portfolio" className="about-primary-action">
                 프로젝트 살펴보기 <ArrowDown size={17} />
               </a>
-              <a
-                href={`mailto:${profile.contact.email}`}
-                className="reference-outline-action"
-              >
+              <a href={`mailto:${profile.contact.email}`} className="reference-outline-action">
                 채용·협업 문의 <ArrowUpRight size={17} />
               </a>
             </div>
@@ -82,9 +68,7 @@ function AboutSection() {
                 </dd>
               </div>
               <div>
-                <dt>
-                  Selected Projects / {String(projects.length).padStart(2, "0")}
-                </dt>
+                <dt>Selected Projects / {String(projects.length).padStart(2, "0")}</dt>
                 <dd>
                   팀으로 만든 서비스<span>UI부터 데이터 흐름까지</span>
                 </dd>
@@ -124,24 +108,16 @@ function AboutSection() {
               subtitle: item.degree,
             }))}
           />
-          <ResumeTimeline
-            title="Experience"
-            label="실무 경험"
-            items={internships}
-          />
+          <ResumeTimeline title="Experience" label="실무 경험" items={internships} />
           <ResumeTimeline title="Activities" label="활동" items={activities} />
         </div>
       </div>
     </section>
-  );
+  )
 }
 function AwardsSection() {
   return (
-    <section
-      id="awards"
-      className="awards-section page-width section-space"
-      aria-labelledby="awards-title"
-    >
+    <section id="awards" className="awards-section page-width section-space" aria-labelledby="awards-title">
       <p className="reference-eyebrow">Awards</p>
       <h2 id="awards-title">함께 쌓은 경험.</h2>
       <ul className="awards-list">
@@ -157,7 +133,7 @@ function AwardsSection() {
         ))}
       </ul>
     </section>
-  );
+  )
 }
 function SkillsSection() {
   return (
@@ -175,22 +151,19 @@ function SkillsSection() {
           {
             label: "01 / INTERFACE",
             title: "웹과 모바일의 사용자 경험",
-            description:
-              "디자인 의도를 컴포넌트로 옮기고, 웹과 모바일에서 자연스럽게 이어지는 화면을 만듭니다.",
+            description: "디자인 의도를 컴포넌트로 옮기고, 웹과 모바일에서 자연스럽게 이어지는 화면을 만듭니다.",
             tags: ["React", "TypeScript", "React Native", "Tailwind CSS"],
           },
           {
             label: "02 / STATE & DATA",
             title: "안정적으로 이어지는 데이터",
-            description:
-              "서버와 클라이언트 상태를 나누고, API 연동부터 로딩·오류 처리까지 사용자의 흐름 안에서 연결합니다.",
+            description: "서버와 클라이언트 상태를 나누고, API 연동부터 로딩·오류 처리까지 사용자의 흐름 안에서 연결합니다.",
             tags: ["TanStack Query", "Zustand", "REST API", "Zod"],
           },
           {
             label: "03 / TEAM & QUALITY",
             title: "협업으로 높이는 완성도",
-            description:
-              "기획·디자인·백엔드와 화면과 API의 접점을 맞추고, 코드 리뷰와 피드백으로 제품을 개선합니다.",
+            description: "기획·디자인·백엔드와 화면과 API의 접점을 맞추고, 코드 리뷰와 피드백으로 제품을 개선합니다.",
             tags: ["GitHub", "Figma", "Storybook", "Code Review"],
           },
         ].map((item) => (
@@ -218,25 +191,16 @@ function SkillsSection() {
         </div>
       </details>
     </section>
-  );
+  )
 }
 export function HomePage() {
-  const [isIntroVisible, setIsIntroVisible] = useState(
-    () =>
-      !window.location.hash &&
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-  );
-  const completeIntro = useCallback(() => setIsIntroVisible(false), []);
+  const [isIntroVisible, setIsIntroVisible] = useState(() => !window.location.hash && !window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+  const completeIntro = useCallback(() => setIsIntroVisible(false), [])
 
   return (
     <>
       {isIntroVisible && <HomeLanding onComplete={completeIntro} />}
-      <div
-        id="home"
-        className={`home-content sidebar-layout reference-portfolio ${isIntroVisible ? "home-content--waiting" : "home-content--ready"}`}
-        inert={isIntroVisible}
-        aria-hidden={isIntroVisible ? true : undefined}
-      >
+      <div id="home" className={`home-content sidebar-layout reference-portfolio ${isIntroVisible ? "home-content--waiting" : "home-content--ready"}`} inert={isIntroVisible} aria-hidden={isIntroVisible ? true : undefined}>
         <a className="skip-link" href="#main-content">
           본문 바로가기
         </a>
@@ -254,5 +218,5 @@ export function HomePage() {
         </div>
       </div>
     </>
-  );
+  )
 }

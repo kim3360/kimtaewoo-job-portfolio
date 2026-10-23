@@ -78,13 +78,15 @@ export const ProjectComponent = () => {
                 className="reference-project-image"
                 aria-label={`${project.title} 프로젝트 자세히 보기`}
               >
-                <img
-                  src={project.thumbnail}
-                  alt={`${project.title} 서비스 미리보기`}
-                  loading="lazy"
-                />
-                <span>
-                  프로젝트 자세히 보기 <ArrowUpRight size={17} />
+                <div className="reference-project-visual">
+                  <img
+                    src={project.thumbnail}
+                    alt={`${project.title} 서비스 미리보기`}
+                    loading="lazy"
+                  />
+                </div>
+                <span className="reference-project-preview-link">
+                  상세보기 <ArrowUpRight size={17} />
                 </span>
               </Link>
               <div className="reference-project-body">

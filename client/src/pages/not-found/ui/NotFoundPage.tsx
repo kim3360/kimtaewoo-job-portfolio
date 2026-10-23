@@ -1,10 +1,10 @@
-import { Button } from "@/shared/ui/button";
-import { Card, CardContent } from "@/shared/ui/card";
-import { AlertCircle, Home } from "lucide-react";
-import { useLocation } from "wouter";
+import { Button } from "@/shared/ui/button"
+import { Card, CardContent } from "@/shared/ui/card"
+import { AlertCircle, Home } from "lucide-react"
+import { useLocation } from "wouter"
 
 export function NotFoundPage() {
-  const [, setLocation] = useLocation();
+  const [, setLocation] = useLocation()
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-background">
@@ -18,23 +18,16 @@ export function NotFoundPage() {
           </div>
 
           <h1 className="text-4xl font-bold mb-2">404</h1>
-          <h2 className="text-xl font-semibold text-muted-foreground mb-4">
-            Page Not Found
-          </h2>
+          <h2 className="text-xl font-semibold text-muted-foreground mb-4">Page Not Found</h2>
 
-          <p className="text-muted-foreground mb-8 leading-relaxed">
-            요청하신 페이지를 찾을 수 없습니다.
-          </p>
+          <p className="text-muted-foreground mb-8 leading-relaxed">요청하신 페이지를 찾을 수 없습니다.</p>
 
-          <Button
-            onClick={() => setLocation("/")}
-            className="contact-btn-glow"
-          >
+          <Button onClick={() => setLocation("/")} className="contact-btn-glow">
             <Home className="w-4 h-4 mr-2" />
             Go Home
           </Button>
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
