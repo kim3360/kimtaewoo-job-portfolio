@@ -1,0 +1,4 @@
+GSAP 3.13.0 (gsap.min.js, ScrollTrigger.min.js, Flip.min.js)
+Copyright 2025, GreenSock. All rights reserved.
+Distributed under the GSAP Standard "no charge" license: https://gsap.com/standard-license
+Files are unmodified copies of cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ (identical to npm gsap@3.13.0/dist).

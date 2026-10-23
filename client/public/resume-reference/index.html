@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>심은성 이력서 · 경력기술서</title>
+  <meta name="description" content="백엔드부터 웹 UI까지 설계하고 구현하는 Full Stack 개발자 심은성의 경력과 프로젝트 경력기술서">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#experience">경력으로 바로가기</a>
+
+  <div class="page" id="page">
+    <!-- fixed top bar -->
+    <header class="topbar" data-topbar>
+      <div class="topbar-inner">
+        <a class="logo" href="#top" data-bind-logo>심은성<span class="logo-dot">.</span></a>
+        <nav class="topnav" aria-label="섹션">
+          <a href="#experience">경력</a>
+          <a href="#portfolio">경력기술서</a>
+          <a href="#skills">스킬</a>
+          <a href="#education">학력·자격</a>
+          <a href="#letter">자기소개서</a>
+        </nav>
+        <p class="badge badge--lime" data-slot="badge"></p>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- (1) HERO -->
+      <section class="hero" id="top" aria-labelledby="hero-name">
+        <div class="hero-grid wrap">
+          <div class="hero-left">
+            <div class="term" data-term aria-hidden="true">
+              <div class="term-bar">
+                <span class="term-dots"><i></i><i></i><i></i></span>
+                <span class="term-file">career.ts</span>
+                <span class="badge badge--lime badge--sm" data-term-badge>● LIVE</span>
+              </div>
+              <div class="term-body">
+                <p class="term-line"><span data-term-cmd></span><span class="caret" data-term-caret1></span></p>
+                <p class="term-line term-line--out"><span data-term-out></span><span class="caret" data-term-caret2></span></p>
+              </div>
+            </div>
+            <p class="visually-hidden" data-term-sr></p>
+
+            <h1 class="hero-name" id="hero-name" data-bind="basics.name"></h1>
+            <p class="hero-headline" data-bind="basics.headline"></p>
+
+            <div class="limecard" data-limecard>
+              <div class="limecard-top mono"><span>PROFILE</span><span data-slot="limecard-since"></span></div>
+              <p class="limecard-title">Full Stack 개발자</p>
+              <p class="limecard-sub" data-slot="limecard-sub"></p>
+              <div class="limecard-rows" data-slot="limecard-rows"></div>
+              <p class="limecard-note mono" data-slot="limecard-note"></p>
+            </div>
+          </div>
+
+          <figure class="hero-iso" data-hero-iso>
+            <svg class="iso-svg" data-slot="hero-svg" role="group" aria-labelledby="hero-iso-cap"></svg>
+            <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-hero-live></p>
+            <figcaption class="iso-cap mono" id="hero-iso-cap" data-slot="hero-cap"></figcaption>
+          </figure>
+        </div>
+
+        <div class="about wrap" aria-labelledby="about-title">
+          <h2 class="visually-hidden" id="about-title" data-bind="summary.title"></h2>
+          <div class="about-text" data-slot="summary"></div>
+          <dl class="about-facts" data-slot="facts"></dl>
+          <div class="highlights" data-slot="highlights"></div>
+        </div>
+      </section>
+
+      <!-- (2) CAREER FILM -->
+      <section class="career" id="experience" aria-labelledby="exp-title">
+        <div class="film" data-film>
+          <div class="film-head wrap">
+            <p class="eyebrow mono">CAREER.LOG <span data-slot="film-count"></span></p>
+            <h2 class="sec-title" id="exp-title">경력</h2>
+            <p class="film-hint" data-film-hint>스크롤하거나 장면을 클릭하면 다음 회사로 넘어갑니다.</p>
+          </div>
+          <div class="film-rail" aria-hidden="true">
+            <div class="rail-track" data-rail-track></div>
+            <div class="rail-now"><span class="rail-reel mono" data-rail-reel></span></div>
+          </div>
+          <div class="film-body wrap" data-film-stage tabindex="0" role="group" aria-roledescription="경력 장면" aria-label="경력 장면 — 스크롤, 클릭, Enter 또는 오른쪽 화살표로 다음 회사">
+            <div class="film-info" data-slot="film-info"></div>
+            <div class="film-iso" aria-hidden="true">
+              <svg class="iso-svg" data-slot="film-svg"></svg>
+              <span class="film-sweep" data-film-sweep></span>
+            </div>
+          </div>
+          <nav class="film-chapters wrap" aria-label="경력 회사 목록" data-slot="film-chapters"></nav>
+          <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-film-live></p>
+        </div>
+        <div class="career-list wrap" data-slot="career-list"></div>
+      </section>
+
+      <!-- (3) PORTFOLIO -->
+      <section class="portfolio" id="portfolio" aria-labelledby="pf-title">
+        <div class="wrap">
+          <div class="pf-head">
+            <p class="eyebrow mono">PROJECTS <span data-slot="pf-count"></span></p>
+            <h2 class="sec-title" id="pf-title" data-bind="portfolio.title"></h2>
+            <p class="pf-intro" data-bind="portfolio.intro"></p>
+          </div>
+          <div class="pf-layout">
+            <nav class="pf-rail" aria-label="경력기술서 회사별 이동" data-slot="pf-rail"></nav>
+            <div class="pf-cases" data-slot="pf-cases"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- (4) SKILLS -->
+      <section class="section wrap" id="skills" aria-labelledby="skills-title">
+        <div class="section-head">
+          <p class="eyebrow mono">STACK</p>
+          <h2 class="sec-title" id="skills-title">핵심 역량과 스킬</h2>
+        </div>
+        <div class="section-content">
+          <h3 class="sub-title" data-bind="coreCompetencies.title"></h3>
+          <ul class="competencies" data-slot="competencies"></ul>
+          <h3 class="sub-title" data-bind="skills.title"></h3>
+          <p class="stat-measure mono" data-slot="skill-measure"></p>
+          <div class="stats" data-slot="skills"></div>
+          <div class="stats-rest" data-slot="skills-rest"></div>
+        </div>
+      </section>
+
+      <!-- (5) EDUCATION -->
+      <section class="section wrap" id="education" aria-labelledby="edu-title">
+        <div class="section-head">
+          <p class="eyebrow mono">RECORD</p>
+          <h2 class="sec-title" id="edu-title">학력·활동·자격</h2>
+        </div>
+        <div class="section-content">
+          <h3 class="sub-title">학력</h3>
+          <div class="record-list" data-slot="education"></div>
+          <h3 class="sub-title" data-bind="activities.title"></h3>
+          <div class="record-list" data-slot="activities"></div>
+          <h3 class="sub-title" data-bind="certifications.title"></h3>
+          <div class="record-list" data-slot="certifications"></div>
+        </div>
+      </section>
+
+      <!-- (6) LETTER -->
+      <section class="section wrap" id="letter" aria-labelledby="letter-title">
+        <div class="section-head">
+          <p class="eyebrow mono">README</p>
+          <h2 class="sec-title" id="letter-title" data-bind="coverLetter.title"></h2>
+        </div>
+        <div class="section-content letter">
+          <h3 class="letter-headline" data-bind="coverLetter.headline"></h3>
+          <div data-slot="letter"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <p class="footer-name"><span data-bind="basics.name"></span><span class="logo-dot">.</span></p>
+        <p class="footer-contact">연락은 이메일로 부탁드립니다. <a data-slot="footer-email"></a></p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 경력 상세 패널 -->
+  <div class="detail-layer" data-detail-layer hidden>
+    <div class="detail-backdrop" data-detail-backdrop></div>
+    <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-title" data-detail-panel>
+      <div class="detail-bar">
+        <span class="term-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="mono detail-file" data-detail-file></span>
+        <button type="button" class="detail-close" data-detail-close>닫기</button>
+      </div>
+      <div class="detail-scroll" tabindex="0" aria-label="상세 내용" data-lenis-prevent data-detail-scroll>
+        <div class="detail-content" data-detail-content></div>
+      </div>
+    </div>
+  </div>
+
+  <noscript><p class="noscript">이 페이지는 JavaScript로 내용을 표시합니다. 연락처: sesim5351@gmail.com</p></noscript>
+
+  <script src="js/data.js"></script>
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+  <script src="js/vendor/Flip.min.js"></script>
+  <script src="js/vendor/lenis.min.js"></script>
+  <script src="js/iso.js"></script>
+  <script src="js/viz.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Github } from "lucide-react";
 import { projects, getProjectPath } from "@/entities/project";
 
 const filters = [
@@ -45,7 +45,6 @@ export const ProjectComponent = () => {
                   {String(projects.indexOf(project) + 1).padStart(2, "0")}
                 </span>
                 {project.title}
-                <ArrowDown size={13} />
               </a>
             ))}
           </nav>
@@ -91,13 +90,17 @@ export const ProjectComponent = () => {
               </Link>
               <div className="reference-project-body">
                 <div className="reference-project-meta">
-                  <span>
-                    PROJECT{" "}
-                    {String(projects.indexOf(project) + 1).padStart(2, "0")}
+                  <span className="reference-project-index">
+                    <span>
+                      {String(projects.indexOf(project) + 1).padStart(2, "0")}
+                    </span>
+                    SELECTED WORK
                   </span>
                   <span>
                     {project.period?.replace(" - ing", " — Present") ??
-                      "Web Project"}
+                      (project.type === "mobile"
+                        ? "Mobile Project"
+                        : "Web Project")}
                   </span>
                 </div>
                 <h3>
@@ -106,10 +109,11 @@ export const ProjectComponent = () => {
                   </Link>
                 </h3>
                 <p className="reference-project-role">
+                  Frontend Developer
+                  <span aria-hidden="true">/</span>
                   {project.type === "mobile"
                     ? "Mobile Application"
                     : "Web Application"}
-                  <span>ROLE</span>Frontend Developer
                 </p>
                 <p className="reference-project-description">
                   {project.description}
@@ -140,7 +144,15 @@ export const ProjectComponent = () => {
                 </ul>
                 {project.achievements?.length ? (
                   <details className="reference-project-details">
-                    <summary>{project.title} 구현·개선 기록</summary>
+                    <summary>
+                      <span>
+                        구현·개선 기록{" "}
+                        <span className="reference-project-record-count">
+                          {String(project.achievements.length).padStart(2, "0")}
+                        </span>
+                      </span>
+                      <ChevronDown size={16} aria-hidden="true" />
+                    </summary>
                     <ul>
                       {project.achievements.map((item) => (
                         <li key={item}>{item}</li>
@@ -158,7 +170,8 @@ export const ProjectComponent = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      GitHub <ArrowUpRight size={15} />
+                      <Github size={14} aria-hidden="true" /> GitHub{" "}
+                      <ArrowUpRight size={15} />
                     </a>
                   )}
                   {project.liveDemo && (
