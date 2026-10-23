@@ -149,26 +149,17 @@ export function ProjectDetailView({ project }: { project: ProjectBase }) {
             <section className="case-section">
               <h2>트러블 슈팅</h2>
               <div className="case-troubleshooting">
-                <div className="case-problem-column">
-                  <section>
-                    <h3>Problem</h3>
-                    <p>{project.details.Problem}</p>
+                {[
+                  { title: "문제", content: project.details.Problem },
+                  { title: "원인", content: project.details.Cause },
+                  { title: "해결", content: project.details.Solution },
+                  { title: "결과", content: project.details.Result },
+                ].map(({ title, content }) => (
+                  <section key={title}>
+                    <h3>{title}</h3>
+                    <p>{content}</p>
                   </section>
-                  <section>
-                    <h3>Cause</h3>
-                    <p>{project.details.Cause}</p>
-                  </section>
-                </div>
-                <div className="case-solution-column">
-                  <section>
-                    <h3>Solution</h3>
-                    <p>{project.details.Solution}</p>
-                  </section>
-                  <section>
-                    <h3>Result</h3>
-                    <p>{project.details.Result}</p>
-                  </section>
-                </div>
+                ))}
               </div>
             </section>
           )}
