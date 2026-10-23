@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Link } from "wouter";
 import {
   ArrowLeft,
-  ArrowRight,
   ArrowUpRight,
   CalendarDays,
   Check,
@@ -12,7 +10,7 @@ import {
   Github,
   Users,
 } from "lucide-react";
-import { projects, getProjectPath } from "@/entities/project";
+import { projects } from "@/entities/project";
 import type { ProjectBase } from "@/entities/project";
 import { getSkillIcon } from "@/entities/skill";
 import "./project-detail.css";
@@ -20,7 +18,6 @@ import "./project-detail.css";
 export function ProjectDetailView({ project }: { project: ProjectBase }) {
   const [imageIndex, setImageIndex] = useState(0);
   const projectIndex = projects.findIndex((item) => item.slug === project.slug);
-  const nextProject = projects[(projectIndex + 1) % projects.length];
   const period = project.period?.replace(" - ing", " — Present");
   const moveImage = (direction: number) =>
     setImageIndex(
@@ -244,17 +241,6 @@ export function ProjectDetailView({ project }: { project: ProjectBase }) {
           </div>
         </aside>
       </div>
-      <Link
-        href={getProjectPath(nextProject.slug)}
-        className="case-next"
-        aria-label={`다음 프로젝트 ${nextProject.title} 보기`}
-      >
-        <div>
-          <p>NEXT PROJECT</p>
-          <h2>{nextProject.title}</h2>
-        </div>
-        <ArrowRight size={24} />
-      </Link>
     </article>
   );
 }
