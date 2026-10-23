@@ -334,6 +334,9 @@
   function floorsOf(e) {
     return e.projects.map(function (p) { return { label: pad2(p.no), hl: !!featuredIds[e.id + "-" + p.no] }; });
   }
+  function projectObject(site, e) {
+    return e.id === "plimap" ? ISO.music(site) : ISO.building(site, floorsOf(e));
+  }
   function monthsText(e) { return e.duration + " · 주요 기능 " + e.featureCount + "개"; }
 
   /* static list (reduced motion / print / no-JS-libs) */
@@ -341,7 +344,7 @@
   var listBtns = [];
   EXP.forEach(function (e, i) {
     var svg = ISO.s("svg", { class: "iso-svg cl-iso", "aria-hidden": "true" });
-    var siteO = ISO.site(svg); var b = ISO.building(siteO, floorsOf(e));
+    var siteO = ISO.site(svg); var b = projectObject(siteO, e);
     siteO.plane.style.display = "none";
     svg.classList.add("is-built");
     var detail = h("div", { class: "cl-detail", id: "cl-detail-" + e.id, role: "region", "aria-labelledby": "cl-dh-" + e.id, hidden: true }, detailContent(e, "cl-dh-" + e.id, 4));
@@ -485,7 +488,7 @@
   var sweepEl = $("[data-film-sweep]"), liveEl = $("[data-film-live]");
   var SITE = ISO.site(filmSvg);
   SITE.planeAt(0); // 평면은 z=0 기준 좌표로 한 번만 만들고, 높이는 transform(y = -z)으로 이동
-  var buildings = EXP.map(function (e) { return ISO.building(SITE, floorsOf(e)); });
+  var buildings = EXP.map(function (e) { return projectObject(SITE, e); });
 
   // Project sequence: positions are ordinal, not employment dates or duration.
   var segs = [], dots = [], fills = [];

@@ -233,5 +233,45 @@
     return { g: g, floors: items, height: floors.length * (FH + FG) };
   }
 
-  window.ISO = { s: s, P: P, pts: pts, pathOf: pathOf, box: box, hero: hero, site: site, building: building };
+  /* PLIMAP: a vinyl record and tonearm, using the same reveal contract as a floor. */
+  function music(siteObj) {
+    var center = P(60, 48, 30), radius = 66;
+    var projection = "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + center[0] + " " + center[1] + ")";
+    var rim = s("ellipse", { class: "music-rim", cx: center[0], cy: center[1] + 7, rx: radius * Math.sqrt(1.5), ry: radius / Math.sqrt(2) });
+    var disc = s("g", { class: "music-disc" }, [
+      s("circle", { class: "music-vinyl", r: radius }),
+      s("g", { class: "music-grooves" }, [28, 34, 40, 46, 52, 58].map(function (r) { return s("circle", { r: r }); })),
+      s("path", { class: "music-sheen", d: "M-49 -21 A53 53 0 0 1 -21 -49 M21 49 A53 53 0 0 1 49 21" }),
+      s("circle", { class: "music-label", r: 22 }),
+      s("path", { class: "music-label-mark", d: "M-7 -9 L10 0 L-7 9 Z" }),
+      s("circle", { class: "music-spindle", r: 3 })
+    ]);
+    var record = s("g", { transform: projection }, [disc]);
+    var pivot = P(136, 10, 39), elbow = P(137, 68, 39), needle = P(104, 86, 33);
+    var armPath = pathOf([pivot, elbow, needle]);
+    var arm = s("g", { class: "music-arm" }, [
+      s("circle", { class: "music-pivot", cx: pivot[0], cy: pivot[1], r: 7 }),
+      s("path", { class: "music-arm-outline", d: armPath }),
+      s("path", { class: "music-arm-inlay", d: armPath }),
+      s("path", { class: "music-cartridge", d: pathOf([P(99, 82, 34), P(108, 82, 34), P(108, 95, 34), P(99, 95, 34)], true) })
+    ]);
+    var solid = s("g", { class: "iso-solid" }, [rim, record, arm]);
+    var outline = [];
+    for (var i = 0; i <= 72; i++) {
+      var a = i / 72 * Math.PI * 2;
+      outline.push(P(60 + radius * Math.cos(a), 48 + radius * Math.sin(a), 30));
+    }
+    var wire = s("path", { class: "iso-wire", d: pathOf(outline, true), pathLength: 1 });
+    var object = s("g", { class: "iso-floor iso-music" }, [wire, solid]);
+    var anchor = P(106, 94, 30), labelX = 186, labelY = 115;
+    var line = s("path", { class: "iso-leader", d: pathOf([anchor, [labelX - 12, labelY], [labelX, labelY]]), pathLength: 1 });
+    var dot = s("circle", { class: "iso-dot", cx: anchor[0], cy: anchor[1], r: 2.6 });
+    var label = text(labelX + 6, labelY + 4, "MUSIC & MAP", "iso-call");
+    var callout = s("g", { class: "iso-callout" }, [line, dot, label]);
+    var group = s("g", { class: "iso-building iso-building--music" }, [object, callout]);
+    siteObj.layer.appendChild(group);
+    return { g: group, height: 42, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
+  }
+
+  window.ISO = { s: s, P: P, pts: pts, pathOf: pathOf, box: box, hero: hero, site: site, building: building, music: music };
 })();
