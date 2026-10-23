@@ -400,7 +400,7 @@
     ]);
     list.forEach(function (c) {
       var hasResult = c.blocks.some(function (b) { return b.key === "result"; });
-      var stepped = c.featured && c.blocks.length > 1;
+      var stepped = c.blocks.length > 1;
       var fig = h("figure", { class: "case-viz" + (c.viz.type === "layers" ? " case-viz--layers" : "") });
       var stepsLegend = stepped ? h("ol", { class: "vz-steps mono", "aria-hidden": "true" }, c.blocks.map(function (b) {
         return h("li", { "data-step": STEP_OF[b.key], text: b.label });
@@ -964,36 +964,63 @@
   });
 
   /* ---------- PORTFOLIO motion ---------- */
-  var desktop = window.matchMedia("(min-width: 961px)");
-  vizCtrls.forEach(function (v) {
-    var stepMode = v.stepped && desktop.matches;
-    v.art.classList.toggle("is-stepmode", stepMode);
-    if (stepMode) v.ctrl.resize();
-    function legend(k) { if (v.legend) $$("li", v.legend).forEach(function (li) { var s = +li.getAttribute("data-step"); li.classList.toggle("on", s <= k); li.classList.toggle("cur", s === k); }); }
-    if (stepMode) {
-      // 블록 컨테이너 하나로 판정: 62% 선이 지나는 블록 = 현재 단계 (빠른 점프에도 단계가 어긋나지 않음, 오프셋은 refresh 때만 읽음)
-      var blks = $$(".blk", v.blocks), tops = [], curK = null;
-      function measure() { var t0 = v.blocks.getBoundingClientRect().top; tops = blks.map(function (b2) { return b2.getBoundingClientRect().top - t0; }); }
-      function apply(idx) {
-        if (idx === curK) return; curK = idx;
-        var k = idx < 0 ? -1 : +blks[idx].getAttribute("data-step");
-        v.ctrl.setStep(k); legend(k);
-        blks.forEach(function (b2, j) { b2.classList.toggle("is-cur", j === idx); });
+  var portfolioMedia = gsap.matchMedia();
+  portfolioMedia.add({ desktop: "(min-width: 961px)", compact: "(max-width: 960px)" }, function (context) {
+    vizCtrls.forEach(function (v) {
+      var stepMode = v.stepped && context.conditions.desktop;
+      v.art.classList.toggle("is-stepmode", stepMode);
+      v.ctrl.resize();
+      function legend(k) {
+        if (v.legend) $$("li", v.legend).forEach(function (li) {
+          var s = +li.getAttribute("data-step");
+          li.classList.toggle("on", s <= k); li.classList.toggle("cur", s === k);
+        });
       }
-      ScrollTrigger.create({
-        trigger: v.blocks, start: "top 62%", end: "bottom 62%",
-        onRefresh: measure,
-        onUpdate: function (self) {
-          var y = self.progress * (self.end - self.start), idx = 0;
-          for (var j = 0; j < tops.length; j++) if (tops[j] <= y) idx = j;
-          apply(idx);
-        },
-        onLeaveBack: function () { apply(-1); },
-        onLeave: function () { apply(blks.length - 1); }
+      if (stepMode) {
+        var blks = $$(".blk", v.blocks), tops = [], curK = null;
+        function measure() {
+          var top = v.blocks.getBoundingClientRect().top;
+          tops = blks.map(function (block) { return block.getBoundingClientRect().top - top; });
+        }
+        function apply(index) {
+          if (index === curK) return;
+          curK = index;
+          var step = index < 0 ? -1 : +blks[index].getAttribute("data-step");
+          v.ctrl.setStep(step); legend(step);
+          blks.forEach(function (block, i) { block.classList.toggle("is-cur", i === index); });
+        }
+        function sync(trigger) {
+          if (trigger.scroll() < trigger.start) { apply(-1); return; }
+          var offset = trigger.progress * (trigger.end - trigger.start), index = 0;
+          for (var i = 0; i < tops.length; i++) if (tops[i] <= offset) index = i;
+          apply(index);
+        }
+        ScrollTrigger.create({
+          trigger: v.blocks, start: "top 62%", end: "bottom 62%",
+          onRefresh: function (trigger) { measure(); sync(trigger); },
+          onUpdate: sync,
+          onLeaveBack: function () { apply(-1); },
+          onLeave: function () { apply(blks.length - 1); }
+        });
+      } else {
+        // On narrow screens the diagram follows the text. Replay its reveal
+        // whenever it enters from either direction instead of pinning it.
+        function reveal() { v.ctrl.setStep(9); legend(9); }
+        function reset() { v.ctrl.setStep(-1); legend(-1); }
+        ScrollTrigger.create({
+          trigger: v.fig, start: "top 85%", end: "bottom 15%",
+          onEnter: reveal, onEnterBack: reveal,
+          onLeave: reset, onLeaveBack: reset,
+          onRefresh: function (trigger) { if (trigger.isActive) reveal(); else reset(); }
+        });
+      }
+    });
+    return function () {
+      vizCtrls.forEach(function (v) {
+        v.art.classList.remove("is-stepmode");
+        $$(".blk", v.blocks).forEach(function (block) { block.classList.remove("is-cur"); });
       });
-    } else {
-      ScrollTrigger.create({ trigger: v.fig, start: "top 82%", once: true, onEnter: function () { v.ctrl.setStep(9); legend(9); } });
-    }
+    };
   });
   $$(".metric-val").forEach(function (el) {
     var target = +el.getAttribute("data-count"), o = { v: 0 };

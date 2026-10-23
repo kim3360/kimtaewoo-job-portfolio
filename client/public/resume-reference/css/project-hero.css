@@ -1,4 +1,9 @@
 /* Project experience: equal-height selectable pillars, no tenure or proficiency scale. */
+@media (min-width: 961px) {
+  .is-stepmode .vz-svg {
+    max-height: max(220px, calc(100svh - 285px));
+  }
+}
 .vz-flow-title {
   font-size: 16px;
   font-weight: 700;
