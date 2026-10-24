@@ -57,14 +57,27 @@ export const internships = [
   },
 ] as const
 
+export const certifications = [
+  {
+    date: "2022.12",
+    name: "정보기기운용기능사",
+    issuer: "한국산업인력공단",
+  },
+  {
+    date: "2021.10",
+    name: "정보처리기능사",
+    issuer: "한국산업인력공단",
+  },
+] as const
+
 export const activities = [
   {
-    period: "2025 – ing",
+    period: "2025.08 – 2026.02",
     title: "전국 IT 연합 동아리 UMC 9 · 10th ",
     subtitle: "Web Frontend",
   },
   {
-    period: "2025 - 2026",
+    period: "2025.10 – 2025.12",
     title: "SWYP 11 · 12th",
     subtitle: "사이드 프로젝트 · 써봄",
   },

@@ -1298,24 +1298,24 @@ window.RESUME = {
     "title": "활동과 실무 경험",
     "items": [
       {
-        "period": "2025.07 - 2025.08",
-        "name": "엠클라우독",
+        "period": "2025.10 – 2025.12",
+        "name": "SWYP 11 · 12th",
         "description": [
-          "모바일개발팀 인턴 · React Native"
+          "사이드 프로젝트 · 써봄"
         ]
       },
       {
-        "period": "2025 – ing",
+        "period": "2025.08 – 2026.02",
         "name": "전국 IT 연합 동아리 UMC 9 · 10th",
         "description": [
           "Web Frontend"
         ]
       },
       {
-        "period": "2025 - 2026",
-        "name": "SWYP 11 · 12th",
+        "period": "2025.07 - 2025.08",
+        "name": "엠클라우독",
         "description": [
-          "사이드 프로젝트 · 써봄"
+          "모바일개발팀 인턴 · React Native"
         ]
       },
       {
@@ -1327,7 +1327,7 @@ window.RESUME = {
       }
     ]
   },
-  "certifications": {
+  "awards": {
     "title": "수상",
     "items": [
       {
@@ -1353,6 +1353,21 @@ window.RESUME = {
         "name": "SW개발 교내경진대회",
         "status": "최우수상",
         "issuer": "국내 여행 추천 AI 서비스"
+      }
+    ]
+  },
+  "certifications": {
+    "title": "자격",
+    "items": [
+      {
+        "date": "2022.12",
+        "name": "정보기기운용기능사",
+        "issuer": "한국산업인력공단"
+      },
+      {
+        "date": "2021.10",
+        "name": "정보처리기능사",
+        "issuer": "한국산업인력공단"
       }
     ]
   },

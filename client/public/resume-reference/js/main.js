@@ -135,7 +135,8 @@
   }
   append(slot("education"), R.education.map(function (e) { return record(e.period, e.school, [e.schoolType, e.major, e.status].join(" "), null); }));
   append(slot("activities"), R.activities.items.map(function (a) { return record(a.period, a.name, null, a.description); }));
-  append(slot("certifications"), R.certifications.items.map(function (c) { return record(c.date, c.name, c.status + ", " + c.issuer, null); }));
+  append(slot("awards"), R.awards.items.map(function (a) { return record(a.date, a.name, a.status + ", " + a.issuer, null); }));
+  append(slot("certifications"), R.certifications.items.map(function (c) { return record(c.date, c.name, c.issuer, null); }));
   append(slot("letter"), paragraphs(R.coverLetter.paragraphs));
   var fe = slot("footer-email"); fe.href = "mailto:" + email; fe.textContent = email;
 
@@ -427,7 +428,7 @@
           h("p", { class: "case-meta mono" }, [h("span", { text: "PROJECT " + pad2(c.no) + " / " + NC }), c.featured ? h("span", { class: "badge badge--lime badge--sm", text: "● 대표 프로젝트" }) : null]),
           h("h4", { class: "case-title", id: "ct-" + c.id, text: c.title }),
           h("p", { class: "case-role" }, [h("span", { class: "mono", text: "역할" }), " " + c.role]),
-          h("blockquote", { class: "case-line" }, [h("p", { class: "case-line-label mono", text: "이력서 한 줄" }), h("p", { class: "case-line-text", text: c.oneLine.text })])
+          h("blockquote", { class: "case-line" }, h("p", { class: "case-line-text", text: c.oneLine.text }))
         ]),
         h("div", { class: "case-body" + (stepped ? " is-stepped" : "") }, [blocks, fig]),
         metrics,

@@ -7,6 +7,7 @@ import {
   awards,
   activities,
   internships,
+  certifications,
 } from "../client/src/entities/profile/model/profile.ts";
 import { coverLetterItems } from "../client/src/entities/profile/model/coverLetter.ts";
 import { education } from "../client/src/entities/education/model/education.ts";
@@ -396,6 +397,10 @@ const cases = projects.map((project, i) => {
             },
   };
 });
+const periodStart = (period: string) => {
+  const match = period.match(/^(\d{4})(?:\.(\d{2}))?/);
+  return match ? Number(match[1]) * 100 + Number(match[2] ?? "01") : 0;
+};
 const data = {
   meta: { derivedFrom: "client/src/entities", personalized: true },
   basics: {
@@ -444,13 +449,15 @@ const data = {
   })),
   activities: {
     title: "활동과 실무 경험",
-    items: [...internships, ...activities].map((item) => ({
-      period: item.period,
-      name: item.title.trim(),
-      description: [item.subtitle],
-    })),
+    items: [...internships, ...activities]
+      .sort((a, b) => periodStart(b.period) - periodStart(a.period))
+      .map((item) => ({
+        period: item.period,
+        name: item.title.trim(),
+        description: [item.subtitle],
+      })),
   },
-  certifications: {
+  awards: {
     title: "수상",
     items: awards.map((item) => ({
       date: item.period,
@@ -458,6 +465,10 @@ const data = {
       status: item.honor,
       issuer: item.subtitle,
     })),
+  },
+  certifications: {
+    title: "자격",
+    items: certifications,
   },
   coverLetter: {
     title: "자기소개서",
