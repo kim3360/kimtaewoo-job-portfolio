@@ -669,46 +669,106 @@ window.RESUME = {
         ],
         "viz": {
           "type": "flow",
+          "title": "재생 준비와 실제 재생 상태 분리",
+          "caption": "준비된 플레이어는 클릭 이벤트 안에서 재사용합니다. UI와 타이머는 초기화 완료가 아닌 실제 PLAYING 이벤트를 기준으로 갱신합니다.",
+          "ariaLabel": "화면 진입 시 YouTube API를 로드하고 플레이어를 미리 초기화합니다. 초기화 Promise를 공유해 중복 생성을 방지합니다. 플레이어가 준비된 경우 재생 버튼 클릭 이벤트 안에서 loadVideoById와 playVideo를 호출합니다. 실제 PLAYING 이벤트를 받으면 재생 UI를 변경하고 구간 종료 타이머를 시작합니다.",
+          "gapY": 38,
           "nodes": [
             {
-              "id": "input",
-              "t": "사용자 동작",
-              "sub": "플리맵",
+              "id": "enter",
+              "t": "화면 진입",
+              "sub": "YouTube API 로딩",
               "c": 0,
               "r": 0,
-              "s": 0
+              "s": 1
             },
             {
-              "id": "state",
-              "t": "상태와 요청 관리",
-              "sub": "React · TypeScript",
+              "id": "ready",
+              "t": "플레이어 사전 초기화",
+              "sub": "Promise 공유 · 중복 생성 방지",
               "c": 0,
               "r": 1,
               "s": 1
             },
             {
-              "id": "result",
-              "t": "화면 상태 반영",
-              "sub": "응답과 이벤트 기준 갱신",
-              "c": 0,
+              "id": "click",
+              "t": "재생 버튼 클릭",
+              "sub": "사용자가 곡 선택",
+              "c": 1,
+              "r": 0,
+              "s": 0
+            },
+            {
+              "id": "play",
+              "t": "클릭 안에서 재생 요청",
+              "sub": "준비 시 loadVideoById · playVideo",
+              "c": 1,
+              "r": 1,
+              "s": 1
+            },
+            {
+              "id": "playing",
+              "t": "PLAYING 이벤트 수신",
+              "sub": "실제 재생 시작 확인",
+              "c": 0.5,
               "r": 2,
+              "s": 2
+            },
+            {
+              "id": "ui",
+              "t": "재생 UI 갱신",
+              "sub": "실제 재생 상태 반영",
+              "c": 0,
+              "r": 3,
+              "s": 2
+            },
+            {
+              "id": "timer",
+              "t": "구간 종료 타이머 시작",
+              "sub": "실제 재생 시작 시점 기준",
+              "c": 1,
+              "r": 3,
               "s": 2
             }
           ],
           "edges": [
             {
-              "a": "input",
-              "b": "state",
+              "a": "enter",
+              "b": "ready",
               "s": 1
             },
             {
-              "a": "state",
-              "b": "result",
-              "s": 2
+              "a": "ready",
+              "b": "play",
+              "s": 1
+            },
+            {
+              "a": "click",
+              "b": "play",
+              "s": 1
+            },
+            {
+              "a": "play",
+              "b": "playing",
+              "s": 2,
+              "route": "vertical"
+            },
+            {
+              "a": "playing",
+              "b": "ui",
+              "s": 2,
+              "route": "vertical"
+            },
+            {
+              "a": "playing",
+              "b": "timer",
+              "s": 2,
+              "route": "vertical"
             }
           ],
           "hl": [
-            "result"
+            "ui",
+            "timer"
           ]
         }
       },
