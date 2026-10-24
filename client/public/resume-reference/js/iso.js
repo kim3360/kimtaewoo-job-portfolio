@@ -460,6 +460,19 @@
 
   /* WAIT:IT: mobile queue ticket, calling display and queue barriers. */
   function waiting(siteObj) {
+    var kiosk = box(-5, 43, 0, 40, 31, 56, null, "waiting-kiosk");
+    var kioskTop = P(-5, 43, 56);
+    var kioskControls = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + kioskTop[0] + " " + kioskTop[1] + ")" }, [
+      s("circle", { class: "waiting-kiosk-button", cx: 20, cy: 11, r: 7 }),
+      s("path", { class: "waiting-kiosk-plus", d: "M17 11 H23 M20 8 V14" }),
+      s("path", { class: "waiting-kiosk-slot", d: "M6 25 H34" })
+    ]);
+    var receiptAt = P(3, 74, 53);
+    var receipt = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + receiptAt[0] + " " + receiptAt[1] + ")" }, [
+      s("path", { class: "waiting-receipt", d: "M0 0 H24 V29 L21 27 L18 29 L15 27 L12 29 L9 27 L6 29 L3 27 L0 29 Z" }),
+      s("path", { class: "waiting-receipt-lines", d: "M5 5 H19 M5 23 H19" }),
+      s("text", { class: "waiting-receipt-number", x: 12, y: 19, "text-anchor": "middle" }, ["08"])
+    ]);
     var origin = P(24, 25, 166);
     var matrix = "matrix(" + C30 + " 0.5 0 1 " + origin[0] + " " + origin[1] + ")";
     var phone = s("g", { transform: matrix }, [
@@ -485,6 +498,19 @@
       s("text", { class: "waiting-board-number", x: 33, y: 53, "text-anchor": "middle" }, ["06"]),
       s("path", { class: "waiting-board-dots", d: "M24 63 H26 M32 63 H34 M40 63 H42" })
     ]);
+    var displayFoot = P(163, 5, 0), displayStem = P(163, 5, 37);
+    var displayStand = s("g", { class: "waiting-display-stand" }, [
+      s("ellipse", { class: "waiting-display-base", cx: displayFoot[0], cy: displayFoot[1], rx: 18, ry: 7 }),
+      s("path", { class: "waiting-display-post", d: pathOf([displayFoot, displayStem]) })
+    ]);
+    var ticketsAt = P(100, 84, 8);
+    var tickets = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + ticketsAt[0] + " " + ticketsAt[1] + ")" }, [
+      s("path", { class: "waiting-counter-ticket waiting-counter-ticket--back", d: "M0 0 H49 V10 Q43 15 49 20 V31 H0 V20 Q6 15 0 10 Z", transform: "translate(4 5)" }),
+      s("path", { class: "waiting-counter-ticket", d: "M0 0 H49 V10 Q43 15 49 20 V31 H0 V20 Q6 15 0 10 Z" }),
+      s("path", { class: "waiting-counter-perforation", d: "M32 3 V28" }),
+      s("text", { class: "waiting-counter-number", x: 16, y: 22, "text-anchor": "middle" }, ["07"]),
+      s("path", { class: "waiting-counter-barcode", d: "M37 7 V24 M40 7 V24 M43 7 V24" })
+    ]);
     var posts = [[-2, 77], [71, 113]].map(function (p) {
       var foot = P(p[0], p[1], 0), head = P(p[0], p[1], 37);
       return { head: head, g: s("g", null, [
@@ -495,9 +521,9 @@
     });
     var a = posts[0].head, b = posts[1].head;
     var rope = s("path", { class: "waiting-rope", d: "M" + a.join(" ") + " Q" + ((a[0] + b[0]) / 2 - 5) + " " + (b[1] + 16) + " " + b.join(" ") });
-    var solid = s("g", { class: "iso-solid" }, [display, phone, rope, posts[0].g, posts[1].g]);
+    var solid = s("g", { class: "iso-solid" }, [displayStand, display, phone, kiosk.g, kioskControls, receipt, tickets, rope, posts[0].g, posts[1].g]);
     var wire = s("path", { class: "iso-wire", pathLength: 1, transform: matrix, d: "M10 0 H71 Q81 0 81 10 V144 Q81 154 71 154 H10 Q0 154 0 144 V10 Q0 0 10 0 Z" });
-    return illustration(siteObj, "waiting", wire, solid, P(71, 113, 0), "MOBILE QUEUE", 166);
+    return illustration(siteObj, "waiting", wire, solid, P(143, 103, 8), "MOBILE QUEUE", 166);
   }
 
   window.ISO = { s: s, P: P, pts: pts, pathOf: pathOf, box: box, hero: hero, site: site, building: building, music: music, workspace: workspace, uniform: uniform, journal: journal, waiting: waiting };
