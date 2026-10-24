@@ -32,4 +32,5 @@ export type ProjectBase = {
   responsibilities?: string[]
   achievements?: string[]
   details?: ProjectDetails
+  troubleshooting?: ProjectDetails[]
 }

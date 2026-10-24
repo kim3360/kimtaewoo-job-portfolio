@@ -19,6 +19,14 @@
   padding-top: 12px;
   border-top: 1px solid var(--rule);
 }
+.blk-items code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  padding: 0.08em 0.25em;
+  border-radius: 3px;
+  background: #f3f3f3;
+  overflow-wrap: anywhere;
+}
 .hero-grid {
   align-items: start;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);

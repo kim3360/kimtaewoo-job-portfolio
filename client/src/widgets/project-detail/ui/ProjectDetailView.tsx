@@ -29,7 +29,8 @@ function formatTechnicalText(text: string) {
 export function ProjectDetailView({ project }: { project: ProjectBase }) {
   const [imageIndex, setImageIndex] = useState(0);
   const period = project.period?.replace(" - ing", " — Present");
-  const TroubleshootingHeading = project.details?.title ? "h4" : "h3";
+  const troubleshooting =
+    project.troubleshooting ?? (project.details ? [project.details] : []);
   const moveImage = (direction: number) =>
     setImageIndex(
       (current) =>
@@ -149,44 +150,45 @@ export function ProjectDetailView({ project }: { project: ProjectBase }) {
               </ul>
             </section>
           )}
-          {project.details && (
-            <section className="case-section">
-              {project.details.title && (
-                <h3 className="case-troubleshooting-title">
-                  {project.details.title}
-                </h3>
-              )}
-              <div className="case-troubleshooting">
-                {[
-                  { title: "문제", content: project.details.Problem },
-                  {
-                    title: project.details.title ? "원인 분석" : "원인",
-                    content: project.details.Cause,
-                  },
-                  {
-                    title: "해결",
-                    content: project.details.Solution,
-                    steps: project.details.SolutionSteps,
-                  },
-                  { title: "결과", content: project.details.Result },
-                ].map(({ title, content, steps }) => (
-                  <section key={title}>
-                    <TroubleshootingHeading>{title}</TroubleshootingHeading>
-                    {content.split("\n\n").map((paragraph) => (
-                      <p key={paragraph}>{formatTechnicalText(paragraph)}</p>
-                    ))}
-                    {steps?.length ? (
-                      <ul className="case-troubleshooting-steps">
-                        {steps.map((step) => (
-                          <li key={step}>{formatTechnicalText(step)}</li>
-                        ))}
-                      </ul>
-                    ) : null}
-                  </section>
-                ))}
-              </div>
-            </section>
-          )}
+          {troubleshooting.map((detail, index) => {
+            const TroubleshootingHeading = detail.title ? "h4" : "h3";
+            return (
+              <section className="case-section" key={detail.title ?? index}>
+                {detail.title && (
+                  <h3 className="case-troubleshooting-title">{detail.title}</h3>
+                )}
+                <div className="case-troubleshooting">
+                  {[
+                    { title: "문제", content: detail.Problem },
+                    {
+                      title: detail.title ? "원인 분석" : "원인",
+                      content: detail.Cause,
+                    },
+                    {
+                      title: "해결",
+                      content: detail.Solution,
+                      steps: detail.SolutionSteps,
+                    },
+                    { title: "결과", content: detail.Result },
+                  ].map(({ title, content, steps }) => (
+                    <section key={title}>
+                      <TroubleshootingHeading>{title}</TroubleshootingHeading>
+                      {content.split("\n\n").map((paragraph) => (
+                        <p key={paragraph}>{formatTechnicalText(paragraph)}</p>
+                      ))}
+                      {steps?.length ? (
+                        <ul className="case-troubleshooting-steps">
+                          {steps.map((step) => (
+                            <li key={step}>{formatTechnicalText(step)}</li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </section>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
         </div>
         <aside className="case-info" aria-label="프로젝트 정보">
           <section className="case-tech">

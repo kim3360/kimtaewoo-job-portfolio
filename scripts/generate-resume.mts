@@ -1,7 +1,7 @@
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { projects as sourceProjects } from "../client/src/entities/project/model/projects.ts";
-import type { ProjectBase } from "../client/src/entities/project/model/projectTypes.ts";
+import type { ProjectBase, ProjectDetails } from "../client/src/entities/project/model/projectTypes.ts";
 import {
   profile,
   awards,
@@ -36,14 +36,14 @@ const previews: Record<
       "준비된 상태에서 클릭 즉시 재생을 요청하고, 화면 표시가 실제 재생 상태를 따르도록 개선했습니다.",
   },
   dvely: {
-    title: "AI 에이전트 워크스페이스 구조 설계",
-    problem: "프로젝트·대화·코드·배포 화면을 연결하는 MVP 구조가 필요했습니다.",
+    title: "마크다운 렌더러 지연 로딩으로 초기 JS 전송량 13.8% 감소",
+    problem: "랜딩 방문자도 대화 화면 전용 마크다운 라이브러리를 내려받았습니다.",
     cause:
-      "여러 작업 화면과 서버·클라이언트 상태를 일관되게 관리해야 했습니다.",
+      "정적 import로 연결된 렌더러가 초기 JS 번들에 포함돼 있었습니다.",
     solution:
-      "TanStack Router로 화면을 나누고, TanStack Query·Zustand로 상태를 분리했습니다.",
+      "렌더러를 별도 청크로 분리하고, 대화 패널 진입 시 미리 로드했습니다.",
     result:
-      "인증부터 프로젝트 생성, 대화·미리보기·diff 확인까지 이어지는 MVP 화면을 구현했습니다.",
+      "변경 당시 측정 기록에서 초기 JS가 gzip 344.31kB → 296.82kB로 감소했습니다.",
   },
   "myform-reform": {
     title: "결제 완료 후 주문 상태 불일치 해결",
@@ -153,11 +153,58 @@ const experience = projects.map((project, i) => ({
     },
   ],
 }));
-const cases = projects.map((project, i) => {
-  const preview = previews[project.slug];
-  const details = project.details;
+function dvelyFlow(index: number) {
+  if (index === 0) return {
+    type: "flow",
+    title: "초기 로딩과 대화 렌더러 로딩 분리",
+    caption: "렌더러를 별도 청크로 분리해 대화 패널 진입 시 미리 로드합니다. 초기 전송량은 변경 당시 gzip 측정 기록 기준입니다.",
+    ariaLabel: "랜딩 페이지에서는 마크다운 렌더러가 제외된 초기 JS만 다운로드합니다. 대화 패널 진입 시 메시지 조회와 렌더러 동적 import를 함께 시작하고, 로딩 중에는 원문을 표시합니다. 렌더러가 준비되면 마크다운으로 표시합니다.",
+    gapY: 38,
+    nodes: [
+      { id: "landing", t: "랜딩 페이지 방문", sub: "대화 기능 미사용", c: 0, r: 0, s: 0 },
+      { id: "initial", t: "초기 JS만 다운로드", sub: "렌더러 제외 · gzip 296.82kB", c: 0, r: 1, s: 2 },
+      { id: "panel", t: "대화 패널 진입", sub: "실제 기능 사용 시점", c: 1, r: 0, s: 1 },
+      { id: "load", t: "메시지 조회 + 동적 import", sub: "React.lazy · 별도 렌더러 청크", c: 1, r: 1, s: 1 },
+      { id: "raw", t: "로딩 중 메시지 원문 표시", sub: "대화 내용 읽기 유지", c: 1, r: 2, s: 1 },
+      { id: "markdown", t: "마크다운 렌더링", sub: "렌더러 준비 후 표시", c: 1, r: 3, s: 2 },
+    ],
+    edges: [
+      { a: "landing", b: "initial", s: 2 },
+      { a: "landing", b: "panel", s: 1, k: "dash" },
+      { a: "panel", b: "load", s: 1 },
+      { a: "load", b: "raw", s: 1 },
+      { a: "raw", b: "markdown", s: 2 },
+    ],
+    hl: ["initial", "markdown"],
+  };
   return {
-    id: `${project.slug}-1`,
+    type: "flow",
+    title: "목록 캐시 유지와 서버 재조회 분리",
+    caption: "일반 쿼리는 5분간 보관하고, staleTime·재조회 정책은 유지합니다. 발급마다 토큰이 회전하는 미리보기 열람 권한은 보관 대상에서 제외합니다.",
+    ariaLabel: "목록 데이터를 조회한 뒤 상세 화면으로 이동해도 일반 쿼리는 5분간 캐시를 보관합니다. 회전형 미리보기 권한은 보관 대상에서 제외합니다. 뒤로가기로 목록에 복귀하면 캐시로 카드를 즉시 표시하고 기존 정책에 따라 서버 데이터를 재조회합니다.",
+    gapY: 34,
+    nodes: [
+      { id: "list", t: "프로젝트 목록 조회", sub: "카드 데이터 수신", c: 0.5, r: 0, s: 0 },
+      { id: "detail", t: "상세 화면으로 이동", sub: "목록 쿼리 구독 해제", c: 0.5, r: 1, s: 0 },
+      { id: "cache", t: "일반 쿼리 캐시 5분 보관", sub: "gcTime: 0 → 5분", c: 0, r: 2, s: 1 },
+      { id: "permission", t: "미리보기 열람 권한 제외", sub: "회전하는 토큰 재사용 방지", c: 1, r: 2, s: 1 },
+      { id: "back", t: "복귀 즉시 기존 카드 표시", sub: "스켈레톤 0개 · 카드 11개", c: 0, r: 3, s: 2 },
+      { id: "refetch", t: "기존 정책대로 서버 재조회", sub: "staleTime·재조회 정책 유지", c: 0, r: 4, s: 2 },
+    ],
+    edges: [
+      { a: "list", b: "detail", s: 0 },
+      { a: "detail", b: "cache", s: 1, route: "vertical" },
+      { a: "cache", b: "permission", s: 1, k: "dash" },
+      { a: "cache", b: "back", s: 2 },
+      { a: "back", b: "refetch", s: 2 },
+    ],
+    hl: ["back", "refetch"],
+  };
+}
+function projectCase(project: ProjectBase, i: number, details: ProjectDetails | undefined, issueIndex: number) {
+  const preview = previews[project.slug];
+  return {
+    id: `${project.slug}-${issueIndex + 1}`,
     company: project.slug,
     no: i + 1,
     title: details?.title ?? preview.title,
@@ -165,6 +212,14 @@ const cases = projects.map((project, i) => {
     featured: project.slug === "plimap",
     oneLine: { text: project.description },
     tech: project.tags,
+    metrics: project.slug === "dvely"
+      ? issueIndex === 0
+        ? [{ value: 13.8, unit: "%", label: "초기 JS 전송량 감소 · 변경 당시 gzip 측정" }]
+        : [
+            { value: 0, unit: "개", label: "복귀 직후 스켈레톤 · 기존 30개" },
+            { value: 11, unit: "개", label: "복귀 직후 카드 · 기존 0개" },
+          ]
+      : undefined,
     blocks: [
       {
         key: "problem",
@@ -192,7 +247,9 @@ const cases = projects.map((project, i) => {
       },
     ],
     viz:
-      project.slug === "plimap"
+      project.slug === "dvely"
+        ? dvelyFlow(issueIndex)
+        : project.slug === "plimap"
         ? {
             type: "flow",
             title: "재생 준비와 실제 재생 상태 분리",
@@ -473,7 +530,12 @@ const cases = projects.map((project, i) => {
               hl: ["result"],
             },
   };
-});
+}
+const cases = projects.flatMap((project, i) =>
+  (project.troubleshooting ?? [project.details]).map((details, issueIndex) =>
+    projectCase(project, i, details, issueIndex),
+  ),
+);
 const periodStart = (period: string) => {
   const match = period.match(/^(\d{4})(?:\.(\d{2}))?/);
   return match ? Number(match[1]) * 100 + Number(match[2] ?? "01") : 0;

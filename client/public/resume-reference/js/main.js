@@ -42,7 +42,12 @@
   function bullets(list) { return h("ul", { class: "d-bullets" }, list.map(function (t) { return h("li", { text: t }); })); }
   function pad2(n) { return (n < 10 ? "0" : "") + n; }
   function yearOf(ym) { return ym ? ym.slice(0, 4) : null; }
-  function fmt(n) { return Math.round(n).toLocaleString("ko-KR"); }
+  function fmt(n, decimal) { return (decimal ? Math.round(n * 10) / 10 : Math.round(n)).toLocaleString("ko-KR"); }
+  function technicalText(text) {
+    return text.split(/(`[^`]+`)/g).map(function (part) {
+      return part.charAt(0) === "`" ? h("code", { text: part.slice(1, -1) }) : part;
+    });
+  }
   /* 한글이 든 모노 라벨 → .mono-kr (Pretendard + 고정폭 숫자). JetBrains Mono의 0.6em 공백·자간 때문에 한글이 벌어져 보이는 문제 */
   var MONO_SEL = ".mono, .tag, .badge, .iso-call, .iso-year, .vz-sub, .vz-elabel, .vz-tag, .vz-cap";
   var HANGUL = /[ㄱ-ㆎ가-힣]/;
@@ -53,7 +58,6 @@
   var EXP = R.experience.slice().sort(function (a, b) { return a.order - b.order; });
   var N = EXP.length;
   var CASES = R.portfolio.cases;
-  var NC = CASES.length;
   var casesOf = {}; EXP.forEach(function (e) { casesOf[e.id] = CASES.filter(function (c) { return c.company === e.id; }); });
   var featuredIds = {}; CASES.forEach(function (c) { if (c.featured) featuredIds[c.id] = true; });
   var NPROJ = EXP.reduce(function (a, e) { return a + e.projects.length; }, 0);
@@ -109,11 +113,11 @@
   var withBars = SS.items.filter(function (s) { return s.projects > 0; });
   var noBars = SS.items.filter(function (s) { return s.projects === 0; });
   append(slot("skills"), h("ul", { class: "stat-list" }, withBars.map(function (s) {
-    var ratio = s.projects / NC;
+    var ratio = s.projects / NPROJ;
     return h("li", { class: "stat-row" + (s.projects === maxP ? " is-max" : "") }, [
       h("span", { class: "stat-name", text: s.name }),
       h("span", { class: "stat-bar", "aria-hidden": "true" }, h("span", { class: "stat-fill", style: "--r:" + ratio.toFixed(4) })),
-      h("span", { class: "stat-val mono" }, [h("b", { text: String(s.projects) }), " / " + NC + "개 프로젝트"]),
+      h("span", { class: "stat-val mono" }, [h("b", { text: String(s.projects) }), " / " + NPROJ + "개 프로젝트"]),
       h("span", { class: "stat-span mono", text: s.span ? s.span[0] + "–" + (s.span[1] >= 2026 ? "현재" : s.span[1]) : "" })
     ]);
   })));
@@ -382,7 +386,7 @@
   /* ==================================================================
      PORTFOLIO
      ================================================================== */
-  slot("pf-count").textContent = "/ " + NC + " projects";
+  slot("pf-count").textContent = "/ " + NPROJ + " projects";
   var pfRail = slot("pf-rail"), pfCases = slot("pf-cases");
   var railLinks = [];
   append(pfRail, h("ol", null, EXP.map(function (e, i) {
@@ -404,7 +408,7 @@
       h("header", { class: "pf-group-head" }, [
         h("p", { class: "mono pf-group-meta", text: pad2(gi + 1) + " / " + pad2(N) + " · " + e.period.label }),
         h("h3", { class: "pf-group-name", id: "pfg-" + e.id, text: e.companyShort }),
-        h("p", { class: "pf-group-title", text: e.cardTitle + " · 프로젝트 " + list.length + "건" })
+        h("p", { class: "pf-group-title", text: e.cardTitle + " · " + (list.length > 1 ? "문제 해결 " : "프로젝트 ") + list.length + "건" })
       ])
     ]);
     list.forEach(function (c) {
@@ -414,18 +418,18 @@
       var blocks = h("div", { class: "case-blocks" }, c.blocks.map(function (b) {
         return h("section", { class: "blk blk--" + b.key, "data-step": STEP_OF[b.key] }, [
           h("h5", { class: "blk-label mono" }, [h("span", { class: "blk-no", text: pad2(STEP_OF[b.key] + 1) }), b.label]),
-          h("ul", { class: "blk-items" }, b.items.map(function (it) { return h("li", null, [it.text]); }))
+          h("ul", { class: "blk-items" }, b.items.map(function (it) { return h("li", null, technicalText(it.text)); }))
         ]);
       }));
       var metrics = c.metrics ? h("div", { class: "case-metrics" }, c.metrics.map(function (m) {
         return h("div", { class: "metric" }, [
-          h("p", { class: "metric-num" }, [m.prefix ? h("span", { class: "metric-pre", text: m.prefix }) : null, h("span", { class: "metric-val", "data-count": m.value, text: fmt(m.value) }), h("span", { class: "metric-unit", text: m.unit })]),
+          h("p", { class: "metric-num" }, [m.prefix ? h("span", { class: "metric-pre", text: m.prefix }) : null, h("span", { class: "metric-val", "data-count": m.value, text: fmt(m.value, m.value % 1 !== 0) }), h("span", { class: "metric-unit", text: m.unit })]),
           h("p", { class: "metric-label mono", text: m.label })
         ]);
       })) : null;
       var art = h("article", { class: "case" + (c.featured ? " case--featured" : ""), id: "case-" + c.id, "aria-labelledby": "ct-" + c.id }, [
         h("header", { class: "case-head" }, [
-          h("p", { class: "case-meta mono" }, [h("span", { text: "PROJECT " + pad2(c.no) + " / " + NC }), c.featured ? h("span", { class: "badge badge--lime badge--sm", text: "● 대표 프로젝트" }) : null]),
+          h("p", { class: "case-meta mono" }, [h("span", { text: "PROJECT " + pad2(c.no) + " / " + NPROJ }), c.featured ? h("span", { class: "badge badge--lime badge--sm", text: "● 대표 프로젝트" }) : null]),
           h("h4", { class: "case-title", id: "ct-" + c.id, text: c.title }),
           h("p", { class: "case-role" }, [h("span", { class: "mono", text: "역할" }), " " + c.role]),
           h("blockquote", { class: "case-line" }, h("p", { class: "case-line-text", text: c.oneLine.text }))
@@ -530,7 +534,7 @@
     var capEl = h("span", { class: "scene-cap-text", text: cap });
     var nameIn = h("span", { class: "scene-name-in", text: e.companyShort });
     var detailBtn = h("button", { type: "button", class: "btn btn--ink", "aria-haspopup": "dialog", "data-open": i }, ["상세 보기", h("span", { class: "visually-hidden", text: " — " + e.companyShort + " 전체 기록" })]);
-    var caseLink = h("a", { class: "btn btn--line", href: "#case-" + casesOf[e.id][0].id }, ["프로젝트 " + casesOf[e.id].length + "건 보기"]);
+    var caseLink = h("a", { class: "btn btn--line", href: "#case-" + casesOf[e.id][0].id }, [(casesOf[e.id].length > 1 ? "문제 해결 " : "프로젝트 ") + casesOf[e.id].length + "건 보기"]);
     var monthsEl = h("b", { class: "scene-count", text: String(e.featureCount) });
     var el = h("article", { class: "scene", "data-i": i, "aria-roledescription": "장면", "aria-labelledby": "scene-h-" + e.id }, [
       h("p", { class: "scene-cap mono", "aria-hidden": "true" }, capEl),
@@ -1024,7 +1028,7 @@
     var target = +el.getAttribute("data-count"), o = { v: 0 };
     el.textContent = "0";
     ScrollTrigger.create({ trigger: el, start: "top 85%", once: true, onEnter: function () {
-      gsap.to(o, { v: target, duration: 1.6, ease: "power2.out", onUpdate: function () { el.textContent = fmt(printing ? target : o.v); } });
+      gsap.to(o, { v: target, duration: 1.6, ease: "power2.out", onUpdate: function () { el.textContent = fmt(printing ? target : o.v, target % 1 !== 0); } });
     } });
   });
   EXP.forEach(function (e, i) {
@@ -1059,7 +1063,7 @@
     printing = true;
     vizCtrls.forEach(function (v) { v.ctrl.setStep(9); });
     if (window.__hero) window.__hero.progress(1);
-    $$(".metric-val").forEach(function (el) { el.textContent = fmt(+el.getAttribute("data-count")); });
+    $$(".metric-val").forEach(function (el) { var target = +el.getAttribute("data-count"); el.textContent = fmt(target, target % 1 !== 0); });
     gsap.set(".stat-fill", { scaleX: function (k, el) { return parseFloat(el.style.getPropertyValue("--r")); } });
   });
 
