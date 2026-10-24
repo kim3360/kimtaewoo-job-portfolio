@@ -242,6 +242,23 @@
 .journal-feedback-spark { fill: var(--ink); }
 .journal-feedback-lines { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
 .journal-feedback { animation: workspace-float 4s ease-in-out infinite; }
+.journal-draft-back { fill: var(--lime); stroke: var(--ink); stroke-width: 1.2; }
+.journal-draft-sheet { fill: var(--paper); stroke: var(--ink); stroke-width: 1.2; }
+.journal-draft-title { fill: none; stroke: var(--ink); stroke-width: 2.3; stroke-linecap: round; }
+.journal-draft-lines { fill: none; stroke: #999; stroke-width: 1; stroke-linecap: round; }
+.journal-draft-edit { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+.journal-calendar-stand { fill: #dedede; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; }
+.journal-calendar-body { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.journal-calendar-header { fill: var(--lime); stroke: var(--ink); stroke-width: 1; }
+.journal-calendar-rings { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.journal-calendar-title { fill: var(--ink); font-family: var(--mono); font-size: 6px; font-weight: 700; letter-spacing: 0.4px; }
+.journal-day { fill: var(--paper); stroke: #aaa; stroke-width: 0.7; }
+.journal-day--done { fill: var(--lime); stroke: var(--ink); }
+.journal-day-check { fill: none; stroke: var(--ink); stroke-width: 0.8; stroke-linecap: round; stroke-linejoin: round; }
+.journal-ink-bottle { fill: #292929; stroke: var(--ink); stroke-width: 1.5; }
+.journal-ink-cap { fill: var(--ink); stroke: var(--ink); stroke-width: 1.2; }
+.journal-ink-label { fill: var(--lime); }
+.journal-ink-drop { fill: var(--ink); }
 .waiting-phone-depth, .waiting-board-depth { fill: #bbb; stroke: var(--ink); stroke-width: 1.5; }
 .waiting-phone { fill: var(--ink); stroke: var(--ink); stroke-width: 2; }
 .waiting-screen { fill: var(--paper); }

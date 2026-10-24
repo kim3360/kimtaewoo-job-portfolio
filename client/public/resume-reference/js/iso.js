@@ -409,6 +409,35 @@
       s("path", { class: "journal-checks", d: "M13 88 L17 92 L23 84 M13 103 L17 107 L23 99" }),
       s("path", { class: "journal-lines", d: "M30 88 H58 M30 103 H50" })
     ]);
+    var draftOrigin = P(0, 46, 10);
+    var drafts = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + draftOrigin[0] + " " + draftOrigin[1] + ")" }, [
+      s("rect", { class: "journal-draft-back", x: 4, y: 7, width: 78, height: 52, rx: 1 }),
+      s("rect", { class: "journal-draft-sheet", x: -3, y: 3, width: 78, height: 52, rx: 1 }),
+      s("rect", { class: "journal-draft-sheet", width: 78, height: 52, rx: 1 }),
+      s("path", { class: "journal-draft-title", d: "M10 11 H37" }),
+      s("path", { class: "journal-draft-lines", d: "M10 21 H66 M10 28 H61 M10 35 H65 M10 42 H44" }),
+      s("path", { class: "journal-draft-edit", d: "M8 32 Q27 25 47 31 M53 38 L58 43 L68 33" })
+    ]);
+    var calendarOrigin = P(124, 93, 70);
+    var calendar = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + calendarOrigin[0] + " " + calendarOrigin[1] + ")" }, [
+      s("path", { class: "journal-calendar-stand", d: "M53 0 L70 52 H53 Z" }),
+      s("rect", { class: "journal-calendar-body", width: 58, height: 52, rx: 3 }),
+      s("path", { class: "journal-calendar-header", d: "M3 0 H55 Q58 0 58 3 V17 H0 V3 Q0 0 3 0 Z" }),
+      s("path", { class: "journal-calendar-rings", d: "M14 -4 V5 M44 -4 V5" }),
+      s("text", { class: "journal-calendar-title", x: 29, y: 12, "text-anchor": "middle" }, ["ROUTINE"])
+    ]);
+    for (var day = 0; day < 7; day++) {
+      var dayX = 8 + day % 4 * 12, dayY = 24 + Math.floor(day / 4) * 13;
+      calendar.appendChild(s("rect", { class: "journal-day" + (day < 5 ? " journal-day--done" : ""), x: dayX, y: dayY, width: 7, height: 7, rx: 1 }));
+      if (day < 5) calendar.appendChild(s("path", { class: "journal-day-check", d: "M" + (dayX + 1.5) + " " + (dayY + 3.5) + " l1.5 1.5 3-3" }));
+    }
+    var inkAt = P(-12, 48, 5);
+    var ink = s("g", { transform: "translate(" + inkAt.join(" ") + ")" }, [
+      s("path", { class: "journal-ink-bottle", d: "M-8 -25 H8 L12 -18 V0 Q0 10 -12 0 V-18 Z" }),
+      s("rect", { class: "journal-ink-cap", x: -8, y: -31, width: 16, height: 9, rx: 2 }),
+      s("rect", { class: "journal-ink-label", x: -8, y: -15, width: 16, height: 13, rx: 2 }),
+      s("path", { class: "journal-ink-drop", d: "M0 -13 Q-7 -6 0 -5 Q7 -6 0 -13 Z" })
+    ]);
     var penOrigin = P(8, 96, 15);
     var pen = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + penOrigin[0] + " " + penOrigin[1] + ")" }, [
       s("rect", { class: "journal-pen-body", width: 83, height: 11, rx: 4 }),
@@ -424,9 +453,9 @@
         s("path", { class: "journal-feedback-lines", d: "M3 -11 H21 M3 -3 H15 M-19 8 H21" })
       ])
     ]);
-    var solid = s("g", { class: "iso-solid" }, [pages, pen, bubble]);
+    var solid = s("g", { class: "iso-solid" }, [pages, ink, drafts, pen, calendar, bubble]);
     var wire = s("path", { class: "iso-wire", d: left + " " + right, transform: matrix, pathLength: 1 });
-    return illustration(siteObj, "journal", wire, solid, P(100, 96, 15), "WRITE & GROW", 150);
+    return illustration(siteObj, "journal", wire, solid, P(153, 93, 20), "WRITE & GROW", 150);
   }
 
   /* WAIT:IT: mobile queue ticket, calling display and queue barriers. */
