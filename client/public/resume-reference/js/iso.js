@@ -322,6 +322,24 @@
 
   /* Myform Reform: a sports jersey with a stitched patch, needle and thread. */
   function uniform(siteObj) {
+    var rack = s("g", { class: "uniform-rack" }, [
+      s("path", { class: "uniform-rack-frame", d: pathOf([P(-13, 0, 0), P(-13, 0, 184), P(157, 0, 184), P(157, 0, 0)]) }),
+      s("path", { class: "uniform-rack-feet", d: pathOf([P(-13, -15, 0), P(-13, 20, 0)]) + " " + pathOf([P(157, -15, 0), P(157, 20, 0)]) }),
+      s("path", { class: "uniform-hanger", d: pathOf([P(74, 0, 184), P(74, 18, 176), P(74, 18, 166), P(43, 18, 148), P(107, 18, 148), P(74, 18, 166)]) })
+    ]);
+    var fabricBottom = box(13, 57, 1, 73, 47, 5, null, "uniform-swatch-bottom");
+    var fabricTop = box(7, 51, 6, 73, 47, 5, null, "uniform-swatch-top");
+    var fabricOrigin = P(7, 51, 11);
+    var fabricDetail = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + fabricOrigin[0] + " " + fabricOrigin[1] + ")" }, [
+      s("path", { class: "uniform-fabric-stripe", d: "M6 0 H16 V47 H6 Z" }),
+      s("path", { class: "uniform-fabric-stitch", d: "M3 3 H70 V44 H3 Z" }),
+      s("g", { class: "uniform-scissors", transform: "translate(26 0) rotate(-18 22 24)" }, [
+        s("path", { class: "uniform-scissor-blade", d: "M17 16 L37 43 L25 24 Z M29 16 L10 43 L23 24 Z" }),
+        s("ellipse", { class: "uniform-scissor-grip", cx: 14, cy: 11, rx: 7, ry: 9 }),
+        s("ellipse", { class: "uniform-scissor-grip", cx: 32, cy: 11, rx: 7, ry: 9 }),
+        s("circle", { class: "uniform-scissor-pivot", cx: 23, cy: 24, r: 2 })
+      ])
+    ]);
     var origin = P(3, 18, 158);
     var shirtPath = "M43 12 L33 20 L4 47 L25 70 L40 58 V138 H103 V58 L118 70 L139 47 L110 20 L99 12 Q71 27 43 12 Z";
     var jersey = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + origin[0] + " " + origin[1] + ")" }, [
@@ -348,7 +366,7 @@
       s("path", { class: "uniform-needle-body", d: "M119 58 L150 -4 Q153 -10 156 -6 Q159 -3 154 4 Z" }),
       s("path", { class: "uniform-needle-eye", d: "M150 1 L153 -4" })
     ]);
-    var solid = s("g", { class: "iso-solid" }, [jersey, needle, spool]);
+    var solid = s("g", { class: "iso-solid" }, [rack, fabricBottom.g, fabricTop.g, fabricDetail, jersey, needle, spool]);
     var wire = s("path", { class: "iso-wire", pathLength: 1, d: shirtPath, transform: jersey.getAttribute("transform") });
     var object = s("g", { class: "iso-floor iso-uniform" }, [wire, solid]);
     var anchor = P(132, 82, 18), labelX = 186, labelY = 119;
@@ -358,8 +376,100 @@
     var callout = s("g", { class: "iso-callout" }, [line, dot, label]);
     var group = s("g", { class: "iso-building iso-building--uniform" }, [object, callout]);
     siteObj.layer.appendChild(group);
-    return { g: group, height: 158, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
+    return { g: group, height: 184, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
   }
 
-  window.ISO = { s: s, P: P, pts: pts, pathOf: pathOf, box: box, hero: hero, site: site, building: building, music: music, workspace: workspace, uniform: uniform };
+  function illustration(siteObj, type, wire, solid, anchor, caption, height) {
+    var object = s("g", { class: "iso-floor iso-" + type }, [wire, solid]);
+    var labelX = 186, labelY = 119;
+    var line = s("path", { class: "iso-leader", d: pathOf([anchor, [labelX - 12, labelY], [labelX, labelY]]), pathLength: 1 });
+    var dot = s("circle", { class: "iso-dot", cx: anchor[0], cy: anchor[1], r: 2.6 });
+    var label = text(labelX + 6, labelY + 4, caption, "iso-call");
+    var callout = s("g", { class: "iso-callout" }, [line, dot, label]);
+    var group = s("g", { class: "iso-building iso-building--" + type }, [object, callout]);
+    siteObj.layer.appendChild(group);
+    return { g: group, height: height, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
+  }
+
+  /* Seobom: an open writing journal, a pen and an AI feedback bubble. */
+  function journal(siteObj) {
+    var origin = P(-3, 12, 147);
+    var matrix = "matrix(" + C30 + " 0.5 0 1 " + origin[0] + " " + origin[1] + ")";
+    var left = "M0 6 Q37 -3 75 7 V125 Q37 114 0 124 Z";
+    var right = "M75 7 Q112 -3 150 6 V124 Q112 114 75 125 Z";
+    var pages = s("g", { transform: matrix }, [
+      s("path", { class: "journal-cover", d: "M-4 4 Q36 -8 75 3 Q114 -8 154 4 V131 Q114 121 75 132 Q36 121 -4 131 Z", transform: "translate(2 3)" }),
+      s("path", { class: "journal-page", d: left }),
+      s("path", { class: "journal-page", d: right }),
+      s("path", { class: "journal-fold", d: "M75 7 V125 M3 127 Q37 118 72 128 M78 128 Q112 118 149 127" }),
+      s("path", { class: "journal-bookmark", d: "M115 1 V29 L121 24 L127 29 V1 Z" }),
+      s("path", { class: "journal-heading", d: "M13 23 H48 M88 38 H129" }),
+      s("path", { class: "journal-lines", d: "M13 36 H60 M13 46 H56 M13 56 H61 M13 66 H48 M88 51 H138 M88 61 H134 M88 71 H139 M88 81 H126" }),
+      s("path", { class: "journal-highlight", d: "M88 96 H135" }),
+      s("path", { class: "journal-checks", d: "M13 88 L17 92 L23 84 M13 103 L17 107 L23 99" }),
+      s("path", { class: "journal-lines", d: "M30 88 H58 M30 103 H50" })
+    ]);
+    var penOrigin = P(8, 96, 15);
+    var pen = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + penOrigin[0] + " " + penOrigin[1] + ")" }, [
+      s("rect", { class: "journal-pen-body", width: 83, height: 11, rx: 4 }),
+      s("path", { class: "journal-pen-nib", d: "M83 0 L104 5.5 L83 11 Z" }),
+      s("path", { class: "journal-pen-detail", d: "M12 0 V11 M77 0 V11 M83 5.5 H98 M4 3 H27" }),
+      s("circle", { class: "journal-pen-dot", cx: 88, cy: 5.5, r: 1.4 })
+    ]);
+    var bubbleAt = P(187, 12, 118);
+    var bubble = s("g", { transform: "translate(" + bubbleAt.join(" ") + ")" }, [
+      s("g", { class: "journal-feedback" }, [
+        s("path", { class: "journal-bubble", d: "M-24 -25 H25 Q32 -25 32 -18 V13 Q32 20 25 20 H-5 L-19 30 V20 H-24 Q-31 20 -31 13 V-18 Q-31 -25 -24 -25 Z" }),
+        s("path", { class: "journal-feedback-spark", d: "M-12 -17 Q-10 -10 -3 -8 Q-10 -6 -12 1 Q-14 -6 -21 -8 Q-14 -10 -12 -17 Z" }),
+        s("path", { class: "journal-feedback-lines", d: "M3 -11 H21 M3 -3 H15 M-19 8 H21" })
+      ])
+    ]);
+    var solid = s("g", { class: "iso-solid" }, [pages, pen, bubble]);
+    var wire = s("path", { class: "iso-wire", d: left + " " + right, transform: matrix, pathLength: 1 });
+    return illustration(siteObj, "journal", wire, solid, P(100, 96, 15), "WRITE & GROW", 150);
+  }
+
+  /* WAIT:IT: mobile queue ticket, calling display and queue barriers. */
+  function waiting(siteObj) {
+    var origin = P(24, 25, 166);
+    var matrix = "matrix(" + C30 + " 0.5 0 1 " + origin[0] + " " + origin[1] + ")";
+    var phone = s("g", { transform: matrix }, [
+      s("rect", { class: "waiting-phone-depth", x: 5, y: -3, width: 81, height: 154, rx: 10 }),
+      s("rect", { class: "waiting-phone", width: 81, height: 154, rx: 10 }),
+      s("rect", { class: "waiting-screen", x: 5, y: 6, width: 71, height: 141, rx: 7 }),
+      s("rect", { class: "waiting-notch", x: 27, y: 6, width: 27, height: 5, rx: 2.5 }),
+      s("text", { class: "waiting-brand", x: 40, y: 30, "text-anchor": "middle" }, ["WAIT:IT"]),
+      s("path", { class: "waiting-ticket", d: "M15 42 H66 V57 Q59 61 66 65 V110 H15 V65 Q22 61 15 57 Z" }),
+      s("path", { class: "waiting-perforation", d: "M20 61 H61" }),
+      s("text", { class: "waiting-caption", x: 40, y: 54, "text-anchor": "middle" }, ["MY NUMBER"]),
+      s("text", { class: "waiting-number", x: 40, y: 93, "text-anchor": "middle" }, ["07"]),
+      s("path", { class: "waiting-ticket-lines", d: "M26 101 H54" }),
+      s("rect", { class: "waiting-status", x: 14, y: 120, width: 53, height: 14, rx: 7 }),
+      s("path", { class: "waiting-status-check", d: "M22 127 L25 130 L30 124 M36 127 H58" }),
+      s("path", { class: "waiting-home", d: "M30 140 H51" })
+    ]);
+    var displayOrigin = P(130, 5, 109);
+    var display = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + displayOrigin[0] + " " + displayOrigin[1] + ")" }, [
+      s("rect", { class: "waiting-board-depth", x: 4, y: -3, width: 66, height: 72, rx: 5 }),
+      s("rect", { class: "waiting-board", width: 66, height: 72, rx: 5 }),
+      s("text", { class: "waiting-board-label", x: 33, y: 17, "text-anchor": "middle" }, ["NOW CALLING"]),
+      s("text", { class: "waiting-board-number", x: 33, y: 53, "text-anchor": "middle" }, ["06"]),
+      s("path", { class: "waiting-board-dots", d: "M24 63 H26 M32 63 H34 M40 63 H42" })
+    ]);
+    var posts = [[-2, 77], [71, 113]].map(function (p) {
+      var foot = P(p[0], p[1], 0), head = P(p[0], p[1], 37);
+      return { head: head, g: s("g", null, [
+        s("ellipse", { class: "waiting-post-base", cx: foot[0], cy: foot[1], rx: 12, ry: 6 }),
+        s("path", { class: "waiting-post", d: pathOf([foot, head]) }),
+        s("circle", { class: "waiting-post-cap", cx: head[0], cy: head[1], r: 5 })
+      ]) };
+    });
+    var a = posts[0].head, b = posts[1].head;
+    var rope = s("path", { class: "waiting-rope", d: "M" + a.join(" ") + " Q" + ((a[0] + b[0]) / 2 - 5) + " " + (b[1] + 16) + " " + b.join(" ") });
+    var solid = s("g", { class: "iso-solid" }, [display, phone, rope, posts[0].g, posts[1].g]);
+    var wire = s("path", { class: "iso-wire", pathLength: 1, transform: matrix, d: "M10 0 H71 Q81 0 81 10 V144 Q81 154 71 154 H10 Q0 154 0 144 V10 Q0 0 10 0 Z" });
+    return illustration(siteObj, "waiting", wire, solid, P(71, 113, 0), "MOBILE QUEUE", 166);
+  }
+
+  window.ISO = { s: s, P: P, pts: pts, pathOf: pathOf, box: box, hero: hero, site: site, building: building, music: music, workspace: workspace, uniform: uniform, journal: journal, waiting: waiting };
 })();

@@ -338,6 +338,8 @@
     if (e.id === "plimap") return ISO.music(site);
     if (e.id === "dvely") return ISO.workspace(site);
     if (e.id === "myform-reform") return ISO.uniform(site);
+    if (e.id === "seobom") return ISO.journal(site);
+    if (e.id === "wait-it") return ISO.waiting(site);
     return ISO.building(site, floorsOf(e));
   }
   function monthsText(e) { return e.duration + " · 주요 기능 " + e.featureCount + "개"; }
