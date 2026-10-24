@@ -9,7 +9,6 @@ import {
   internships,
   certifications,
 } from "../client/src/entities/profile/model/profile.ts";
-import { coverLetterItems } from "../client/src/entities/profile/model/coverLetter.ts";
 import { education } from "../client/src/entities/education/model/education.ts";
 import { landingSkillGroups } from "../client/src/entities/skill/model/landingSkills.ts";
 
@@ -90,9 +89,9 @@ const highlights = [
     ],
   },
   {
-    label: "문제 해결과 협업",
+    label: "협업과 팀워크",
     paragraphs: [
-      "기획·디자인·백엔드와 협업하며 미디어 재생·PG 결제·SSE 알림의 비동기 문제를 해결했습니다.",
+      "기획·디자인·백엔드와 화면 흐름·API 명세·일정을 함께 조율했습니다. 진행 상황과 변경 사항을 공유하고, PR과 코드 리뷰로 서로의 구현을 확인하며 팀의 작업을 맞췄습니다.",
     ],
   },
 ];
@@ -608,14 +607,6 @@ const data = {
   certifications: {
     title: "자격",
     items: certifications,
-  },
-  coverLetter: {
-    title: "자기소개서",
-    headline: "화면과 데이터의 흐름을 연결하는 개발자",
-    paragraphs: [
-      profile.bio,
-      ...coverLetterItems.map((item) => `${item.title}\n\n${item.body}`),
-    ],
   },
   hero: {
     bars: [

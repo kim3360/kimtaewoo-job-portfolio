@@ -12,7 +12,8 @@ function initialReferenceUrl() {
   const legacyAnchors: Record<string, string> = {
     "#about": "#top",
     "#career": "#experience",
-    "#cover-letter": "#letter",
+    "#cover-letter": "#contact",
+    "#letter": "#contact",
   };
   const hash = legacyAnchors[window.location.hash] ?? window.location.hash;
   const search = query.toString();

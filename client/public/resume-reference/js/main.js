@@ -126,7 +126,7 @@
     tags(noBars.map(function (s) { return s.name; }))
   ]);
 
-  /* ---------- education / letter / footer ---------- */
+  /* ---------- education / footer ---------- */
   function record(date, title, meta, desc) {
     return h("div", { class: "record" }, [
       h("p", { class: "record-date mono", text: date }),
@@ -141,8 +141,10 @@
   append(slot("activities"), R.activities.items.map(function (a) { return record(a.period, a.name, null, a.description); }));
   append(slot("awards"), R.awards.items.map(function (a) { return record(a.date, a.name, a.status + ", " + a.issuer, null); }));
   append(slot("certifications"), R.certifications.items.map(function (c) { return record(c.date, c.name, c.issuer, null); }));
-  append(slot("letter"), paragraphs(R.coverLetter.paragraphs));
-  var fe = slot("footer-email"); fe.href = "mailto:" + email; fe.textContent = email;
+  var fe = slot("footer-email"); fe.href = "mailto:" + email;
+  slot("footer-email-text").textContent = email;
+  slot("footer-github").href = github.url;
+  slot("footer-year").textContent = String(new Date().getFullYear());
 
   /* ==================================================================
      HERO
@@ -252,8 +254,7 @@
     HERO.pillars.forEach(function (p) { gsap.set(p.wire, { strokeDashoffset: 1 }); gsap.set(p.solid, { autoAlpha: 0 }); gsap.set(p.label, { autoAlpha: 0 }); });
     HERO.calls.forEach(function (c) { gsap.set(c.line, { strokeDashoffset: 1 }); gsap.set([c.dot, c.text], { autoAlpha: 0 }); });
     gsap.set(HERO.plane, { autoAlpha: 0 });
-    gsap.set("[data-limecard]", { autoAlpha: 0, y: 48 });
-    gsap.set(".lc-fill", { scaleX: 0 });
+    // Keep the profile readable from the first paint while the decorative intro runs.
 
     tl.to(".term", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0);
     tl.to(typer, { n: CMD.length, duration: CMD.length * 0.04, ease: "none", onUpdate: function () { termCmd.textContent = CMD.slice(0, Math.round(typer.n)); } }, 0.35);
@@ -283,8 +284,6 @@
       tl.to(c.line, { strokeDashoffset: 0, duration: 0.45, ease: "none" }, tDone + 0.3 + i * 0.12);
       tl.to(c.text, { autoAlpha: 1, duration: 0.3 }, tDone + 0.65 + i * 0.12);
     });
-    tl.to("[data-limecard]", { autoAlpha: 1, y: 0, duration: 0.6, ease: "power3.out" }, tDone + 0.5);
-    tl.to(".lc-fill", { scaleX: function (i, el) { return parseFloat(el.style.getPropertyValue("--r")); }, duration: 0.7, stagger: 0.1, ease: "power2.out" }, tDone + 0.85);
     tl.call(function () { heroSvg.classList.add("is-built"); }, null, tl.duration());
     window.__hero = tl;
   }
