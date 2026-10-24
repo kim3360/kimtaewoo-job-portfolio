@@ -235,6 +235,28 @@
 
   /* PLIMAP: a vinyl record and tonearm, using the same reveal contract as a floor. */
   function music(siteObj) {
+    var mapAt = P(22, -18, 157);
+    var map = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + mapAt[0] + " " + mapAt[1] + ")" }, [
+      s("path", { class: "music-map-paper", d: "M0 8 L36 0 L72 9 L108 0 V104 L72 113 L36 104 L0 113 Z" }),
+      s("path", { class: "music-map-fold", d: "M36 0 V104 M72 9 V113" }),
+      s("path", { class: "music-map-streets", d: "M6 28 L27 39 L42 28 L63 39 L81 27 L101 37 M7 64 L28 56 L46 70 L67 59 L83 72 L102 62 M7 96 L28 85 L48 96 L66 87 L84 98 L102 89 M18 19 L27 39 L17 58 L28 85 L23 102 M89 15 L81 27 L91 49 L83 72 L92 96" }),
+      s("path", { class: "music-map-route", d: "M21 82 C29 68 38 91 47 77 L58 65" }),
+      s("circle", { class: "music-map-start", cx: 21, cy: 82, r: 4 }),
+      s("path", { class: "music-map-pin", d: "M58 22 C43 22 38 39 43 48 L58 69 L73 48 C78 39 73 22 58 22 Z" }),
+      s("circle", { class: "music-map-pin-center", cx: 58, cy: 40, r: 7 }),
+      s("path", { class: "music-map-note", d: "M57 40 V34 L63 32 V38 M57 34 L63 32" }),
+      s("ellipse", { class: "music-map-note-dot", cx: 55, cy: 41, rx: 2.8, ry: 2 }),
+      s("ellipse", { class: "music-map-note-dot", cx: 61, cy: 39, rx: 2.8, ry: 2 })
+    ]);
+    var speaker = box(-22, 2, 0, 31, 27, 76, null, "music-speaker");
+    var speakerAt = P(-22, 29, 76);
+    var speakerFace = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + speakerAt[0] + " " + speakerAt[1] + ")" }, [
+      s("circle", { class: "music-speaker-ring", cx: 15.5, cy: 19, r: 5 }),
+      s("circle", { class: "music-speaker-ring", cx: 15.5, cy: 52, r: 11 }),
+      s("circle", { class: "music-speaker-cone", cx: 15.5, cy: 52, r: 7.5 }),
+      s("circle", { class: "music-speaker-center", cx: 15.5, cy: 52, r: 3 }),
+      s("circle", { class: "music-speaker-light", cx: 15.5, cy: 69, r: 1.6 })
+    ]);
     var center = P(60, 48, 30), radius = 66;
     var projection = "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + center[0] + " " + center[1] + ")";
     var rim = s("ellipse", { class: "music-rim", cx: center[0], cy: center[1] + 7, rx: radius * Math.sqrt(1.5), ry: radius / Math.sqrt(2) });
@@ -255,7 +277,17 @@
       s("path", { class: "music-arm-inlay", d: armPath }),
       s("path", { class: "music-cartridge", d: pathOf([P(99, 82, 34), P(108, 82, 34), P(108, 95, 34), P(99, 95, 34)], true) })
     ]);
-    var solid = s("g", { class: "iso-solid" }, [rim, record, arm]);
+    var controlsBase = box(34, 99, 1, 85, 23, 6, null, "music-controls-base");
+    var controlsAt = P(34, 99, 7);
+    var controls = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + controlsAt[0] + " " + controlsAt[1] + ")" }, [
+      s("circle", { class: "music-control-play", cx: 12, cy: 11.5, r: 7 }),
+      s("path", { class: "music-control-triangle", d: "M10 8 L16 11.5 L10 15 Z" }),
+      s("path", { class: "music-control-track", d: "M27 11.5 H73" }),
+      s("path", { class: "music-control-progress", d: "M27 11.5 H48" }),
+      s("circle", { class: "music-control-knob", cx: 48, cy: 11.5, r: 3 }),
+      s("path", { class: "music-control-sound", d: "M77 8 V15 M81 5 V18" })
+    ]);
+    var solid = s("g", { class: "iso-solid" }, [map, speaker.g, speakerFace, rim, record, arm, controlsBase.g, controls]);
     var outline = [];
     for (var i = 0; i <= 72; i++) {
       var a = i / 72 * Math.PI * 2;
@@ -263,14 +295,14 @@
     }
     var wire = s("path", { class: "iso-wire", d: pathOf(outline, true), pathLength: 1 });
     var object = s("g", { class: "iso-floor iso-music" }, [wire, solid]);
-    var anchor = P(106, 94, 30), labelX = 186, labelY = 115;
+    var anchor = P(117, 110, 7), labelX = 186, labelY = 115;
     var line = s("path", { class: "iso-leader", d: pathOf([anchor, [labelX - 12, labelY], [labelX, labelY]]), pathLength: 1 });
     var dot = s("circle", { class: "iso-dot", cx: anchor[0], cy: anchor[1], r: 2.6 });
     var label = text(labelX + 6, labelY + 4, "MUSIC & MAP", "iso-call");
     var callout = s("g", { class: "iso-callout" }, [line, dot, label]);
     var group = s("g", { class: "iso-building iso-building--music" }, [object, callout]);
     siteObj.layer.appendChild(group);
-    return { g: group, height: 42, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
+    return { g: group, height: 157, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
   }
 
   /* Dvely: a code workspace with a floating AI agent. */

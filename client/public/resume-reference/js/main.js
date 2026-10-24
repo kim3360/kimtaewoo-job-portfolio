@@ -44,7 +44,7 @@
   function yearOf(ym) { return ym ? ym.slice(0, 4) : null; }
   function fmt(n) { return Math.round(n).toLocaleString("ko-KR"); }
   /* 한글이 든 모노 라벨 → .mono-kr (Pretendard + 고정폭 숫자). JetBrains Mono의 0.6em 공백·자간 때문에 한글이 벌어져 보이는 문제 */
-  var MONO_SEL = ".mono, .tag, .badge, .iso-call, .iso-year, .vz-sub, .vz-elabel, .vz-tag, .vz-steps li, .vz-cap";
+  var MONO_SEL = ".mono, .tag, .badge, .iso-call, .iso-year, .vz-sub, .vz-elabel, .vz-tag, .vz-cap";
   var HANGUL = /[ㄱ-ㆎ가-힣]/;
   function tagMonoKr(root) {
     $$(MONO_SEL, root).forEach(function (el) { el.classList.toggle("mono-kr", HANGUL.test(el.textContent)); });
@@ -410,10 +410,6 @@
       var hasResult = c.blocks.some(function (b) { return b.key === "result"; });
       var stepped = c.blocks.length > 1;
       var fig = h("figure", { class: "case-viz" + (c.viz.type === "layers" ? " case-viz--layers" : "") });
-      var stepsLegend = stepped ? h("ol", { class: "vz-steps mono", "aria-hidden": "true" }, c.blocks.map(function (b) {
-        return h("li", { "data-step": STEP_OF[b.key], text: b.label });
-      })) : null;
-      if (stepsLegend) fig.appendChild(stepsLegend);
       var blocks = h("div", { class: "case-blocks" }, c.blocks.map(function (b) {
         return h("section", { class: "blk blk--" + b.key, "data-step": STEP_OF[b.key] }, [
           h("h5", { class: "blk-label mono" }, [h("span", { class: "blk-no", text: pad2(STEP_OF[b.key] + 1) }), b.label]),
@@ -438,7 +434,7 @@
         h("div", { class: "case-tech" }, [h("span", { class: "mono case-tech-label", text: "기술" }), tags(c.tech)])
       ]);
       group.appendChild(art);
-      vizCtrls.push({ c: c, fig: fig, art: art, blocks: blocks, stepped: stepped, hasResult: hasResult, legend: stepsLegend });
+      vizCtrls.push({ c: c, fig: fig, art: art, blocks: blocks, stepped: stepped, hasResult: hasResult });
     });
     pfCases.appendChild(group);
   });
@@ -470,7 +466,6 @@
     listEl.parentNode.insertBefore(filmHead, listEl);
     $("[data-film]").hidden = true;
     $$(".stat-fill, .lc-fill").forEach(function (el) { el.style.transform = "scaleX(" + el.style.getPropertyValue("--r") + ")"; });
-    $$(".vz-steps li").forEach(function (li) { li.classList.add("on"); });
     careerJump = function (i) { var el = document.getElementById("cl-" + EXP[i].id); if (el) { el.scrollIntoView(); el.setAttribute("tabindex", "-1"); el.focus({ preventScroll: true }); } };
     return;
   }
@@ -978,12 +973,6 @@
       var stepMode = v.stepped && context.conditions.desktop;
       v.art.classList.toggle("is-stepmode", stepMode);
       v.ctrl.resize();
-      function legend(k) {
-        if (v.legend) $$("li", v.legend).forEach(function (li) {
-          var s = +li.getAttribute("data-step");
-          li.classList.toggle("on", s <= k); li.classList.toggle("cur", s === k);
-        });
-      }
       if (stepMode) {
         var blks = $$(".blk", v.blocks), tops = [], curK = null;
         function measure() {
@@ -994,7 +983,7 @@
           if (index === curK) return;
           curK = index;
           var step = index < 0 ? -1 : +blks[index].getAttribute("data-step");
-          v.ctrl.setStep(step); legend(step);
+          v.ctrl.setStep(step);
           blks.forEach(function (block, i) { block.classList.toggle("is-cur", i === index); });
         }
         function sync(trigger) {
@@ -1013,8 +1002,8 @@
       } else {
         // On narrow screens the diagram follows the text. Replay its reveal
         // whenever it enters from either direction instead of pinning it.
-        function reveal() { v.ctrl.setStep(9); legend(9); }
-        function reset() { v.ctrl.setStep(-1); legend(-1); }
+        function reveal() { v.ctrl.setStep(9); }
+        function reset() { v.ctrl.setStep(-1); }
         ScrollTrigger.create({
           trigger: v.fig, start: "top 85%", end: "bottom 15%",
           onEnter: reveal, onEnterBack: reveal,
@@ -1068,7 +1057,6 @@
   window.addEventListener("beforeprint", function () {
     printing = true;
     vizCtrls.forEach(function (v) { v.ctrl.setStep(9); });
-    $$(".vz-steps li").forEach(function (li) { li.classList.add("on"); });
     if (window.__hero) window.__hero.progress(1);
     $$(".metric-val").forEach(function (el) { el.textContent = fmt(+el.getAttribute("data-count")); });
     gsap.set(".stat-fill", { scaleX: function (k, el) { return parseFloat(el.style.getPropertyValue("--r")); } });

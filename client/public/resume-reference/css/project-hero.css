@@ -185,6 +185,25 @@
 .music-arm-outline { stroke: var(--ink); stroke-width: 7; }
 .music-arm-inlay { stroke: #eee; stroke-width: 3.5; }
 .music-disc { animation: vinyl-turn 16s linear infinite; transform-origin: 0 0; }
+.music-map-paper { fill: var(--paper); stroke: var(--ink); stroke-width: 1.6; stroke-linejoin: round; }
+.music-map-fold { fill: none; stroke: #aaa; stroke-width: 0.7; }
+.music-map-streets { fill: none; stroke: #d2d2d2; stroke-width: 2.5; stroke-linejoin: round; }
+.music-map-route { fill: none; stroke: var(--lime); stroke-width: 4; stroke-linecap: round; }
+.music-map-start, .music-map-pin { fill: var(--lime); stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; }
+.music-map-pin-center { fill: var(--ink); }
+.music-map-note { fill: none; stroke: var(--lime); stroke-width: 1.4; stroke-linejoin: round; }
+.music-map-note-dot { fill: var(--lime); }
+.music-speaker .iso-face { fill: #252525; }
+.music-speaker .iso-right { fill: #111; }
+.music-speaker-ring { fill: #151515; stroke: #777; stroke-width: 1; }
+.music-speaker-cone { fill: #353535; stroke: #555; stroke-width: 0.7; }
+.music-speaker-center, .music-speaker-light { fill: var(--lime); }
+.music-controls-base .iso-top { fill: var(--ink); }
+.music-controls-base .iso-left, .music-controls-base .iso-right { fill: #444; }
+.music-control-play, .music-control-knob { fill: var(--lime); }
+.music-control-triangle { fill: var(--ink); }
+.music-control-track { fill: none; stroke: #666; stroke-width: 2; stroke-linecap: round; }
+.music-control-progress, .music-control-sound { fill: none; stroke: var(--lime); stroke-width: 2; stroke-linecap: round; }
 @keyframes vinyl-turn { to { transform: rotate(360deg); } }
 .workspace-shell { fill: var(--ink); stroke: var(--ink); stroke-width: 2; }
 .workspace-display { fill: #242424; }
