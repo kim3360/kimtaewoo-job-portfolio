@@ -307,6 +307,23 @@
 
   /* Dvely: a code workspace with a floating AI agent. */
   function workspace(siteObj) {
+    var changesAt = P(-18, 12, 176);
+    var changes = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + changesAt[0] + " " + changesAt[1] + ")" }, [
+      s("rect", { class: "workspace-card-depth", x: 4, y: -3, width: 86, height: 65, rx: 4 }),
+      s("rect", { class: "workspace-changes-card", width: 86, height: 65, rx: 4 }),
+      s("path", { class: "workspace-changes-divider", d: "M0 21 H86" }),
+      s("text", { class: "workspace-card-caption", x: 9, y: 14 }, ["CODE CHANGES"]),
+      s("path", { class: "workspace-diff-remove", d: "M9 33 H15 M23 33 H60 M23 42 H51" }),
+      s("path", { class: "workspace-diff-add", d: "M9 53 H15 M12 50 V56 M23 53 H73" })
+    ]);
+    var repo = box(-20, 82, 1, 35, 35, 7, null, "workspace-repo");
+    var repoAt = P(-20, 82, 8);
+    var branch = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + repoAt[0] + " " + repoAt[1] + ")" }, [
+      s("path", { class: "workspace-branch-line", d: "M12 8 V27 M12 22 Q25 22 25 13 V8" }),
+      s("circle", { class: "workspace-branch-node", cx: 12, cy: 8, r: 3 }),
+      s("circle", { class: "workspace-branch-node", cx: 12, cy: 27, r: 3 }),
+      s("circle", { class: "workspace-branch-node", cx: 25, cy: 8, r: 3 })
+    ]);
     var base = box(2, 8, 6, 132, 88, 5, null, "workspace-base");
     var deckOrigin = P(2, 8, 11);
     var deck = s("g", { transform: "matrix(" + C30 + " 0.5 " + (-C30) + " 0.5 " + deckOrigin[0] + " " + deckOrigin[1] + ")" });
@@ -339,17 +356,34 @@
         s("path", { class: "workspace-small-spark", d: "M18 -26 V-16 M13 -21 H23" })
       ])
     ]);
-    var solid = s("g", { class: "iso-solid" }, [base.solid, deck, screen, agent]);
+    var deployAt = P(150, 35, 65);
+    var deploy = s("g", { transform: "matrix(" + C30 + " 0.5 0 1 " + deployAt[0] + " " + deployAt[1] + ")" }, [
+      s("rect", { class: "workspace-card-depth", x: 4, y: -3, width: 67, height: 66, rx: 4 }),
+      s("rect", { class: "workspace-deploy-card", width: 67, height: 66, rx: 4 }),
+      s("path", { class: "workspace-deploy-header", d: "M4 0 H63 Q67 0 67 4 V22 H0 V4 Q0 0 4 0 Z" }),
+      s("text", { class: "workspace-deploy-caption", x: 9, y: 15 }, ["DEPLOY"]),
+      s("circle", { class: "workspace-deploy-live", cx: 56, cy: 11, r: 3 }),
+      s("path", { class: "workspace-deploy-checks", d: "M9 33 L12 36 L17 30 M9 46 L12 49 L17 43 M9 59 L12 62 L17 56" }),
+      s("text", { class: "workspace-deploy-step", x: 24, y: 36 }, ["BUILD"]),
+      s("text", { class: "workspace-deploy-step", x: 24, y: 49 }, ["PREVIEW"]),
+      s("text", { class: "workspace-deploy-step workspace-deploy-step--live", x: 24, y: 62 }, ["LIVE"])
+    ]);
+    var connectors = s("g", { class: "workspace-connectors" }, [
+      s("path", { d: "M45 -128 H130 V-42 M156 17 V38 H133" }),
+      s("circle", { cx: 45, cy: -128, r: 2 }),
+      s("circle", { cx: 133, cy: 38, r: 2 })
+    ]);
+    var solid = s("g", { class: "iso-solid" }, [connectors, changes, base.solid, deck, screen, repo.g, branch, deploy, agent]);
     var wire = s("path", { class: "iso-wire", pathLength: 1, d: pathOf([P(2, 8, 116), P(134, 8, 116), P(134, 8, 11), P(134, 96, 11), P(2, 96, 11), P(2, 8, 11)], true) });
     var object = s("g", { class: "iso-floor iso-workspace" }, [wire, solid]);
-    var anchor = P(120, 86, 11), labelX = 186, labelY = 113;
+    var anchor = P(177, 35, 11), labelX = 186, labelY = 113;
     var line = s("path", { class: "iso-leader", d: pathOf([anchor, [labelX - 12, labelY], [labelX, labelY]]), pathLength: 1 });
     var dot = s("circle", { class: "iso-dot", cx: anchor[0], cy: anchor[1], r: 2.6 });
     var label = text(labelX + 6, labelY + 4, "AI WORKSPACE", "iso-call");
     var callout = s("g", { class: "iso-callout" }, [line, dot, label]);
     var group = s("g", { class: "iso-building iso-building--workspace" }, [object, callout]);
     siteObj.layer.appendChild(group);
-    return { g: group, height: 116, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
+    return { g: group, height: 176, floors: [{ box: { g: object, wire: wire, solid: solid }, line: line, dot: dot, text: label, callout: callout, z: 0 }] };
   }
 
   /* Myform Reform: a sports jersey with a stitched patch, needle and thread. */
