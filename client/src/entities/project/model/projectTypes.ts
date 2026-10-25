@@ -10,6 +10,7 @@ export type ProjectDetails = {
   Cause: string
   Solution: string
   Result: string
+  Learning?: string
 }
 
 export type ProjectBase = {

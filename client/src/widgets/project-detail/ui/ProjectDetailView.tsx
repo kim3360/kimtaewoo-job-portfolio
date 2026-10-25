@@ -170,6 +170,9 @@ export function ProjectDetailView({ project }: { project: ProjectBase }) {
                       steps: detail.SolutionSteps,
                     },
                     { title: "결과", content: detail.Result },
+                    ...(detail.Learning
+                      ? [{ title: "배운 점", content: detail.Learning }]
+                      : []),
                   ].map(({ title, content, steps }) => (
                     <section key={title}>
                       <TroubleshootingHeading>{title}</TroubleshootingHeading>

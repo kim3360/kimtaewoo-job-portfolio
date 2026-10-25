@@ -64,15 +64,15 @@ const previews: Record<
     result: "로그인 유지 중 발생하던 알림 누락 문제를 해결했습니다.",
   },
   "wait-it": {
-    title: "모바일 저장소 분리와 앱 구조 정리",
+    title: "일부 API 실패가 홈 화면 전체에 영향을 주는 문제 개선",
     problem:
-      "웹·모바일 코드가 한 저장소에 있어 충돌과 빌드 설정 문제가 반복됐습니다.",
+      "배너 조회만 실패해도 정상 응답한 매장 목록까지 표시되지 않았습니다.",
     cause:
-      "플랫폼별 코드와 환경 설정이 함께 관리되어 모바일 작업이 영향을 받았습니다.",
+      "Promise.all로 묶은 두 요청 중 하나가 실패하면 전체 오류로 처리했습니다.",
     solution:
-      "모바일 전용 저장소로 분리하고, API·타입·상태·화면 계층을 정리했습니다.",
+      "Promise.allSettled로 병렬 요청의 결과를 개별 처리하고 성공한 콘텐츠를 표시했습니다.",
     result:
-      "모바일 개발의 독립성을 확보하고, 관심사를 분리해 유지보수성을 개선했습니다.",
+      "배너만 실패하면 매장 탐색을 유지하고, 두 요청이 모두 실패한 경우에만 전체 오류를 표시합니다.",
   },
 };
 const highlights = [
@@ -200,6 +200,59 @@ function dvelyFlow(index: number) {
     hl: ["back", "refetch"],
   };
 }
+function waitFlow(index: number) {
+  if (index === 0) return {
+    type: "flow",
+    title: "독립적인 API 결과와 실패 범위 분리",
+    caption: "두 요청이 모두 완료되면 결과를 개별 처리합니다. 실패한 매장은 빈 목록, 실패한 배너는 데이터 없음으로 처리하며, API 호출·응답 타입은 별도 모듈로 관리합니다.",
+    ariaLabel: "홈 진입 시 Promise.allSettled로 매장과 배너 API를 병렬 조회합니다. 각 요청의 성공과 실패를 구분한 뒤, 하나라도 성공하면 성공한 콘텐츠를 표시하고 실패 영역만 비웁니다. 배너 실패 시에도 매장 탐색은 유지하며, 두 요청이 모두 실패한 경우에만 전체 오류 화면을 표시합니다.",
+    gapY: 34,
+    nodes: [
+      { id: "home", t: "홈 화면 진입", sub: "매장 목록 · 이벤트 배너", c: 0.5, r: 0, s: 0 },
+      { id: "parallel", t: "독립 API 병렬 조회", sub: "Promise.allSettled", c: 0.5, r: 1, s: 1 },
+      { id: "stores", t: "매장 요청 결과", sub: "성공 데이터 / 실패 구분", c: 0, r: 2, s: 1 },
+      { id: "banners", t: "배너 요청 결과", sub: "성공 데이터 / 실패 구분", c: 1, r: 2, s: 1 },
+      { id: "check", t: "두 요청 모두 실패?", sub: "각 결과를 기준으로 화면 분기", c: 0.5, r: 3, s: 1 },
+      { id: "content", t: "성공한 콘텐츠 표시", sub: "실패 영역만 빈 상태로 처리", c: 0, r: 4, s: 2 },
+      { id: "error", t: "전체 오류 화면", sub: "매장 · 배너 모두 실패한 경우", c: 1, r: 4, s: 2 },
+    ],
+    edges: [
+      { a: "home", b: "parallel", s: 1 },
+      { a: "parallel", b: "stores", s: 1, route: "vertical" },
+      { a: "parallel", b: "banners", s: 1, route: "vertical" },
+      { a: "stores", b: "check", s: 1, route: "vertical" },
+      { a: "banners", b: "check", s: 1, route: "vertical" },
+      { a: "check", b: "content", s: 2, route: "vertical", t: "아니요" },
+      { a: "check", b: "error", s: 2, route: "vertical", t: "예" },
+    ],
+    hl: ["content", "error"],
+  };
+  return {
+    type: "flow",
+    title: "공통 인증 액션과 하나의 상태 관리 주체",
+    caption: "입력값은 로그인 화면에 두고, 인증 API·요청/응답 타입은 별도 모듈로 관리합니다. 저장된 토큰을 통한 상태 복원과 서버의 토큰 유효성 검증은 별개의 처리입니다.",
+    ariaLabel: "로그인 화면은 아이디와 비밀번호 입력값을 직접 관리하고, 공통 로그인 액션이 인증 API를 호출해 Zustand 스토어를 갱신합니다. 앱 시작 시 저장된 인증 정보를 공통 복원 액션으로 반영하며, 공통 로그아웃 액션도 같은 스토어를 갱신합니다. 로그인 화면, 내비게이터, 마이페이지는 모두 동일한 사용자 정보와 로그인 여부를 참조합니다.",
+    gapY: 40,
+    nodes: [
+      { id: "login", t: "로그인 화면", sub: "아이디 · 비밀번호는 화면 상태", c: 0, r: 0, s: 0 },
+      { id: "start", t: "앱 시작", sub: "인증 상태 복원 요청", c: 1, r: 0, s: 0 },
+      { id: "api", t: "공통 로그인 액션", sub: "인증 API 호출 · 응답 반영", c: 0, r: 1, s: 1 },
+      { id: "restore", t: "공통 복원 액션", sub: "저장된 인증 정보 읽기", c: 1, r: 1, s: 1 },
+      { id: "store", t: "Zustand 인증 스토어", sub: "사용자 정보 · 로그인 여부", c: 0.5, r: 2, s: 1, k: "store" },
+      { id: "screens", t: "세 화면이 같은 상태 참조", sub: "로그인 · 내비게이터 · 마이페이지", c: 0, r: 3, s: 2 },
+      { id: "logout", t: "공통 로그아웃 액션", sub: "같은 스토어의 인증 상태 변경", c: 1, r: 3, s: 1 },
+    ],
+    edges: [
+      { a: "login", b: "api", s: 1 },
+      { a: "start", b: "restore", s: 1 },
+      { a: "api", b: "store", s: 1, route: "vertical" },
+      { a: "restore", b: "store", s: 1, route: "vertical" },
+      { a: "store", b: "screens", s: 2, route: "vertical" },
+      { a: "logout", b: "store", s: 1, route: "vertical" },
+    ],
+    hl: ["store", "screens"],
+  };
+}
 function projectCase(project: ProjectBase, i: number, details: ProjectDetails | undefined, issueIndex: number) {
   const preview = previews[project.slug];
   return {
@@ -240,7 +293,7 @@ function projectCase(project: ProjectBase, i: number, details: ProjectDetails | 
         key: "result",
         label: "결과",
         items: (details
-          ? [details.Result]
+          ? [details.Result, ...(details.Learning ? ["배운 점: " + details.Learning] : [])]
           : (project.achievements ?? [preview.result])
         ).map((text) => ({ text })),
       },
@@ -248,6 +301,8 @@ function projectCase(project: ProjectBase, i: number, details: ProjectDetails | 
     viz:
       project.slug === "dvely"
         ? dvelyFlow(issueIndex)
+        : project.slug === "wait-it"
+        ? waitFlow(issueIndex)
         : project.slug === "plimap"
         ? {
             type: "flow",
