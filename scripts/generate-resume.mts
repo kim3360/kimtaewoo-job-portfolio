@@ -253,6 +253,34 @@ function waitFlow(index: number) {
     hl: ["store", "screens"],
   };
 }
+function plimapLikeFlow() {
+  return {
+    type: "flow",
+    title: "좋아요 즉시 반영부터 실패 복구·재동기화까지",
+    caption: "목록의 모든 페이지에서 대상 PIN을 찾아 캐시를 갱신합니다. 진행 중인 조회가 변경을 덮어쓰지 않도록 먼저 취소하고, 요청 종료 후에는 성공·실패와 관계없이 서버 데이터를 다시 확인합니다.",
+    ariaLabel: "좋아요 또는 취소 클릭 시 onMutate에서 관련 조회를 취소하고 변경 전 캐시를 저장합니다. 무한 스크롤의 각 페이지에서 대상 PIN의 좋아요 상태와 개수를 먼저 갱신합니다. 변경 API 요청 중에는 해당 버튼을 비활성화합니다. 성공하면 변경 상태를 유지하고, 실패하면 onError에서 저장한 캐시를 복원합니다. 두 경우 모두 onSettled에서 쿼리를 무효화해 서버 데이터와 다시 동기화합니다.",
+    gapY: 28,
+    nodes: [
+      { id: "click", t: "좋아요 · 취소 클릭", sub: "사용자 동작", c: 0.5, r: 0, s: 0 },
+      { id: "snapshot", t: "조회 취소 · 이전 캐시 저장", sub: "onMutate · 덮어쓰기 방지", c: 0.5, r: 1, s: 1 },
+      { id: "optimistic", t: "캐시와 화면에 즉시 반영", sub: "각 페이지의 PIN 상태 · 개수 갱신", c: 0.5, r: 2, s: 1 },
+      { id: "request", t: "좋아요 변경 API 요청", sub: "요청 중 해당 버튼 비활성화", c: 0.5, r: 3, s: 1 },
+      { id: "success", t: "변경 상태 유지", sub: "서버 요청 성공", c: 0, r: 4, s: 2 },
+      { id: "rollback", t: "이전 캐시로 복원", sub: "onError · 요청 실패 시 복구", c: 1, r: 4, s: 1 },
+      { id: "sync", t: "쿼리 무효화 · 서버 재동기화", sub: "onSettled · 성공과 실패 모두", c: 0.5, r: 5, s: 2 },
+    ],
+    edges: [
+      { a: "click", b: "snapshot", s: 1 },
+      { a: "snapshot", b: "optimistic", s: 1 },
+      { a: "optimistic", b: "request", s: 1 },
+      { a: "request", b: "success", s: 2, route: "vertical", t: "성공" },
+      { a: "request", b: "rollback", s: 1, route: "vertical", t: "실패" },
+      { a: "success", b: "sync", s: 2, route: "vertical" },
+      { a: "rollback", b: "sync", s: 2, route: "vertical" },
+    ],
+    hl: ["optimistic", "rollback", "sync"],
+  };
+}
 function projectCase(project: ProjectBase, i: number, details: ProjectDetails | undefined, issueIndex: number) {
   const preview = previews[project.slug];
   return {
@@ -303,6 +331,8 @@ function projectCase(project: ProjectBase, i: number, details: ProjectDetails | 
         ? dvelyFlow(issueIndex)
         : project.slug === "wait-it"
         ? waitFlow(issueIndex)
+        : project.slug === "plimap" && issueIndex === 1
+        ? plimapLikeFlow()
         : project.slug === "plimap"
         ? {
             type: "flow",
